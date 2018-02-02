@@ -25,7 +25,15 @@ Learn how to enable and use the OpenTracing feature in MicroProfile
 Nothing but everything
 
 
-=== What is OpenTracing?
+// === What is OpenTracing?
+
+=== Quick setup
+
+Navigate to the `finish` directory and run `mvn package` from `inventory` and `system` directories
+respectively. Navigate back to the `finish` directory and run `docker-compose up -d`. Your `inventory`
+service is now running at http://localhost:9080/inventory/hosts and the Zipkin server is at http://localhost:9411/zipkin.
+You can point to http://localhost:9080/inventory/hosts/sys to access the system properties of the container
+running the `system` service.
 
 
 
@@ -33,49 +41,49 @@ Nothing but everything
 // Getting Started
 // =================================================================================================
 
-include::{common-includes}/gitclone.adoc[]
-
-=== Try what you'll build
-
-Point to  http://localhost:9080/inventory/hosts and then to http://localhost:9080/inventory/hosts/sys,
-then back to  http://localhost:9080/inventory/hosts, then to http://localhost:9411/zipkin/ and huzzah!
-
-
-== Main section
+// include::{common-includes}/gitclone.adoc[]
+//
+// === Try what you'll build
+//
+// Point to  http://localhost:9080/inventory/hosts and then to http://localhost:9080/inventory/hosts/sys,
+// then back to  http://localhost:9080/inventory/hosts, then to http://localhost:9411/zipkin/ and huzzah!
+//
+//
+// == Main section
 
 
 // =================================================================================================
 // Building the application
 // =================================================================================================
 
-== Building and running the application
-
-this section is different than usual
-
-user `mvn package` to build, then run `docker-compose up -d`
-
-You can find the `inventory` service at:
-
-- http://localhost:9080/inventory/hosts
-
-Show how to stop and remove all containers here.
+// == Building and running the application
+//
+// this section is different than usual
+//
+// user `mvn package` to build, then run `docker-compose up -d`
+//
+// You can find the `inventory` service at:
+//
+// - http://localhost:9080/inventory/hosts
+//
+// Show how to stop and remove all containers here.
 
 
 // =================================================================================================
 // Testing
 // =================================================================================================
 
-== Testing the inventory application
-
-no tests necessary?
-
-
-== Great work! You're done!
-
-yay
-
-
-Feel free to try one of the related MP guides. They demonstrate new technologies that you can learn and
-expand on top what you built in this guide.
-
-include::{common-includes}/finish.adoc[]
+// == Testing the inventory application
+//
+// no tests necessary?
+//
+//
+// == Great work! You're done!
+//
+// yay
+//
+//
+// Feel free to try one of the related MP guides. They demonstrate new technologies that you can learn and
+// expand on top what you built in this guide.
+//
+// include::{common-includes}/finish.adoc[]
