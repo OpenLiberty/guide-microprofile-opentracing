@@ -1,0 +1,153 @@
+// Copyright (c) 2017 IBM Corporation and others.
+// Licensed under Creative Commons Attribution-NoDerivatives
+// 4.0 International (CC BY-ND 4.0)
+//   https://creativecommons.org/licenses/by-nd/4.0/
+//
+// Contributors:
+//   IBM Corporation
+:projectid: mp-opentracing
+:page-layout: guide
+:page-duration: 15 minutes
+// :page-releasedate: 2017-12-11
+:page-description: Learn how to enable and use the OpenTracing feature in MicroProfile
+:page-tags: ['MicroProfile', 'OpenTracing']
+:page-permalink: /guides/{projectid}
+:page-related-guides: []
+:common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
+:source-highlighter: prettify
+:figure-caption!:
+= MicroProfile OpenTracing
+
+Learn how to enable and use the OpenTracing feature in MicroProfile
+
+== What you'll learn
+
+Nothing but everything
+
+
+=== What is OpenTracing?
+
+
+
+// =================================================================================================
+// Getting Started
+// =================================================================================================
+
+include::{common-includes}/gitclone.adoc[]
+
+=== Try what you'll build
+
+Point to  http://localhost:9080/inventory/hosts and then to http://localhost:9080/inventory/hosts/sys,
+then back to  http://localhost:9080/inventory/hosts, then to http://localhost:9411/zipkin/ and huzzah!
+
+
+== Main section
+
+
+// =================================================================================================
+// Building the application
+// =================================================================================================
+
+== Building and running the application
+
+this section is different than usual
+
+user `mvn package` to build, then run `docker-compose up -d`
+
+You can find the `inventory` service at:
+
+- http://localhost:9080/inventory/hosts
+
+Show how to stop and remove all containers here.
+
+
+// =================================================================================================
+// Testing
+// =================================================================================================
+
+== Testing the inventory application
+
+While you can test your application manually, you should rely on automated tests since they will trigger
+a failure whenever a code change introduces a defect.
+Since the application is a RESTful web service application, you can use
+JUnit and the RESTful web service Client API to write tests.
+In testing the functionality of the application, the scopes and dependencies are being tested.
+
+Create test class `src/test/java/it/io/openliberty/guides/inventory/EndpointTest.java`:
+
+[source, Java]
+----
+include::finish/src/test/java/it/io/openliberty/guides/inventory/EndpointTest.java[tags=**;!copyright;!javadoc]
+----
+
+The `@BeforeClass` annotation is placed on a method that executes before any of the test cases.
+In this case, the `oneTimeSetup` method retrieves the port number for the Open Liberty server and builds
+a base URL string that is used throughout the tests.
+
+The `@Before` and `@After` annotations are placed on methods that execute before and after every test case.
+These methods are generally used to perform any setup and teardown tasks. In this case, the `setup` method
+creates a JAX-RS client which makes HTTP requests to the `inventory` service. This client must
+also be registered with a JSON-P provider (`JsrJsonpProvider`) to process JSON resources. The `teardown`
+method simply destroys this client instance.
+
+Let's break down the test cases:
+
+- `testEmptyInventory()` verifies that the inventory is initially empty when the server first starts up.
+- `testHostRegistration()` verifies that a host is correctly added to the inventory.
+- `testSystemPropertiesMatch()` verifies that the JVM system properties returned by the `system` service match
+the ones stored in the `inventory` service.
+- `testUnknownHost()` verifies that an unknown host or a host that does not expose their JVM system
+properties is correctly handled as an error.
+
+To force these test cases to execute in a particular order, put them in a `testSuite()` method and label
+it with a `@Test` annotation so that it automatically executes when your test class run.
+
+Finally, notice that you're using a few helper methods throughout the tests.
+You can find complete Javadocs for these under the `finish` directory for reference:
+`finish/src/test/java/it/io/openliberty/guides/inventory/EndpointTest.java`.
+
+
+=== Running the tests
+
+// include::{common-includes}/mvnverify.adoc[]
+
+If the server is still running from the previous steps, stop it first using the Maven `liberty:stop-server` goal:
+
+```
+mvn liberty:stop-server
+```
+
+Then, verify that the tests pass using the Maven `verify` goal:
+
+```
+mvn verify
+```
+
+It may take some time before build is complete. If the tests pass, you will see an output similar to the following:
+
+[source, role="no_copy"]
+----
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running it.io.openliberty.guides.inventory.EndpointTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.128 sec - in it.io.openliberty.guides.inventory.EndpointTest
+
+Results :
+
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+----
+
+To see whether the tests detect a failure, change the endpoint for the `inventory` service in
+`src/main/java/io/openliberty/guides/inventory/InventoryResource.java` to something else, then
+re-run the Maven build. You will see a test failure occur.
+
+
+== Great work! You're done!
+
+You have just completed building a simple inventory application on top of Open Liberty using CDI services.
+
+Feel free to try one of the related guides. They demonstrate new technologies that you can learn and
+expand on top what you built in this guide.
+
+include::{common-includes}/finish.adoc[]

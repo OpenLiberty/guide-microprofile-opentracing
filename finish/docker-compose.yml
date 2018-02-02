@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  sys:
+    build: .
+    image: ol-runtime
+    container_name: sys
+    links:
+      - zipkin
+    volumes:
+      - ./system/target/liberty/wlp/usr/servers/defaultServer:/servers/defaultServer
+
+  inv:
+    build: .
+    image: ol-runtime
+    container_name: inv
+    ports:
+      - "9080:9080"
+      - "9443:9443"
+    links:
+      - sys
+      - zipkin
+    volumes:
+      - ./inventory/target/liberty/wlp/usr/servers/defaultServer:/servers/defaultServer
+
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - "9411:9411"

@@ -1,0 +1,16 @@
+<server description="Sample Liberty server">
+
+  <featureManager>
+    <feature>jaxrs-2.0</feature>
+    <feature>jsonp-1.0</feature>
+    <feature>cdi-1.2</feature>
+    <feature>opentracing-1.0</feature>
+    <feature>usr:opentracingZipkin-0.30</feature>
+  </featureManager>
+
+  <opentracingZipkin/>
+
+  <httpEndpoint host="*" httpPort="${default.http.port}" httpsPort="${default.https.port}" id="defaultHttpEndpoint"/>
+
+  <webApplication location="inventory-serv.war" contextRoot="/"/>
+</server>
