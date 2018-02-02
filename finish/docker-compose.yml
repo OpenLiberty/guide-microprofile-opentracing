@@ -28,7 +28,7 @@ services:
     volumes:
       - ./inventory/target/liberty/wlp/usr/servers/defaultServer:/servers/defaultServer
 
-  # Zipking server
+  # Zipkin server
   zipkin:
     image: openzipkin/zipkin
     container_name: zipkin
