@@ -1,15 +1,19 @@
 version: '3.4'
 
 services:
+  # System service
   sys:
     build: .
     image: ol-runtime
     container_name: sys
+    # No need to map ports since we're never going to access the system service.
+    # Link the zipkin server so it can be accessed at Zipkin:9411 (by default).
     links:
       - zipkin
     volumes:
       - ./system/target/liberty/wlp/usr/servers/defaultServer:/servers/defaultServer
 
+  # Inventory service
   inv:
     build: .
     image: ol-runtime
@@ -17,12 +21,14 @@ services:
     ports:
       - "9080:9080"
       - "9443:9443"
+    # Link the system service for communication and Zipkin server.
     links:
       - sys
       - zipkin
     volumes:
       - ./inventory/target/liberty/wlp/usr/servers/defaultServer:/servers/defaultServer
 
+  # Zipking server
   zipkin:
     image: openzipkin/zipkin
     container_name: zipkin
