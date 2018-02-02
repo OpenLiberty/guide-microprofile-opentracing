@@ -35,6 +35,8 @@ service is now running at http://localhost:9080/inventory/hosts and the Zipkin s
 You can point to http://localhost:9080/inventory/hosts/sys to access the system properties of the container
 running the `system` service.
 
+To teardown all your containers run `docker-compose down`
+
 
 
 // =================================================================================================
