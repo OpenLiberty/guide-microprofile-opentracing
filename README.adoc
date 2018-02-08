@@ -43,21 +43,22 @@ To teardown all your containers run `docker-compose down`
 
 === Docker
 
-If you are already using Docker to run your Zipkin server, then you might as well also use Docker to
-run the services and setup OpenTracing. A `Dockerfile` and a `docker-compose.yaml` files have been
-provided for you under the `Docker` directory in the root directory of this guide. Copy these two files
-to the `start` directory and run `docker-compose up -d` from the command line. This will pick up
-the yaml, build your image, and run your containers.
-
-Reconfigure server.xml to exclude host=localhost
 
 
 // =================================================================================================
 // Getting Started
 // =================================================================================================
 
-// include::{common-includes}/gitclone.adoc[]
-//
+include::{common-includes}/gitclone.adoc[]
+
+Next, follow https://zipkin.io/pages/quickstart.html[these] quickstart instructions for setting up
+and running Zipkin. Zipkin is a distributed tracing system that is helpful when troubleshooting
+problems in microservice architectures. You are not restricted to using Zipkin, but keep in mind that
+this guide was written from the Zipkin perspective and you may need additional instructions that are
+not lsited here if you choose to use another tracing system.
+
+Make sure your Zipkin server is up and running before you proceed. For us, Zipkin can be accessed at http://localhost:9441
+
 // === Try what you'll build
 //
 // Point to  http://localhost:9080/inventory/hosts and then to http://localhost:9080/inventory/hosts/sys,
@@ -71,17 +72,28 @@ Reconfigure server.xml to exclude host=localhost
 // Building the application
 // =================================================================================================
 
-// == Building and running the application
-//
-// this section is different than usual
-//
-// user `mvn package` to build, then run `docker-compose up -d`
-//
-// You can find the `inventory` service at:
-//
-// - http://localhost:9080/inventory/hosts
-//
-// Show how to stop and remove all containers here.
+include::{common-includes}/mvnbuild.adoc[]
+
+You can find the `inventory` and `system` services at:
+
+- http://localhost:9081/inventory/systems
+- http://localhost:9080/system/properties
+
+include::{common-includes}/mvnpackage.adoc[]
+
+=== Running with Docker
+
+This step is entirely up to you. If you are using Docker to run your Zipkin server and you would prefer
+running your services with Docker as well, then ignore the steps above and follow these instructions instead:
+
+A `Dockerfile` and a `docker-compose.yaml` are provided under the `Docker` directory in the root directory
+of this guide. Navigate to this directory and run `mvn package` to build your services. Next, make sure
+your Zipkin container is stopped and run `docker-compose up -d`. This will create and start three containers:
+one for the `system` service, one for the `inventory` service, and one for the Zipkin server. Once the
+containers are running, the `inventory` service can then be reached at http://localhost:9080/inventory/systems
+and the Zipkin server at http://localhost:9441. To retrieve the JVM system properties of the container
+running the `system` service, point to http://localhost:9080/inventory/systems/sys (your `system` and `inventory`
+  services are linked and therefore can access each other by their container names).
 
 
 // =================================================================================================
