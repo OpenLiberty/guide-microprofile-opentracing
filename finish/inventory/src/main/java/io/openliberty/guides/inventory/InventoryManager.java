@@ -23,6 +23,8 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
+import org.eclipse.microprofile.opentracing.Traced;
+
 import io.openliberty.guides.common.JsonMessages;
 import io.openliberty.guides.inventory.util.InventoryUtil;
 
@@ -41,6 +43,7 @@ public class InventoryManager {
         }
     }
 
+    @Traced(value = true)
     public JsonObject list() {
         JsonObjectBuilder systems = Json.createObjectBuilder();
         inv.forEach((host, props) -> {

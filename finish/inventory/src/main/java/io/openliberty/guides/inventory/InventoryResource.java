@@ -26,6 +26,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+// OpenTracing
+import org.eclipse.microprofile.opentracing.Traced;
+
 @RequestScoped
 @Path("hosts")
 public class InventoryResource {
@@ -34,6 +37,7 @@ public class InventoryResource {
     
     @GET
     @Path("{hostname}")
+    @Traced(false)
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject getPropertiesForHost(@PathParam("hostname") String hostname) {
         return manager.get(hostname);
@@ -41,6 +45,7 @@ public class InventoryResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Traced(value = false)
     public JsonObject listContents() {
         return manager.list();
     }

@@ -22,7 +22,7 @@
         <!-- Plugins -->
         <version.maven-war-plugin>2.6</version.maven-war-plugin>
         <version.liberty-maven-plugin>2.0</version.liberty-maven-plugin>
-        <version.exec-maven-plugin>1.6.0</version.exec-maven-plugin>
+        <version.download-maven-plugin>1.4.0</version.download-maven-plugin>
         <!-- OpenLiberty runtime -->
         <version.openliberty-runtime>RELEASE</version.openliberty-runtime>
         <sys.service.http.port>9080</sys.service.http.port>

@@ -27,6 +27,10 @@
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
         </dependency>
+        <dependency>
+       	    <groupId>org.eclipse.microprofile.opentracing</groupId>
+           	<artifactId>microprofile-opentracing-api</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -99,7 +103,7 @@
             <plugin>
                 <groupId>com.googlecode.maven-download-plugin</groupId>
                 <artifactId>download-maven-plugin</artifactId>
-                <version>1.4.0</version>
+                <version>${version.download-maven-plugin}</version>
                 <executions>
                     <execution>
                         <id>install-tracer</id>
@@ -111,7 +115,7 @@
                             <url>https://repo1.maven.org/maven2/net/wasdev/wlp/tracer/liberty-opentracing-zipkintracer/1.0/liberty-opentracing-zipkintracer-1.0-sample.zip</url>
                             <unpack>true</unpack>
                             <outputDirectory>${project.build.directory}/liberty/wlp/usr</outputDirectory>
-                            <!-- <md5>df65b5642f33676313ebe4d5b69a3fff</md5> -->
+                            <!-- <md5></md5> -->
                         </configuration>
                     </execution>
                 </executions>
