@@ -25,26 +25,6 @@ Learn how to enable and use the OpenTracing feature in MicroProfile
 Nothing but everything
 
 
-// === What is OpenTracing?
-
-=== Quick setup
-
-Navigate to the `finish` directory and run `mvn package` from `inventory` and `system` directories
-respectively. Navigate back to the `finish` directory and run `docker-compose up -d`. Your `inventory`
-service is now running at http://localhost:9080/inventory/hosts and the Zipkin server is at http://localhost:9411/zipkin.
-You can point to http://localhost:9080/inventory/hosts/sys to access the system properties of the container
-running the `system` service.
-
-To teardown all your containers run `docker-compose down`
-
-== Start your services
-
-=== Maven
-
-=== Docker
-
-
-
 // =================================================================================================
 // Getting Started
 // =================================================================================================
