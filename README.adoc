@@ -70,7 +70,7 @@ A `Dockerfile` and a `docker-compose.yaml` are provided under the `Docker` direc
 of this guide. Navigate to this directory and run `mvn package` to build your services. Next, make sure
 your Zipkin container is stopped and run `docker-compose up -d`. This will create and start three containers:
 one for the `system` service, one for the `inventory` service, and one for the Zipkin server. Once the
-containers are running, the `inventory` service can then be reached at http://localhost:9080/inventory/systems
+containers are running, the `inventory` service can be reached at http://localhost:9080/inventory/systems
 and the Zipkin server at http://localhost:9441. To retrieve the JVM system properties of the container
 running the `system` service, point to http://localhost:9080/inventory/systems/sys (your `system` and `inventory`
   services are linked and therefore can access each other by their container names).

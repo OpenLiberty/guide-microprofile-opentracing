@@ -12,21 +12,17 @@
  // end::copyright[]
 package io.openliberty.guides.inventory;
 
-// CDI
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
-// JSON-P
 import javax.json.JsonObject;
 
-// JAX-RS
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-// OpenTracing
 import org.eclipse.microprofile.opentracing.Traced;
 
 @RequestScoped
@@ -37,7 +33,7 @@ public class InventoryResource {
     
     @GET
     @Path("{hostname}")
-    @Traced(false)
+    @Traced(value = false)
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject getPropertiesForHost(@PathParam("hostname") String hostname) {
         return manager.get(hostname);
@@ -45,7 +41,6 @@ public class InventoryResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Traced(value = false)
     public JsonObject listContents() {
         return manager.list();
     }

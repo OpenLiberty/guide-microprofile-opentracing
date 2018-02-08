@@ -28,6 +28,10 @@
             <artifactId>cdi-api</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.opentracing</groupId>
+            <artifactId>opentracing-api</artifactId>
+        </dependency>
+        <dependency>
        	    <groupId>org.eclipse.microprofile.opentracing</groupId>
            	<artifactId>microprofile-opentracing-api</artifactId>
         </dependency>
@@ -64,6 +68,9 @@
                         <goals>
                             <goal>install-server</goal>
                         </goals>
+                        <configuration>
+                            <assemblyArchive>wlp.zip</assemblyArchive>
+                        </configuration>
                     </execution>
                     <execution>
                         <id>create-default-server</id>

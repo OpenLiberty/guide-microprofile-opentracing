@@ -33,6 +33,10 @@
             <version>1</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>io.opentracing</groupId>
+            <artifactId>opentracing-api</artifactId>
+        </dependency>
          <dependency>
        	    <groupId>org.eclipse.microprofile.opentracing</groupId>
            	<artifactId>microprofile-opentracing-api</artifactId>
@@ -70,6 +74,9 @@
                         <goals>
                             <goal>install-server</goal>
                         </goals>
+                        <configuration>
+                            <assemblyArchive>wlp.zip</assemblyArchive>
+                        </configuration>
                     </execution>
                     <execution>
                         <id>create-default-server</id>

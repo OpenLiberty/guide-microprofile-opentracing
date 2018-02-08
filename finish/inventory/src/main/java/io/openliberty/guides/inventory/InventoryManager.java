@@ -15,10 +15,9 @@ package io.openliberty.guides.inventory;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-// CDI
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
-// JSON-P
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
@@ -28,10 +27,15 @@ import org.eclipse.microprofile.opentracing.Traced;
 import io.openliberty.guides.common.JsonMessages;
 import io.openliberty.guides.inventory.util.InventoryUtil;
 
+import io.opentracing.Span;
+import io.opentracing.Tracer;
+
 @ApplicationScoped
 public class InventoryManager {
 
     private ConcurrentMap<String, JsonObject> inv = new ConcurrentHashMap<>();
+    
+    @Inject private Tracer tracer;
 
     public JsonObject get(String hostname) {
         if (InventoryUtil.responseOk(hostname)) {
@@ -46,6 +50,7 @@ public class InventoryManager {
     @Traced(value = true)
     public JsonObject list() {
         JsonObjectBuilder systems = Json.createObjectBuilder();
+        Span childSpan = tracer.buildSpan("forEach-span").asChildOf(tracer.activeSpan().context()).start();
         inv.forEach((host, props) -> {
             JsonObject systemProps = Json.createObjectBuilder()
                                          .add("os.name", props.getString("os.name"))
@@ -53,6 +58,7 @@ public class InventoryManager {
                                          .build();
             systems.add(host, systemProps);
         });
+        childSpan.finish();
         systems.add("hosts", systems);
         systems.add("total", inv.size());
         return systems.build();

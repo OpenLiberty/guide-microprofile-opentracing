@@ -17,6 +17,7 @@
         <version.com.ibm.websphere.appserver.api.jaxrs20>1.0.10</version.com.ibm.websphere.appserver.api.jaxrs20>
         <version.javax.json-api>1.0</version.javax.json-api>
         <version.cdi-api>1.2</version.cdi-api>
+        <version.opentracing-api>0.31.0</version.opentracing-api>
         <version.microprofile-opentracing-api>1.0</version.microprofile-opentracing-api>
 
         <!-- Plugins -->
@@ -57,6 +58,11 @@
                 <artifactId>cdi-api</artifactId>
                 <version>${version.cdi-api}</version>
                 <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.opentracing</groupId>
+                <artifactId>opentracing-api</artifactId>
+                <version>${version.opentracing-api}</version>
             </dependency>
             <dependency>
                 <groupId>org.eclipse.microprofile.opentracing</groupId>
