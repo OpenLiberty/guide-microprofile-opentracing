@@ -9,20 +9,28 @@
 :page-layout: guide
 :page-duration: 15 minutes
 // :page-releasedate: 2017-12-11
-:page-description: Learn how to enable and use the OpenTracing feature in MicroProfile
+:page-description: Learn how to enable automatic tracing for JAX-RS methods as well as create customer tracers for non JAX-RS methods using MP OpenTracing.
 :page-tags: ['MicroProfile', 'OpenTracing']
 :page-permalink: /guides/{projectid}
 :page-related-guides: []
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
 :figure-caption!:
-= MicroProfile OpenTracing
+= Enabling distributed tracing in MicroProfile applications
 
-Learn how to enable and use the OpenTracing feature in MicroProfile
+Learn how to enable automatic tracing for JAX-RS methods as well as create customer tracers for non JAX-RS methods using MP OpenTracing.
 
 == What you'll learn
 
-Nothing but everything
+You will learn
+
+=== What is OpenTracing
+
+
+
+The https://github.com/eclipse/microprofile-opentracing/blob/master/spec/src/main/asciidoc/microprofile-opentracing.asciidoc[MicroProfile OpenTracing]
+feature
+
 
 
 // =================================================================================================
@@ -32,10 +40,9 @@ Nothing but everything
 include::{common-includes}/gitclone.adoc[]
 
 Next, follow https://zipkin.io/pages/quickstart.html[these] quickstart instructions for setting up
-and running Zipkin. Zipkin is a distributed tracing system that is helpful when troubleshooting
-problems in microservice architectures. You are not restricted to using Zipkin, but keep in mind that
-this guide was written from the Zipkin perspective and you may need additional instructions that are
-not lsited here if you choose to use another tracing system.
+and running Zipkin. Zipkin is a popular, distributed tracing system that is free to use. You are not
+restricted to using Zipkin, but keep in mind that this guide was written from the Zipkin perspective
+and you may need additional instructions not listed here if you choose to use another tracing system.
 
 Make sure your Zipkin server is up and running before you proceed. For us, Zipkin can be accessed at http://localhost:9441
 
@@ -72,8 +79,80 @@ your Zipkin container is stopped and run `docker-compose up -d`. This will creat
 one for the `system` service, one for the `inventory` service, and one for the Zipkin server. Once the
 containers are running, the `inventory` service can be reached at http://localhost:9080/inventory/systems
 and the Zipkin server at http://localhost:9441. To retrieve the JVM system properties of the container
-running the `system` service, point to http://localhost:9080/inventory/systems/sys (your `system` and `inventory`
-  services are linked and therefore can access each other by their container names).
+running the `system` service, point to http://localhost:9080/inventory/systems/sys (all containers are
+  linked and therefore they can access each other by their container names).
+
+
+// =================================================================================================
+// Enabling distributed tracing
+// =================================================================================================
+
+== Enabling distributed tracing
+
+You muse have an OpenTracing Tracer implementation in your application to take advantage
+of the `mpOpentracing` feature. Luckily, a user feature for Zipkin already exists for you to use.
+
+The `mpOpentracing` feature
+
+Since the feature has already been enabled for you, go to your zipkin server to see the traces.
+
+// existing Tracer configuration
+
+=== Enabling distributed tracing with no code instrumentation
+
+After enabling the MP OpenTracing feature and providing the minimal required functionality, all JAX-RS
+applications can be traced automatically without needing to write any additional distributed tracing code.
+
+
+
+=== Enabling explicit distributed tracing code instrumentation
+
+The `@Traced` annotation can be used to define explicit Span creation for specific classes and methods.
+If the annotation is placed on a class, then the annotation is automatically applied to all methods
+within that class. If the annotation is placed on a method, then it overwrites the class annotation
+if one exists.
+
+The `@Traced` annotation can be configured with two parameters:
+
+- `value=[true|false]` (true by default), indicates whether or not a particular class or method should
+be traced. For example, while all JAX-RS methods are traced by default, you can disabling tracing for
+any such method using the `@Traced(false)` annotation.
+- `operationName=<Span name>` ("" by default), indicates the name of the span assigned to the particular
+method being traced. When omitting this parameter, the Span will be named in form
+`<package name>.<class name>.<method name>`. If placed on a class, all methods within that class
+will have the same Span name unless explicitly overwritten with another `@Traced` annotation.
+
+Tweak `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` and add a `@Traced(value = true, operationName = "InventoryManager.list")`
+annotation onto the `list` method to enable tracing with this method:
+
+[source, Java]
+----
+include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright;!inject-tracer]
+----
+
+Next, run `mvn package` to rebuild your services and point to http://localhost:9080/inventory/systems
+(refresh the page). Then, navigate to your Zipkin server and you will see a new trace of 2 spans long,
+containing a Span for the `listContents` JAX-RS method in `InventoryResource.java` and another Span
+for the `list` method in `InventoryManager.java`:
+
+image::resources/trace-true.png[png][Enable tracing]
+
+Tweak `inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java` and add a `@Traced(false)`
+annotation onto the `listContents` method to disable tracing for this JAX-RS method:
+
+[source, Java]
+----
+include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
+----
+
+Then, run `mvn package` to rebuild your services and point to http://localhost:9080/inventory/systems
+(refresh the page). Next, navigate to your Zipkin server and you will see a new trace, a single span
+long, for the `list` method in `InventoryManager.java`:
+
+image::resources/trace-false.png[png][Disable tracing]
+
+// Tracer injection
+
 
 
 // =================================================================================================

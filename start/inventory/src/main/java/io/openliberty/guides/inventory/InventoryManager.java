@@ -35,7 +35,7 @@ public class InventoryManager {
 
     private ConcurrentMap<String, JsonObject> inv = new ConcurrentHashMap<>();
     // tag::inject-tracer[]
-//    @Inject Tracer tracer;
+//    @Inject private Tracer tracer;
     // end::inject-tracer[]
 
     public JsonObject get(String hostname) {
@@ -52,7 +52,7 @@ public class InventoryManager {
     public JsonObject list() {
         JsonObjectBuilder systems = Json.createObjectBuilder();
         // tag::inject-tracer[]
-//        Span childSpan = tracer.buildSpan("forEach-span").start();
+//        Span childSpan = tracer.buildSpan("forEach-span").asChildOf(tracer.activeSpan().context()).start();
         // end::inject-tracer[]
         inv.forEach((host, props) -> {
             JsonObject systemProps = Json.createObjectBuilder()

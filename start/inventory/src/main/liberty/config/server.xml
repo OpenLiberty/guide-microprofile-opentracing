@@ -13,11 +13,8 @@
   <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
       id="defaultHttpEndpoint" host="*" />
 
-  <logging traceSpecification="com.ibm.ws.opentracing.cdi.*=all"/>
+  <logging traceSpecification="com.ibm.ws.opentracing.cdi.*=all:org.jboss.weld*=all:com.ibm.ws.cdi*=all
+"/>
 
-  <webApplication location="inventory-service.war" contextRoot="/">
-    <!-- enable visibility to third party apis -->
-    <classloader apiTypeVisibility="spec, ibm-api, third-party"/>
-  </webApplication>
-
+  <webApplication location="inventory-service.war" contextRoot="/"/>
 </server>
