@@ -39,7 +39,6 @@ public class InventoryResource {
     }
 
     @GET
-    @Traced(false)
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject listContents() {
         return manager.list();

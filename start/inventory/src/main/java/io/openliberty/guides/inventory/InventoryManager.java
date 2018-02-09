@@ -34,9 +34,6 @@ import io.opentracing.Tracer;
 public class InventoryManager {
 
     private ConcurrentMap<String, JsonObject> inv = new ConcurrentHashMap<>();
-    // tag::inject-tracer[]
-//    @Inject private Tracer tracer;
-    // end::inject-tracer[]
 
     public JsonObject get(String hostname) {
         if (InventoryUtil.responseOk(hostname)) {
@@ -48,12 +45,8 @@ public class InventoryManager {
         }
     }
 
-    @Traced(value = true, operationName = "InventoryManager.list")
     public JsonObject list() {
         JsonObjectBuilder systems = Json.createObjectBuilder();
-        // tag::inject-tracer[]
-//        Span childSpan = tracer.buildSpan("forEach-span").asChildOf(tracer.activeSpan().context()).start();
-        // end::inject-tracer[]
         inv.forEach((host, props) -> {
             JsonObject systemProps = Json.createObjectBuilder()
                                          .add("os.name", props.getString("os.name"))
@@ -61,9 +54,6 @@ public class InventoryManager {
                                          .build();
             systems.add(host, systemProps);
         });
-        // tag::inject-tracer[]
-//        childSpan.finish();
-        // end::inject-tracer[]
         systems.add("hosts", systems);
         systems.add("total", inv.size());
         return systems.build();
