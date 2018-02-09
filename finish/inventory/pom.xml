@@ -28,12 +28,6 @@
             <artifactId>cdi-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
-            <version>1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>io.opentracing</groupId>
             <artifactId>opentracing-api</artifactId>
         </dependency>
@@ -74,6 +68,7 @@
                         <goals>
                             <goal>install-server</goal>
                         </goals>
+                        <!-- Temporarilty build from downloaded runtime until its 18.0.0.1 is realeased -->
                         <configuration>
                             <assemblyArchive>wlp.zip</assemblyArchive>
                         </configuration>

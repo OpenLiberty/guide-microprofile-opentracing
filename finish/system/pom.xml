@@ -68,6 +68,7 @@
                         <goals>
                             <goal>install-server</goal>
                         </goals>
+                        <!-- Temporarilty build from downloaded runtime until its 18.0.0.1 is realeased -->
                         <configuration>
                             <assemblyArchive>wlp.zip</assemblyArchive>
                         </configuration>
