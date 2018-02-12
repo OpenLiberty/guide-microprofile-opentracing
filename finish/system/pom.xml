@@ -48,6 +48,7 @@
                 <artifactId>liberty-maven-plugin</artifactId>
                 <version>${version.liberty-maven-plugin}</version>
                 <configuration>
+                    <!-- Temporarilty build from downloaded runtime until its 18.0.0.1 is realeased -->
                     <install>
                         <runtimeUrl>https://public.dhe.ibm.com/ibmdl/export/pub/software/openliberty/runtime/nightly/2018-02-11_-0226/openliberty-all-18.0.0.1-20180211-0217.zip</runtimeUrl>
                     </install>
@@ -71,10 +72,6 @@
                         <goals>
                             <goal>install-server</goal>
                         </goals>
-                        <!-- Temporarilty build from downloaded runtime until its 18.0.0.1 is realeased -->
-<!--                         <configuration>
-                            <assemblyArchive>wlp.zip</assemblyArchive>
-                        </configuration> -->
                     </execution>
                     <execution>
                         <id>create-default-server</id>
