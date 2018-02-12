@@ -266,17 +266,15 @@ image::resources/inject-tracer.png[png][Inject tracer]
 // Testing
 // =================================================================================================
 
-// == Testing the inventory application
-//
-// no tests necessary?
-//
-//
-// == Great work! You're done!
-//
-// yay
-//
-//
-// Feel free to try one of the related MP guides. They demonstrate new technologies that you can learn and
-// expand on top what you built in this guide.
-//
-// include::{common-includes}/finish.adoc[]
+no tests necessary?
+
+
+== Great work! You're done!
+
+yay
+
+
+Feel free to try one of the related MP guides. They demonstrate new technologies that you can learn and
+expand on top what you built in this guide.
+
+include::{common-includes}/finish.adoc[]
