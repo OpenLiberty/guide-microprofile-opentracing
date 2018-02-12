@@ -25,15 +25,23 @@ You will learn how to enable automatic tracing for JAX-RS methods as well as cre
 for non JAX-RS methods using MP OpenTracing.
 
 OpenTracing is a standard API for instrumenting microservices for distributed tracing. Distributed
-tracing makes a big difference
+tracing helps troubleshoot microservices by examining and logging requests as they propagate through a
+distributed system, allowing developers to tackle otherwise difficult tasks of debugging such requests.
+Without a distributed tracing system in place, it becomes extremely difficult to analyze the workflows of
+operations, in particular, being able to pinpoint when and by whom a request is received, as well as
+when a response is sent back.
 
 MicroProfile OpenTracing aims to enable distributed tracing in MicroProfile applications without having
-to explicitly add distributed tracing code to the application.
+to add any explicit distributed tracing code to the application.
 
-You will configure the provided `inventory` and `system` services to use MP OpenTracing to enable
-automatic tracing of jax-rs methods and create custom tracers for non jax-rs methods.
+Note, that the MP OpenTracing specification does not address the problem of defining, implementing, or
+configuring the underlying distributed tracing system. Rather, it makes it easy to instrument services
+with distributed tracing given an existing distributed tracing system.
 
-The complete MicroProfile OpenTracing spec is available https://github.com/eclipse/microprofile-opentracing/blob/master/spec/src/main/asciidoc/microprofile-opentracing.asciidoc[here].
+You will configure the provided `inventory` and `system` services to make use of distributed tracing
+using MP OpenTracing.
+
+The complete MicroProfile OpenTracing specification is available https://github.com/eclipse/microprofile-opentracing/blob/master/spec/src/main/asciidoc/microprofile-opentracing.asciidoc[here].
 
 
 // =================================================================================================
@@ -61,11 +69,11 @@ Maven goals to build the services and run them in two instances of Open Liberty:
 mvn install liberty:start-server
 ```
 
-Point your browser to http://localhost:9081/inventory/hosts. This is the staring point of the `inventory`
+Point your browser to http://localhost:9081/inventory/systems. This is the staring point of the `inventory`
 service and it displays the current contents of the inventory. When you visit this endpoint, you make a
 GET HTTP request to the service. This GET request is configured to be traced, and therefore a new trace entry
 of one span long will appear in your Zipkin server. Navigate to your Zipkin server to verify this. Next, point
-to http://localhost:9081/inventory/hosts/localhost.
+to http://localhost:9081/inventory/systems/localhost.
 This will make two GET requests: one to the `inventory` service and one to the `system` service. Both
 of these requests are configured to be traced. Visit your Zipkin server to verify that a new trace of
 two spans long has been logged. There are no other methods/requests left to trace, so feel free to repeat
@@ -94,7 +102,7 @@ You can find the `inventory` and `system` services at:
 - http://localhost:9080/system/properties
 
 It is important that each service runs in a separate JVM (separate server instance) in order to demonstrate
-tracing over multiple encapsulated services. If everything were to run a single server, then any logging
+tracing in a distributed environment. If everything were to run a single server, then any logging
 software would do the trick.
 
 include::{common-includes}/mvnpackage.adoc[]
@@ -116,25 +124,75 @@ running the `system` service, point to http://localhost:9080/inventory/systems/s
 
 
 // =================================================================================================
+// Existing distributed tracing system
+// =================================================================================================
+
+== Existing distributed tracing system
+
+Normally, you need to have an existing distributed tracing system in place for MP OpenTracing to
+take advantage of it. Luckily, we are providing a simple user feature that contains a OpenTracing
+Tracer implementation for the Zipkin server.
+
+This feature has already been enabled in your `server.xml`:
+
+[source, xml, role="no_copy"]
+----
+<feature>usr:opentracingZipkin-0.30</feature>
+----
+
+This feature is also pulled in and installed automatically during your Maven build. The plugin configuration
+responsible for this can be found in your `system/pom.xml` and `inventory/pom.xml`:
+
+[source, xml, role="no_copy"]
+----
+<groupId>com.googlecode.maven-download-plugin</groupId>
+<artifactId>download-maven-plugin</artifactId>
+<version>${version.download-maven-plugin}</version>
+<executions>
+    <execution>
+        <id>install-tracer</id>
+        <phase>prepare-package</phase>
+        <goals>
+            <goal>wget</goal>
+        </goals>
+        <configuration>
+            <url>https://repo1.maven.org/maven2/net/wasdev/wlp/tracer/liberty-opentracing-zipkintracer/1.0/liberty-opentracing-zipkintracer-1.0-sample.zip</url>
+            <unpack>true</unpack>
+            <outputDirectory>${project.build.directory}/liberty/wlp/usr</outputDirectory>
+        </configuration>
+    </execution>
+</executions>
+</plugin>
+----
+
+Complete installation instructions for this user feature are available in the
+https://www.ibm.com/support/knowledgecenter/was_beta/com.ibm.websphere.wlp.nd.multiplatform.doc/ae/twlp_dist_tracing.html[IBM Knowledge Center].
+
+
+// =================================================================================================
 // Enabling distributed tracing
 // =================================================================================================
 
 == Enabling distributed tracing
 
-You must have an OpenTracing Tracer implementation in your application to take advantage
-of the MP OpenTracing feature. Luckily, a user feature for Zipkin already exists for you to use.
+Before you proceed, remember that you must have an existing distributed tracing system implemented in
+your environment to make use of MP OpenTracing.
 
-The `mpOpentracing` feature
-
-Since the feature has already been enabled for you, go to your zipkin server to see the traces.
-
-// existing Tracer configuration
 
 === Enabling distributed tracing with no code instrumentation
 
-After enabling the MP OpenTracing feature and providing the minimal required functionality, all JAX-RS
-applications can be traced automatically without needing to write any additional distributed tracing code.
-// todo
+Tracing of all JAX-RS applications is enabled by default. Hence, once you enable the MP OpenTracing feature,
+tracing of all JAX-RS methods will be automatic without needing to write any additional distributed tracing code.
+
+The MP OpenTracing feature has already been enabled in your `server.xml`:
+
+[source, xml, role="no_copy"]
+----
+<feature>mpOpentracing-1.0</feature>
+----
+
+At this point, all you need to do is start the `system` and `inventory` services as well as the Zipkin
+server and your traces will appear.
 
 
 === Enabling explicit distributed tracing code instrumentation
@@ -154,8 +212,9 @@ method being traced. When omitting this parameter, the Span will be named in for
 `<package name>.<class name>.<method name>`. If placed on a class, all methods within that class
 will have the same Span name unless explicitly overwritten with another `@Traced` annotation.
 
-Tweak `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` and add a `@Traced(value = true, operationName = "InventoryManager.list")`
-annotation onto the `list` method to enable tracing with this method:
+Tweak `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` and add a
+`@Traced(value = true, operationName = "InventoryManager.list")` annotation onto the `list` method
+to enable tracing with this method:
 
 [source, Java]
 ----
@@ -183,8 +242,24 @@ long, for the `list` method in `InventoryManager.java`:
 
 image::resources/trace-false.png[png][Disable tracing]
 
-// Tracer injection
+=== Injecting and customizing a Tracer
 
+The MP OpenTracing specification also makes the underlying OpenTracing Tracer instance available for
+the developer's use. The configured Tracer can be accessed by injecting it into a bean using the `@Inject`
+annotation from the CDI API.
+
+Inject a Tracer object into `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java`.
+Then, use it to define a new child span in the `list` method around the for loop:
+
+[source, Java]
+----
+include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright]
+----
+
+Rebuild your application using `mvn package` as before and point to http://localhost:9080/inventory/systems.
+A new trace of two spans long will be recorded in your Zipkin server:
+
+image::resources/inject-tracer.png[png][Inject tracer]
 
 
 // =================================================================================================
