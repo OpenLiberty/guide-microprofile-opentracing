@@ -5,32 +5,35 @@
 //
 // Contributors:
 //   IBM Corporation
-:projectid: mp-opentracing
+:projectid: microprofile-opentracing
 :page-layout: guide
 :page-duration: 15 minutes
 // :page-releasedate: 2017-12-11
-:page-description: Learn how to enable automatic tracing for JAX-RS methods as well as create customer tracers for non JAX-RS methods using MP OpenTracing.
+:page-description: Learn how to enable and customize tracing of JAX-RS and non JAX-RS methods using MP OpenTracing.
 :page-tags: ['MicroProfile', 'OpenTracing']
 :page-permalink: /guides/{projectid}
-:page-related-guides: []
+:page-related-guides: ['cdi-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
-:figure-caption!:
 = Enabling distributed tracing in MicroProfile applications
 
-Learn how to enable automatic tracing for JAX-RS methods as well as create customer tracers for non JAX-RS methods using MP OpenTracing.
+Learn how to enable and customize tracing of JAX-RS and non JAX-RS methods using MP OpenTracing.
 
 == What you'll learn
 
-You will learn
+You will learn how to enable automatic tracing for JAX-RS methods as well as create customer tracers
+for non JAX-RS methods using MP OpenTracing.
 
-=== What is OpenTracing
+OpenTracing is a standard API for instrumenting microservices for distributed tracing. Distributed
+tracing makes a big difference
 
+MicroProfile OpenTracing aims to enable distributed tracing in MicroProfile applications without having
+to explicitly add distributed tracing code to the application.
 
+You will configure the provided `inventory` and `system` services to use MP OpenTracing to enable
+automatic tracing of jax-rs methods and create custom tracers for non jax-rs methods.
 
-The https://github.com/eclipse/microprofile-opentracing/blob/master/spec/src/main/asciidoc/microprofile-opentracing.asciidoc[MicroProfile OpenTracing]
-feature
-
+The complete MicroProfile OpenTracing spec is available https://github.com/eclipse/microprofile-opentracing/blob/master/spec/src/main/asciidoc/microprofile-opentracing.asciidoc[here].
 
 
 // =================================================================================================
@@ -44,15 +47,39 @@ and running Zipkin. Zipkin is a popular, distributed tracing system that is free
 restricted to using Zipkin, but keep in mind that this guide was written from the Zipkin perspective
 and you may need additional instructions not listed here if you choose to use another tracing system.
 
-Make sure your Zipkin server is up and running before you proceed. For us, Zipkin can be accessed at http://localhost:9441
+Make sure your Zipkin server is up and running before you proceed. For us, Zipkin can be accessed at http://localhost:9411
 
-// === Try what you'll build
-//
-// Point to  http://localhost:9080/inventory/hosts and then to http://localhost:9080/inventory/hosts/sys,
-// then back to  http://localhost:9080/inventory/hosts, then to http://localhost:9411/zipkin/ and huzzah!
-//
-//
-// == Main section
+=== Try what you'll build
+
+The `finish` directory in the root directory of this guide contains two services that have been configured
+to use MP OpenTracing. Feel free to give them a try before you proceed.
+
+To try out the services, first navigate to the `finish` directory and then execute the following
+Maven goals to build the services and run them in two instances of Open Liberty:
+
+```
+mvn install liberty:start-server
+```
+
+Point your browser to http://localhost:9081/inventory/hosts. This is the staring point of the `inventory`
+service and it displays the current contents of the inventory. When you visit this endpoint, you make a
+GET HTTP request to the service. This GET request is configured to be traced, and therefore a new trace entry
+of one span long will appear in your Zipkin server. Navigate to your Zipkin server to verify this. Next, point
+to http://localhost:9081/inventory/hosts/localhost.
+This will make two GET requests: one to the `inventory` service and one to the `system` service. Both
+of these requests are configured to be traced. Visit your Zipkin server to verify that a new trace of
+two spans long has been logged. There are no other methods/requests left to trace, so feel free to repeat
+this process as many times as you want to see more traces being recorded. You can also inspect each trace
+for more detailed information such as the time at which the request was received and the time at which a
+response was sent back.
+
+Once you are done checking out the services, stop both Open Liberty servers:
+
+```
+mvn liberty:stop-server
+```
+
+Now, navigate back to the `start` directory to begin.
 
 
 // =================================================================================================
@@ -66,6 +93,10 @@ You can find the `inventory` and `system` services at:
 - http://localhost:9081/inventory/systems
 - http://localhost:9080/system/properties
 
+It is important that each service runs in a separate JVM (separate server instance) in order to demonstrate
+tracing over multiple encapsulated services. If everything were to run a single server, then any logging
+software would do the trick.
+
 include::{common-includes}/mvnpackage.adoc[]
 
 === Running with Docker
@@ -73,6 +104,7 @@ include::{common-includes}/mvnpackage.adoc[]
 This step is entirely up to you. If you are using Docker to run your Zipkin server and you would prefer
 running your services with Docker as well, then ignore the steps above and follow these instructions instead:
 
+If you followed the steps above, first stop both Open Liberty server instances with `mvn liberty:stop-server`.
 A `Dockerfile` and a `docker-compose.yaml` are provided under the `Docker` directory in the root directory
 of this guide. Navigate to this directory and run `mvn package` to build your services. Next, make sure
 your Zipkin container is stopped and run `docker-compose up -d`. This will create and start three containers:
@@ -89,8 +121,8 @@ running the `system` service, point to http://localhost:9080/inventory/systems/s
 
 == Enabling distributed tracing
 
-You muse have an OpenTracing Tracer implementation in your application to take advantage
-of the `mpOpentracing` feature. Luckily, a user feature for Zipkin already exists for you to use.
+You must have an OpenTracing Tracer implementation in your application to take advantage
+of the MP OpenTracing feature. Luckily, a user feature for Zipkin already exists for you to use.
 
 The `mpOpentracing` feature
 
@@ -102,7 +134,7 @@ Since the feature has already been enabled for you, go to your zipkin server to 
 
 After enabling the MP OpenTracing feature and providing the minimal required functionality, all JAX-RS
 applications can be traced automatically without needing to write any additional distributed tracing code.
-
+// todo
 
 
 === Enabling explicit distributed tracing code instrumentation
