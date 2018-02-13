@@ -259,7 +259,9 @@ include::finish/inventory/src/main/java/io/openliberty/guides/inventory/Inventor
 ----
 
 Rebuild your application using `mvn package` as before and point to {inv-url}.
-A new trace of two spans long will be recorded in your Zipkin server:
+A new trace of two spans long will be recorded in your Zipkin server. The first (parent) Span for the
+is the customer Span `InventoryManager.list` you created earlier and the second is the new (child) Span
+that you just created:
 
 image::resources/inject-tracer.png[png][Inject tracer]
 
