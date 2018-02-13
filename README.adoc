@@ -96,7 +96,7 @@ This step is entirely up to you. If you are using Docker to run your Zipkin serv
 running your services with Docker as well, then ignore the steps in <<Building the application>> and
 follow these instructions instead:
 
-A `Dockerfile` and a `docker-compose.yaml` are provided under the `Docker` directory in the root directory
+A `Dockerfile` and a `docker-compose.yaml` are provided under the `docker` directory in the root directory
 of this guide. Navigate to this directory and run `mvn package` to build your services. Next, make sure
 your Zipkin container is stopped and run `docker-compose up -d`. This will create and start three containers:
 one for the `system` service, one for the `inventory` service, and one for the Zipkin server. Once the
