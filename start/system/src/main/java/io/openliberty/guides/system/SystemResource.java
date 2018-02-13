@@ -10,13 +10,25 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
  // end::copyright[]
-package io.openliberty.guides.inventory;
+package io.openliberty.guides.system;
 
+import java.util.Properties;
+
+// CDI
+import javax.enterprise.context.RequestScoped;
+import javax.ws.rs.GET;
 // JAX-RS
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
-@ApplicationPath("inventory")
-public class InventoryApplication extends Application {
+@RequestScoped
+@Path("properties")
+public class SystemResource {
 
+  @GET
+  @Produces(MediaType.APPLICATION_JSON)
+  public Properties getProperties() {
+    return System.getProperties();
+  } 
 }
