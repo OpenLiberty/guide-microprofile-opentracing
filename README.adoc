@@ -93,7 +93,7 @@ Now, navigate back to the `start` directory to begin.
 == Running with Docker (optional)
 
 This step is entirely up to you. If you are using Docker to run your Zipkin server and you would prefer
-running your services with Docker as well, then ignore the steps in <<Building the application>> and
+running your services with Docker as well, then ignore the steps in <<Building and running the application>> and
 follow these instructions instead:
 
 A `Dockerfile` and a `docker-compose.yaml` are provided under the `docker` directory in the root directory
