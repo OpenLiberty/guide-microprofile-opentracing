@@ -57,7 +57,7 @@
                 <version>0.31.0</version>
                 <scope>provided</scope>
             </dependency>
-             <dependency>
+            <dependency>
                 <groupId>org.eclipse.microprofile.opentracing</groupId>
                 <artifactId>microprofile-opentracing-api</artifactId>
                 <version>1.0</version>
