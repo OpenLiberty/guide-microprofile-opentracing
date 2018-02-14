@@ -10,6 +10,12 @@
     <artifactId>inventory-service</artifactId>
     <packaging>war</packaging>
 
+    <properties>
+        <version.exec-maven-plugin>1.6.0</version.exec-maven-plugin>
+        <version.maven-surefire-plugin>2.18.1</version.maven-surefire-plugin>
+        <version.maven-failsafe-plugin>2.18.1</version.maven-failsafe-plugin>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -61,12 +67,80 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <!-- Start system service before running tests -->
+        <profile>
+            <id>setup-test</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>${version.exec-maven-plugin}</version>
+                        <executions>
+                            <execution>
+                                <id>test-start-system-service</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <phase>pre-integration-test</phase>
+                                <configuration>
+                                    <workingDirectory>../system</workingDirectory>
+                                    <executable>mvn${mvn.extension}</executable>
+                                    <arguments>
+                                        <argument>liberty:start-server</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <!-- Stop system service after running tests -->
+        <profile>
+            <id>teardown-test</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>${version.exec-maven-plugin}</version>
+                        <executions>
+                            <execution>
+                                <id>test-stop-system-service</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <phase>post-integration-test</phase>
+                                <configuration>
+                                    <workingDirectory>../system</workingDirectory>
+                                    <executable>mvn${mvn.extension}</executable>
+                                    <arguments>
+                                        <argument>liberty:stop-server</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
             </plugin>
+
             <!-- Liberty plugin -->
             <plugin>
                 <groupId>net.wasdev.wlp.maven.plugins</groupId>
@@ -133,6 +207,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <!-- For downloading files -->
             <plugin>
                 <groupId>com.googlecode.maven-download-plugin</groupId>
@@ -154,11 +229,12 @@
                     </execution>
                 </executions>
             </plugin>
+
             <!-- Plugin to run unit tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.18.1</version>
+                <version>${version.maven-surefire-plugin}</version>
                 <executions>
                     <execution>
                         <phase>test</phase>
@@ -172,11 +248,12 @@
                     </execution>
                 </executions>
             </plugin>
+
             <!-- Plugin to run functional tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.18.1</version>
+                <version>${version.maven-failsafe-plugin}</version>
                 <executions>
                     <execution>
                         <phase>integration-test</phase>

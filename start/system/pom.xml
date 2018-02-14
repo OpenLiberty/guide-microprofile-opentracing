@@ -32,8 +32,8 @@
             <artifactId>opentracing-api</artifactId>
         </dependency>
         <dependency>
-       	    <groupId>org.eclipse.microprofile.opentracing</groupId>
-           	<artifactId>microprofile-opentracing-api</artifactId>
+            <groupId>org.eclipse.microprofile.opentracing</groupId>
+            <artifactId>microprofile-opentracing-api</artifactId>
         </dependency>
     </dependencies>
 

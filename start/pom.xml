@@ -66,6 +66,29 @@
         </dependencies>
     </dependencyManagement>
 
+    <profiles>
+        <!-- mvn.sh for windows systems -->
+        <profile>
+            <id>windowsExtension</id>
+            <activation>
+                <os><family>Windows</family></os>
+            </activation>
+            <properties>
+                <mvn.extension>.cmd</mvn.extension>
+            </properties>
+        </profile>
+        <!-- just mvn for other systems -->
+        <profile>
+            <id>nonWindowsExtension</id>
+            <activation>
+                <os><family>!Windows</family></os>
+            </activation>
+            <properties>
+                <mvn.extension></mvn.extension>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
         <pluginManagement>
             <plugins>
