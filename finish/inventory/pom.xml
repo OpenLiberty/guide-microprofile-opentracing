@@ -11,6 +11,7 @@
     <packaging>war</packaging>
 
     <properties>
+        <!-- Plugins -->
         <version.exec-maven-plugin>1.6.0</version.exec-maven-plugin>
         <version.maven-surefire-plugin>2.18.1</version.maven-surefire-plugin>
         <version.maven-failsafe-plugin>2.18.1</version.maven-failsafe-plugin>
