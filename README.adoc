@@ -268,6 +268,17 @@ This is just a simple example of what you can do with the injected Tracer object
 more configuration options by reading the official io.opentracing API.
 
 
+== Testing the services
+
+A few tests have been included for you to test the basic functionality of the services. If a test
+failure occurs, then you must have introduced a bug into your code. These tests will run automatically
+as a part of the Maven build process (when you run `mvn install`). You can also run these tests separately
+from the build using the `mvn verify` command, but make sure that the servers are stopped beforehand.
+
+No explicit tests exist to verify the correctness of the traces. These can be manually verified by viewing
+them on the Zipkin server.
+
+
 == Great work! You're done!
 
 You have just utilized MicroProfile OpenTracing to customize how and what tracers are delivered to Zipkin.
