@@ -67,7 +67,7 @@
     </dependencyManagement>
 
     <profiles>
-        <!-- mvn.sh for windows systems -->
+        <!-- mvn.cmd for windows systems -->
         <profile>
             <id>windowsExtension</id>
             <activation>
