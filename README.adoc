@@ -12,15 +12,18 @@
 :page-description: Learn how to enable and customize tracing of JAX-RS and non JAX-RS methods using MicroProfile OpenTracing.
 :page-tags: ['MicroProfile', 'OpenTracing']
 :page-permalink: /guides/{projectid}
-:page-related-guides: ['cdi-intro']
+:page-related-guides: ['microprofile-opentracing']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
-:inv-url: http://localhost:9081/inventory/systems
-:sys-url: http://localhost:9080/system/properties
-:zipkin-url: http://localhost:9411
 = Enabling distributed tracing in MicroProfile applications
 
 Learn how to enable and customize tracing of JAX-RS and non JAX-RS methods using MicroProfile OpenTracing.
+
+
+:inv-url: http://localhost:9081/inventory/systems
+:sys-url: http://localhost:9080/system/properties
+:zipkin-url: http://localhost:9411
+
 
 == What you'll learn
 
@@ -59,6 +62,7 @@ if you choose to use another tracing system.
 
 Before you proceed, make sure your Zipkin server (or another tracing system of your choice) is up and running.
 Our Zipkin instance can be found at {zipkin-url}.
+
 
 === Try what you'll build
 
@@ -268,6 +272,10 @@ This is just a simple example of what you can do with the injected Tracer object
 more configuration options by reading the official io.opentracing API.
 
 
+// =================================================================================================
+// Testing the services
+// =================================================================================================
+
 == Testing the services
 
 A few tests have been included for you to test the basic functionality of the services. If a test
@@ -278,6 +286,10 @@ from the build using the `mvn verify` command, but make sure that the servers ar
 No explicit tests exist to verify the correctness of the traces. These can be manually verified by viewing
 them on the Zipkin server.
 
+
+// =================================================================================================
+// Great work! You're done!
+// =================================================================================================
 
 == Great work! You're done!
 
