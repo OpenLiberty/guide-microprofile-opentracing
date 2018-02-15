@@ -105,6 +105,7 @@
                     <groupId>net.wasdev.wlp.maven.plugins</groupId>
                     <artifactId>liberty-maven-plugin</artifactId>
                     <version>${version.liberty-maven-plugin}</version>
+                    <!-- This bit (inherited and confiruation skip) makes it so that these goals only execute on the child modules  -->
                     <inherited>false</inherited>
                     <configuration>
                         <skip>true</skip>
