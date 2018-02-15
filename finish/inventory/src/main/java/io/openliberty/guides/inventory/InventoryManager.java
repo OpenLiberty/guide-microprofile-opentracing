@@ -37,14 +37,14 @@ public class InventoryManager {
 
         Properties properties = systemClient.getProperties();
         if (properties != null) {
-                // tag::inject-tracer[]
-                // Span childSpan = tracer.buildSpan("forEach-span").start();
-                // end::inject-tracer[]
-                invList.addToInventoryList(hostname, properties);
-                // tag::inject-tracer[]
-                // childSpan.finish();
-                // end::inject-tracer[]
-            }
+            // tag::inject-tracer[]
+            // Span childSpan = tracer.buildSpan("forEach-span").start();
+            // end::inject-tracer[]
+            invList.addToInventoryList(hostname, properties);
+            // tag::inject-tracer[]
+            // childSpan.finish();
+            // end::inject-tracer[]
+        }
         return properties;
 
     }
