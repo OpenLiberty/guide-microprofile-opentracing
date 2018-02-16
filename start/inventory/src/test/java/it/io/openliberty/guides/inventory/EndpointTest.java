@@ -37,7 +37,7 @@ public class EndpointTest {
     private Client client;
 
     private final String SYSTEM_PROPERTIES = "system/properties";
-    private final String INVENTORY_HOSTS = "inventory/systems";
+    private final String INVENTORY_SYSTEMS = "inventory/systems";
 
     @BeforeClass
     public static void oneTimeSetup() {
@@ -67,7 +67,7 @@ public class EndpointTest {
     }
 
     public void testEmptyInventory() {
-        Response response = this.getResponse(invUrl + INVENTORY_HOSTS);
+        Response response = this.getResponse(invUrl + INVENTORY_SYSTEMS);
         this.assertResponse(invUrl, response);
 
         JsonObject obj = response.readEntity(JsonObject.class);
@@ -83,7 +83,7 @@ public class EndpointTest {
     public void testHostRegistration() {
         this.visitLocalhost();
 
-        Response response = this.getResponse(invUrl + INVENTORY_HOSTS);
+        Response response = this.getResponse(invUrl + INVENTORY_SYSTEMS);
         this.assertResponse(invUrl, response);
 
         JsonObject obj = response.readEntity(JsonObject.class);
@@ -105,7 +105,7 @@ public class EndpointTest {
     }
 
     public void testSystemPropertiesMatch() {
-        Response invResponse = this.getResponse(invUrl + INVENTORY_HOSTS);
+        Response invResponse = this.getResponse(invUrl + INVENTORY_SYSTEMS);
         Response sysResponse = this.getResponse(sysUrl + SYSTEM_PROPERTIES);
 
         this.assertResponse(invUrl, invResponse);
@@ -131,10 +131,10 @@ public class EndpointTest {
     }
 
     public void testUnknownHost() {
-        Response response = this.getResponse(invUrl + INVENTORY_HOSTS);
+        Response response = this.getResponse(invUrl + INVENTORY_SYSTEMS);
         this.assertResponse(invUrl, response);
 
-        Response badResponse = client.target(invUrl + INVENTORY_HOSTS + "/"
+        Response badResponse = client.target(invUrl + INVENTORY_SYSTEMS + "/"
                 + "badhostname").request(MediaType.APPLICATION_JSON).get();
 
         String obj = badResponse.readEntity(String.class);
@@ -201,7 +201,7 @@ public class EndpointTest {
         this.assertResponse(sysUrl, response);
         response.close();
 
-        Response targetResponse = client.target(invUrl + INVENTORY_HOSTS + "/localhost").request().get();
+        Response targetResponse = client.target(invUrl + INVENTORY_SYSTEMS + "/localhost").request().get();
         targetResponse.close();
     }
 }
