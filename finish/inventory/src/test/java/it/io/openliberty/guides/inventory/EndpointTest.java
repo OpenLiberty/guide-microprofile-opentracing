@@ -93,8 +93,6 @@ public class EndpointTest {
         assertEquals("The inventory should have one entry for localhost", 
                      expected, actual);
 
-        System.out.println(obj.getJsonArray("systems").getJsonObject(0)
-                                                      .get("hostname").toString());
         boolean localhostExists = obj.getJsonArray("systems").getJsonObject(0)
                                                              .get("hostname").toString()
                                                              .contains("localhost");

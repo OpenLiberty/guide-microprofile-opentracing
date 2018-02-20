@@ -144,7 +144,7 @@ when you build them. You can find it enabled in your `server.xml`:
 <feature>usr:opentracingZipkin-0.30</feature>
 ----
 
-The feature is pulled in and installed automatically using this plugin in your `system/pom.xml` and
+The feature is pulled in and installed automatically using the following Maven plugin in `system/pom.xml` and
 `inventory/pom.xml`:
 
 [source, xml, role="no_copy"]
