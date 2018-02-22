@@ -21,6 +21,7 @@ Learn how to enable and customize tracing of JAX-RS and non JAX-RS methods using
 
 
 :inv-url: http://localhost:9081/inventory/systems
+:inv-url-docker: http://localhost:9080/inventory/systems
 :sys-url: http://localhost:9080/system/properties
 :zipkin-url: http://localhost:9411
 
@@ -124,9 +125,9 @@ This command picks up the `Dockerfile` and the `docker-compose.yaml` and builds 
 the Open Liberty runtime. Three containers are also built and started alongside the image: one for the
 `system` service, one for the `inventory` service, and one for the Zipkin server.
 
-Once the containers are running, the `inventory` service can be reached at {inv-url} and the Zipkin server at
+Once the containers are running, the `inventory` service can be reached at {inv-url-docker} and the Zipkin server at
 {zipkin-url}. To retrieve the JVM system properties of the container running the `system` service, point
-to {inv-url}/sys (all containers are linked and therefore they can access each other by their container names).
+to {inv-url-docker}/sys (all containers are linked and therefore they can access each other by their container names).
 
 Feel free to read our https://openliberty.io/guides/docker.html[Docker guide] to learn more about developing
 applications with Open Liberty and Docker.
