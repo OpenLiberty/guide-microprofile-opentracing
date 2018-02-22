@@ -60,19 +60,17 @@ installation instructions for Zipkin https://zipkin.io/pages/quickstart.html[her
 restricted to using Zipkin, but keep in mind that you may need additional instructions not listed here
 if you choose to use another tracing system.
 
-Before you proceed, make sure your Zipkin server (or another tracing system of your choice) is up and running.
-Our Zipkin instance can be found at {zipkin-url}.
-
 
 === Try what you'll build
 
 The `finish` directory in the root directory of this guide contains two services that have been configured
 to use MicroProfile OpenTracing. Feel free to give them a try before you proceed.
 
-To try out the services, first navigate to the `finish` directory and then execute the following
-Maven goals to build the services and run them in two instances of Open Liberty:
+To try out the services, navigate to the `finish` directory and then run the Maven `install` and
+`liberty:start-server` goals to build the services and run them in two Open Liberty servers:
 
 ```
+cd finish
 mvn install liberty:start-server
 ```
 
@@ -90,33 +88,58 @@ Once you are done checking out the services, stop both Open Liberty servers:
 mvn liberty:stop-server
 ```
 
-Now, navigate back to the `start` directory to begin.
-
-
 // =================================================================================================
 // Running the application with Docker
 // =================================================================================================
 
-== Running with Docker (optional)
+== Running the services
 
-This step is entirely up to you. If you are using Docker to run your Zipkin server and you would prefer
-running your services with Docker as well, then ignore the steps in <<Building and running the application>> and
-follow these instructions instead:
+Before you begin, you must build and run the `inventory` and `system` services. You must also start
+your Zipkin server (or another tracing system of your choice). You have two options for doing this:
+
+- Running everything inside Docker containers
+- Running the two services outside of Docker in two separate Open Liberty servers
+
+
+=== Running with Docker
+
+If you are using Docker to run your Zipkin server and you would prefer running your services with Docker
+as well, then follow these instructions:
 
 A `Dockerfile` and a `docker-compose.yaml` are provided under the `docker` directory in the root directory
-of this guide. Navigate to this directory and run `mvn package` to build your services. Next, make sure
-your Zipkin container is stopped and run `docker-compose up -d`. This will create and start three containers:
-one for the `system` service, one for the `inventory` service, and one for the Zipkin server. Once the
-containers are running, the `inventory` service can be reached at {inv-url} and the Zipkin server at
+of this guide. Navigate to this directory and build your services:
+
+```
+cd docker
+mvn package
+```
+
+Stop your Zipkin container if you have previously started it, then run the following command:
+
+```
+docker-compose up -d
+```
+
+This command picks up the `Dockerfile` and the `docker-compose.yaml` and builds a Docker image containing
+the Open Liberty runtime. Three containers are also built and started alongside the image: one for the
+`system` service, one for the `inventory` service, and one for the Zipkin server.
+
+Once the containers are running, the `inventory` service can be reached at {inv-url} and the Zipkin server at
 {zipkin-url}. To retrieve the JVM system properties of the container running the `system` service, point
 to {inv-url}/sys (all containers are linked and therefore they can access each other by their container names).
 
+Feel free to read our https://openliberty.io/guides/docker.html[Docker guide] to learn more about developing
+applications with Open Liberty and Docker.
 
-// =================================================================================================
-// Building the application
-// =================================================================================================
 
-include::{common-includes}/mvnbuild.adoc[]
+=== Running the services outside of Docker
+
+Navigate to the `start` directory, then build the services and run them in Open Liberty:
+
+```
+cd start
+mvn install liberty:start-server
+```
 
 You can find the `inventory` and `system` services at:
 
