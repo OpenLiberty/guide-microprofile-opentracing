@@ -16,6 +16,8 @@
         <version.maven-war-plugin>2.6</version.maven-war-plugin>
         <version.liberty-maven-plugin>2.0</version.liberty-maven-plugin>
         <version.download-maven-plugin>1.4.0</version.download-maven-plugin>
+        <version.maven-surefire-plugin>2.18.1</version.maven-surefire-plugin>
+        <version.maven-failsafe-plugin>2.18.1</version.maven-failsafe-plugin>
         <!-- OpenLiberty runtime -->
         <version.openliberty-runtime>RELEASE</version.openliberty-runtime>
         <sys.service.http.port>9080</sys.service.http.port>
@@ -27,6 +29,30 @@
     <!-- Shared dependencies. -->
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-rs-client</artifactId>
+                <version>3.1.11</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-rs-extension-providers</artifactId>
+                <version>3.1.11</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish</groupId>
+                <artifactId>javax.json</artifactId>
+                <version>1.0.4</version>
+                <scope>test</scope>
+            </dependency>
             <dependency>
                 <groupId>javax.ws.rs</groupId>
                 <artifactId>javax.ws.rs-api</artifactId>
@@ -126,6 +152,60 @@
                             </goals>
                         </execution>
                     </executions>
+                </plugin>
+
+                <!-- Plugin to run unit tests -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${version.maven-surefire-plugin}</version>
+                    <executions>
+                        <execution>
+                            <phase>test</phase>
+                            <id>default-test</id>
+                            <configuration>
+                                <excludes>
+                                    <exclude>**/it/**</exclude>
+                                </excludes>
+                                <reportsDirectory>${project.build.directory}/test-reports/unit</reportsDirectory>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Plugin to run functional tests -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${version.maven-failsafe-plugin}</version>
+                    <executions>
+                        <execution>
+                            <phase>integration-test</phase>
+                            <id>integration-test</id>
+                            <goals>
+                                <goal>integration-test</goal>
+                            </goals>
+                            <configuration>
+                                <includes>
+                                    <include>**/it/**</include>
+                                </includes>
+                                <systemPropertyVariables>
+                                    <sys.http.port>${sys.service.http.port}</sys.http.port>
+                                    <inv.http.port>${inv.service.http.port}</inv.http.port>
+                                </systemPropertyVariables>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>verify-results</id>
+                            <goals>
+                                <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <summaryFile>${project.build.directory}/test-reports/it/failsafe-summary.xml</summaryFile>
+                        <reportsDirectory>${project.build.directory}/test-reports/it</reportsDirectory>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
