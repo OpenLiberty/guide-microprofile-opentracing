@@ -15,7 +15,7 @@
 :page-related-guides: ['cdi-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
-= Enabling distributed tracing in MicroProfile applications
+= Enabling distributed tracing in microservices
 
 Learn how to enable and customize tracing of JAX-RS and non JAX-RS methods using MicroProfile OpenTracing.
 
@@ -307,7 +307,7 @@ failure occurs, then you must have introduced a bug into your code. These tests 
 as a part of the Maven build process (when you run `mvn install`). You can also run these tests separately
 from the build using the `mvn verify` command, but make sure that the servers are stopped beforehand.
 
-No explicit tests exist to verify the correctness of the traces. These can be manually verified by viewing
+No explicit tests exist to verify the correctness of the traces. These can be verified manually by viewing
 them on the Zipkin server.
 
 
