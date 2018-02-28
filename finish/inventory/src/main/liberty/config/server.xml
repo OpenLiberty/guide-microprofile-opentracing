@@ -17,7 +17,7 @@
 
   <webApplication location="inventory-service.war" contextRoot="/">
     <!-- enable visibility to third party apis -->
-    <classloader apiTypeVisibility="spec, ibm-api, third-party"/>
+    <!-- <classloader apiTypeVisibility="api,ibm-api,spec,stable,third-party"/> -->
   </webApplication>
 
 </server>
