@@ -12,13 +12,19 @@
 //end::copyright[]
 package io.openliberty.guides.inventory;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Properties;
 import io.openliberty.guides.inventory.client.SystemClient;
 import io.openliberty.guides.inventory.model.InventoryList;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 import org.eclipse.microprofile.opentracing.Traced;
 
+import io.opentracing.ActiveSpan;
+import io.opentracing.References;
 import io.opentracing.Span;
 import io.opentracing.Tracer;
 
@@ -28,27 +34,36 @@ public class InventoryManager {
     private InventoryList invList = new InventoryList();
     private SystemClient systemClient = new SystemClient();
 
-    // tag::inject-tracer[]
-    // @Inject Tracer tracer;
-    // end::inject-tracer[]
+    // tag::custom-tracer[]
+     @Inject Tracer tracer;
+    // end::custom-tracer[]
 
     public Properties get(String hostname) {
         systemClient.init(hostname, 9080);
         
+        // tag::custom-tracer[]
+        Timestamp ts = new Timestamp(System.currentTimeMillis());
+        
+        ActiveSpan activeSpan = tracer.activeSpan();
+        Tracer.SpanBuilder spanBuilder = tracer.buildSpan("addToInventory() Span")
+                .asChildOf(activeSpan.context())
+                .withStartTimestamp(ts.getTime());
+        // end::custom-tracer[]
+        
         Properties properties = systemClient.getProperties();
         if (properties != null) {
-            // tag::inject-tracer[]
-            // Span childSpan = tracer.buildSpan("forEach-span").start();
-            // end::inject-tracer[]
+            // tag::custom-tracer[]
+            Span childSpan = spanBuilder.startManual();
+            // end::custom-tracer[]
             invList.addToInventoryList(hostname, properties);
-            // tag::inject-tracer[]
-            // childSpan.finish();
-            // end::inject-tracer[]
+            // tag::custom-tracer[]
+            childSpan.finish(ts.getTime());
+            // end::custom-tracer[]
         }
         return properties;
     }
 
-    @Traced(value = false, operationName = "InventoryManager.list")
+    @Traced(value = true, operationName = "InventoryManager.list")
     public InventoryList list() {
         return invList;
     }
