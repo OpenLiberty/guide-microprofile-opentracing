@@ -104,6 +104,8 @@ your Zipkin server (or another tracing system of your choice). You have two opti
 
 === Running with Docker
 
+*THIS DOES NOT WORK AS OF MARCH 2, 2018 BECAUSE IT REQUIRES OL 18.0.0.1 WHICH IS NOT A PART OF ANY DOCKER IMAGE*
+
 If you are using Docker to run your Zipkin server and you would prefer running your services with Docker
 as well, then follow these instructions:
 
