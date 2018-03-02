@@ -156,19 +156,19 @@ include::{common-includes}/mvnpackage.adoc[]
 
 == Existing Tracer implementation
 
-Normally, you need to have a OpenTracing Tracer implementation in your application for MicroProfile OpenTracing
-to take advantage of it. Luckily, we are providing a simple user feature that contains this implementation
-for the Zipkin server.
+In order to collect traces across your systems, you are required to implement the OpenTracing `Tracer`
+interface. For the purposes of this guide, we are providing a bare-bones `Tracer` implementation for
+the Zipkin server in a form of a user feature for Open Liberty.
 
 This feature has already been configured for you and it will be installed automatically into each service
-when you build them. You can find it enabled in your `server.xml`:
+when you build them. You can find it enabled in your `server.xml` files:
 
 [source, xml, role="no_copy"]
 ----
 <feature>usr:opentracingZipkin-0.30</feature>
 ----
 
-The feature is pulled in and installed automatically using the following Maven plugin in `system/pom.xml` and
+The user feature is pulled in and installed automatically using the following Maven plugin in `system/pom.xml` and
 `inventory/pom.xml`:
 
 [source, xml, role="no_copy"]
@@ -193,6 +193,8 @@ The feature is pulled in and installed automatically using the following Maven p
 </plugin>
 ----
 
+Note that this user feature also comes with the
+
 If you wish to install this feature yourself, then you can find the complete installation instructions in the
 https://www.ibm.com/support/knowledgecenter/was_beta/com.ibm.websphere.wlp.nd.multiplatform.doc/ae/twlp_dist_tracing.html[IBM Knowledge Center].
 
@@ -203,30 +205,33 @@ https://www.ibm.com/support/knowledgecenter/was_beta/com.ibm.websphere.wlp.nd.mu
 
 == Enabling distributed tracing
 
-The MicroProfile OpenTracing feature comes with three main functionalities: automatic tracing of JAX-RS
-methods, the `@Traced` annotation for tracing custom methods, and the injectable Tracer instance for
-additional Span customization.
+While the OpenTracing feature (`opentracing-1.0`) found inside Open Liberty enables tracing of all JAX-RS methods by default,
+MicroProfile OpenTracing allows you to control and customize these traces. Using the `@Traced` annotation
+you can enable and disable tracing of particular methods. A custom `Tracer` object can also be injected
+for creating and customizing spans.
 
 
 === Enabling distributed tracing with no code instrumentation
 
-Tracing of all JAX-RS methods is enabled by default. Hence, once you enable the MicroProfile OpenTracing feature,
-tracing of all JAX-RS methods will be automatic without needing any additional distributed tracing code.
+Since tracing of all JAX-RS methods is enabled by default, enabling MicroProfile OpenTracing and the
+Zipkin user feature in the `server.xml` file is enough to see some basic traces in Zipkin.
 
-The MicroProfile OpenTracing feature has already been enabled in your `server.xml`:
+Both of these features have already been enabled in `inventory/src/main/liberty/config/server.xml`
+and `system/src/main/liberty/config/server.xml` files:
 
 [source, xml, role="no_copy"]
 ----
 <feature>mpOpentracing-1.0</feature>
+<feature>usr:opentracingZipkin-0.30</feature>
 ----
 
-At this point, you can start the `system` and `inventory` services as well as the Zipkin server and
-your traces will get logged.
+Make sure your services are running, then simply point your browser to any of their endpoints and
+check your Zipkin server for traces.
 
 
-=== Enabling explicit distributed tracing code instrumentation
+=== Enabling explicit distributed tracing
 
-The `@Traced` annotation can be used to define explicit Span creation for specific classes and methods.
+The `@Traced` annotation can be used to define explicit span creation for specific classes and methods.
 If the annotation is placed on a class, then the annotation is automatically applied to all methods
 within that class. If the annotation is placed on a method, then it overwrites the class annotation
 if one exists.
@@ -234,66 +239,69 @@ if one exists.
 The `@Traced` annotation can be configured with two parameters:
 
 - `value=[true|false]` (true by default), indicates whether or not a particular class or method should
-be traced. For example, while all JAX-RS methods are traced by default, you can disabling tracing for
-any such method using the `@Traced(false)` annotation.
-- `operationName=<Span name>` ("" by default), indicates the name of the span assigned to the particular
-method being traced. When omitting this parameter, the Span will be named in form
-`<package name>.<class name>.<method name>`. If placed on a class, all methods within that class
-will have the same Span name unless explicitly overwritten with another `@Traced` annotation.
+be traced. For example, while all JAX-RS methods are traced by default, you can disable tracing using
+the `@Traced(false)` annotation.
+- `operationName=<Span name>` indicates the name of the span assigned to the particular method being
+traced. If omitting this parameter, the span will be named in form `<package name>.<class name>.<method name>`.
+If placed on a class, all methods within that class will have the same span name unless explicitly
+overwritten with another `@Traced` annotation.
 
-Tweak `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` and add a
-`@Traced(value = true, operationName = "InventoryManager.list")` annotation onto the `list()` method
-to enable tracing of this method:
+Tweak the existing `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` class
+and enable tracing of the `list()` method:
 
 [source, Java]
 ----
-include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright;!inject-tracer]
+include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright;!custom-tracer]
 ----
 
-Next, run the `mvn package` command from the `start` directory to rebuild your services. Point to {inv-url}
-(refresh the page) and then navigate to your Zipkin server and you will see a new trace of two spans long,
-containing a Span for the `listContents()` JAX-RS method in `InventoryResource.java` and another Span
-for the `list()` method in `InventoryManager.java`:
+Next, run the `mvn package` command from to rebuild your services. Point to {inv-url}, check your Zipkin
+server, and you will see a new trace record of three spans long. Two spans for the `listContents()`
+JAX-RS method in `InventoryResource.java` and another span for the `list()` method in `InventoryManager.java`:
 
 image::resources/enable-tracing.png[png][Enable tracing, float=left]
 
-Tweak `inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java` and add a `@Traced(false)`
-annotation onto the `listContents()` method to disable tracing for this JAX-RS method:
+Now, tweak the existing `inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java` class
+and disable tracing of the `listContents()` JAX-RS method:
 
 [source, Java]
 ----
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
 ----
 
-Then, run `mvn package` to rebuild your services and point to {inv-url}
-(refresh the page). Next, navigate to your Zipkin server and you will see a new trace of one span
-long for the remaining `list()` method in `InventoryManager.java`:
+Next, run the `mvn package` command from to rebuild your services. Point to {inv-url}, check your Zipkin
+server, and you will see a new trace record of just one span long for the remaining `list()` method
+in `InventoryManager.java`:
 
 image::resources/disable-tracing.png[png][Disable tracing, float=left]
 
-=== Injecting and customizing a Tracer object
 
-The MicroProfile OpenTracing specification also makes the underlying OpenTracing Tracer instance available for
-the developer's use. The configured Tracer can be accessed by injecting it into a bean using the `@Inject`
-annotation from the CDI API.
+=== Injecting a custom Tracer object
 
-Inject a Tracer object into `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java`.
-Then as an example, use it to define a new child span in the `get()` method around the `addToInventoryList` call.
-This new span will show exactly how long it takes to complete that call:
+The MicroProfile OpenTracing specification also makes the underlying OpenTracing `Tracer` instance
+available for use. The configured `Tracer` can be accessed by injecting it using the `@Inject` annotation
+from the CDI API.
+
+Inject the `Tracer` object into `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java`.
+Then use it to define a new child span in the `get()` method around the `addToInventoryList()` call:
 
 [source, Java]
 ----
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright]
 ----
 
-Rebuild your application using `mvn package` as before and point to {inv-url}. A new trace of two spans
-long will be recorded in your Zipkin server. The first (parent) Span is for the is the custom `InventoryManager.list`
-Span you created earlier and the second is for the new (child) Span that you just created:
+Next, run the `mvn package` command from to rebuild your services. Point to {inv-url}, check your Zipkin
+server, and you will see a new trace record of four spans long. The first two spans for the `getPropertiesForHost()`
+method in `InventoryResource.java` and the third span for the `getProperties()` method in `SystemResource.java`.
+The last span is the custom span you created around the `addToInventoryList()` call.
 
 image::resources/inject-tracer.png[png][Inject tracer, float=left]
 
-This is just a simple example of what you can do with the injected Tracer object. You can find out
-more configuration options by reading the official io.opentracing API.
+This is just a simple example of what you can do with the injected Tracer object. More configuration
+options are available to you, including setting a timestamp for when the span was created and destroyed.
+However, these require an implementation of their own, which does not come as a part of the Zipkin
+user feature we've provided. In a real development environment, you would want to implement all the
+necessary OpenTracing interfaces that you need yourself. This may include the `SpanBuilder` interface,
+which can be used for span creation and customization, including setting their timestamps.
 
 
 // =================================================================================================

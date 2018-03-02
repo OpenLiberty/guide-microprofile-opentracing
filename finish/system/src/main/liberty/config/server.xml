@@ -13,7 +13,7 @@
   <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
       id="defaultHttpEndpoint" host="*" />
 
-  <logging traceSpecification="com.ibm.ws.opentracing.cdi.*=all"/>
+  <!-- <logging traceSpecification="com.ibm.ws.opentracing.cdi.*=all"/> -->
 
   <webApplication location="system-service.war" contextRoot="/">
     <!-- enable visibility to third party apis -->

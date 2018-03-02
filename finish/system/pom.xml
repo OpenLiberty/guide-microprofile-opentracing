@@ -66,7 +66,7 @@
                 <configuration>
                     <!-- Temporarilty build from downloaded runtime until its 18.0.0.1 is realeased -->
                     <install>
-                        <runtimeUrl>https://public.dhe.ibm.com/ibmdl/export/pub/software/openliberty/runtime/nightly/2018-02-26_-0400/openliberty-all-18.0.0.1-20180226-0349.zip</runtimeUrl>
+                        <runtimeUrl>https://public.dhe.ibm.com/ibmdl/export/pub/software/openliberty/runtime/nightly/2018-02-21_-1508/openliberty-all-18.0.0.1-20180221-1457.zip</runtimeUrl>
                     </install>
 <!--                     <assemblyArtifact>
                         <groupId>io.openliberty</groupId>

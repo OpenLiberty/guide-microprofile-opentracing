@@ -15,5 +15,9 @@
 
   <!-- <logging traceSpecification="com.ibm.ws.opentracing.cdi.*=all"/> -->
 
-  <webApplication location="system-service.war" contextRoot="/"/>
+  <webApplication location="system-service.war" contextRoot="/">
+    <!-- enable visibility to third party apis -->
+    <classloader apiTypeVisibility="api,ibm-api,spec,stable,third-party"/>
+  </webApplication>
+
 </server>

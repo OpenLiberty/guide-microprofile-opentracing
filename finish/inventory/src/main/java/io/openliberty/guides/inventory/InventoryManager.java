@@ -12,9 +12,6 @@
 //end::copyright[]
 package io.openliberty.guides.inventory;
 
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.Properties;
 import io.openliberty.guides.inventory.client.SystemClient;
 import io.openliberty.guides.inventory.model.InventoryList;
@@ -24,7 +21,6 @@ import javax.inject.Inject;
 import org.eclipse.microprofile.opentracing.Traced;
 
 import io.opentracing.ActiveSpan;
-import io.opentracing.References;
 import io.opentracing.Span;
 import io.opentracing.Tracer;
 
@@ -42,12 +38,9 @@ public class InventoryManager {
         systemClient.init(hostname, 9080);
         
         // tag::custom-tracer[]
-        Timestamp ts = new Timestamp(System.currentTimeMillis());
-        
         ActiveSpan activeSpan = tracer.activeSpan();
         Tracer.SpanBuilder spanBuilder = tracer.buildSpan("addToInventory() Span")
-                .asChildOf(activeSpan.context())
-                .withStartTimestamp(ts.getTime());
+                .asChildOf(activeSpan.context());
         // end::custom-tracer[]
         
         Properties properties = systemClient.getProperties();
@@ -57,7 +50,7 @@ public class InventoryManager {
             // end::custom-tracer[]
             invList.addToInventoryList(hostname, properties);
             // tag::custom-tracer[]
-            childSpan.finish(ts.getTime());
+            childSpan.finish();
             // end::custom-tracer[]
         }
         return properties;
