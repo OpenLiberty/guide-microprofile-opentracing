@@ -10,7 +10,7 @@
 :page-duration: 15 minutes
 // :page-releasedate: 2017-12-11
 :page-description: Learn how to enable and customize tracing of JAX-RS and non JAX-RS methods using MicroProfile OpenTracing.
-:page-tags: ['MicroProfile', 'OpenTracing']
+:page-tags: ['MicroProfile', 'OpenTracing', `microservices`, `@Traced`]
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['cdi-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
