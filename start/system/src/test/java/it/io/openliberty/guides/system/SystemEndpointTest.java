@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
  // end::copyright[]
-package it.io.openliberty.guides.rest;
+package it.io.openliberty.guides.system;
 
 import static org.junit.Assert.assertEquals;
 
@@ -25,7 +25,7 @@ import javax.ws.rs.core.Response;
 
 import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
 
-public class EndpointTest {
+public class SystemEndpointTest {
 
     @Test
     public void testGetProperties() {
