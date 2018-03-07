@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
  // end::copyright[]
-package it.io.openliberty.guides.rest;
+package it.io.openliberty.guides.system;
 
 import static org.junit.Assert.assertEquals;
 
