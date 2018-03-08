@@ -260,7 +260,7 @@ Next, run the `mvn package` command from to rebuild your services. Point to {inv
 server, and you will see a new trace record of three spans long. Two spans for the `listContents()`
 JAX-RS method in `InventoryResource.java` and another span for the `list()` method in `InventoryManager.java`:
 
-image::/guides/draft-guide-microprofile-opentracing/resources/enable-tracing.png[png][Enable tracing, float=left]
+image::/guides/draft-guide-microprofile-opentracing/resources/enable-tracing.png[png][Enable tracing, width=100%]
 
 Now, tweak the existing `inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java` class
 and disable tracing of the `listContents()` JAX-RS method:
@@ -274,7 +274,7 @@ Next, run the `mvn package` command from to rebuild your services. Point to {inv
 server, and you will see a new trace record of just one span long for the remaining `list()` method
 in `InventoryManager.java`:
 
-image::/guides/draft-guide-microprofile-opentracing/resources/disable-tracing.png[png][Disable tracing, float=left]
+image::/guides/draft-guide-microprofile-opentracing/resources/disable-tracing.png[png][Disable tracing, width=100%]
 
 
 === Injecting a custom Tracer object
@@ -296,7 +296,7 @@ server, and you will see a new trace record of four spans long. The first two sp
 method in `InventoryResource.java` and the third span for the `getProperties()` method in `SystemResource.java`.
 The last span is the custom span you created around the `addToInventoryList()` call.
 
-image::/guides/draft-guide-microprofile-opentracing/resources/inject-tracer.png[png][Inject tracer, float=left]
+image::/guides/draft-guide-microprofile-opentracing/resources/inject-tracer.png[png][Inject tracer, width=100%]
 
 This is just a simple example of what you can do with the injected Tracer object. More configuration
 options are available to you, including setting a timestamp for when the span was created and destroyed.
