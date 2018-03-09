@@ -31,7 +31,7 @@ public class InventoryManager {
     private SystemClient systemClient = new SystemClient();
 
     // tag::custom-tracer[]
-     @Inject Tracer tracer;
+    @Inject Tracer tracer;
     // end::custom-tracer[]
 
     public Properties get(String hostname) {
