@@ -54,7 +54,8 @@ server, then any logging software would do the trick.
 // Getting Started
 // =================================================================================================
 
-include::{common-includes}/gitclone.adoc[]
+//include::{common-includes}/gitclone.adoc[]
+include::{common-includes}/gitclonedraft.adoc[]
 
 For the purposes of this guide, we are using Zipkin as our distributed tracing system. You can find the
 installation instructions for Zipkin https://zipkin.io/pages/quickstart.html[here]. You are not
@@ -72,13 +73,13 @@ To try out the services, navigate to the `finish` directory and then run the Mav
 
 ```
 cd finish
-mvn install 
+mvn install
 mvn liberty:start-server
 ```
 
-Point your browser to {inv-url}. When you visit this endpoint, you make a GET HTTP request to the `inventory` service.
+Start your Zipkin server and point your browser to {inv-url}. When you visit this endpoint, you make a GET HTTP request to the `inventory` service.
 This GET request is configured to be traced, and therefore a new trace entry of one span long will appear
-in your Zipkin server. Navigate to your Zipkin server to verify this. Next, point to {inv-url}/localhost.
+in your Zipkin server. Navigate to your Zipkin server to verify this, it usually resides at {zipkin-url}. Next, point to {inv-url}/localhost.
 This will make two GET requests: one to the `inventory` service and one to the `system` service. Both
 of these requests are configured to be traced. Visit your Zipkin server to verify that a new trace of
 two spans long has been logged. You can also inspect each trace for more detailed information such as
