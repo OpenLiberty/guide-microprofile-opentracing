@@ -65,6 +65,8 @@ if you choose to use another tracing system.
 
 === Try what you'll build
 
+**BEFORE YOU PROCEED. DOWNLOAD THE 18.0.0.1 OPEN LIBERTY GM AND PLACE IT UNDER wlp.zip UNDER THE ROOT DIRECTORY OF THIS GUIDE; ie. draft-guide-microprofile-opentracing/wlp.zip**
+
 The `finish` directory in the root directory of this guide contains two services that have been configured
 to use MicroProfile OpenTracing. Feel free to give them a try before you proceed.
 
