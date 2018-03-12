@@ -54,7 +54,8 @@ server, then any logging software would do the trick.
 // Getting Started
 // =================================================================================================
 
-include::{common-includes}/gitclone.adoc[]
+//include::{common-includes}/gitclone.adoc[]
+include::{common-includes}/gitclonedraft.adoc[]
 
 For the purposes of this guide, we are using Zipkin as our distributed tracing system. You can find the
 installation instructions for Zipkin https://zipkin.io/pages/quickstart.html[here]. You are not
