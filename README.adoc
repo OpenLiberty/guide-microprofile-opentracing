@@ -72,7 +72,8 @@ To try out the services, navigate to the `finish` directory and then run the Mav
 
 ```
 cd finish
-mvn install liberty:start-server
+mvn install 
+mvn liberty:start-server
 ```
 
 Point your browser to {inv-url}. When you visit this endpoint, you make a GET HTTP request to the `inventory` service.
