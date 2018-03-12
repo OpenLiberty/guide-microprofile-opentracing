@@ -136,22 +136,6 @@
                     <configuration>
                         <skip>true</skip>
                     </configuration>
-                    <executions>
-                        <execution>
-                            <id>start-server</id>
-                            <phase>pre-integration-test</phase>
-                            <goals>
-                                <goal>test-start-server</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>stop-server</id>
-                            <phase>post-integration-test</phase>
-                            <goals>
-                                <goal>test-stop-server</goal>
-                            </goals>
-                        </execution>
-                    </executions>
                 </plugin>
 
                 <!-- Plugin to run unit tests -->

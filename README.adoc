@@ -199,7 +199,8 @@ The user feature is pulled in and installed automatically using the following Ma
 </plugin>
 ----
 
-Note that this user feature also comes with the
+Note, this user feature also comes with the `opentracing-1.0` feature, so you don't need to enable it
+explicitly.
 
 If you wish to install this feature yourself, then you can find the complete installation instructions in the
 https://www.ibm.com/support/knowledgecenter/was_beta/com.ibm.websphere.wlp.nd.multiplatform.doc/ae/twlp_dist_tracing.html[IBM Knowledge Center].
@@ -260,7 +261,7 @@ and enable tracing of the `list()` method:
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright;!custom-tracer]
 ----
 
-Next, run the `mvn package` command from to rebuild your services. Point to {inv-url}, check your Zipkin
+Next, run the `mvn package` command from the `start` directory to rebuild your services. Point to {inv-url}, check your Zipkin
 server, and you will see a new trace record of three spans long. Two spans for the `listContents()`
 JAX-RS method in `InventoryResource.java` and another span for the `list()` method in `InventoryManager.java`:
 
@@ -274,7 +275,7 @@ and disable tracing of the `listContents()` JAX-RS method:
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
 ----
 
-Next, run the `mvn package` command from to rebuild your services. Point to {inv-url}, check your Zipkin
+Again, run the `mvn package` command from the `start` directory to rebuild your services. Point to {inv-url}, check your Zipkin
 server, and you will see a new trace record of just one span long for the remaining `list()` method
 in `InventoryManager.java`:
 
@@ -295,14 +296,14 @@ Then use it to define a new child span in the `get()` method around the `addToIn
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright]
 ----
 
-Next, run the `mvn package` command from to rebuild your services. Point to {inv-url}, check your Zipkin
+Next, run the `mvn package` command from the `start` directory to rebuild your services. Point to {inv-url}, check your Zipkin
 server, and you will see a new trace record of four spans long. The first two spans for the `getPropertiesForHost()`
 method in `InventoryResource.java` and the third span for the `getProperties()` method in `SystemResource.java`.
 The last span is the custom span you created around the `addToInventoryList()` call.
 
 image::/guides/draft-guide-microprofile-opentracing/resources/inject-tracer.png[png][Inject tracer, width=100%]
 
-This is just a simple example of what you can do with the injected Tracer object. More configuration
+This is just a simple example of what you can do with the injected `Tracer`. More configuration
 options are available to you, including setting a timestamp for when the span was created and destroyed.
 However, these require an implementation of their own, which does not come as a part of the Zipkin
 user feature we've provided. In a real development environment, you would want to implement all the
