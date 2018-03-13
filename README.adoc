@@ -272,7 +272,7 @@ check your Zipkin server for traces.
 
 The `@Traced` annotation can be used to define explicit span creation for specific classes and methods.
 If the annotation is placed on a class, then the annotation is automatically applied to all methods
-within that class. If the annotation is placed on a method, then it overwrites the class annotation
+within that class. If the annotation is placed on a method, then it overrides the class annotation
 if one exists.
 
 The `@Traced` annotation can be configured with two parameters:
