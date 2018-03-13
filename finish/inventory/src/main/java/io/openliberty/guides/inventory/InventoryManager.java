@@ -21,7 +21,6 @@ import javax.inject.Inject;
 import org.eclipse.microprofile.opentracing.Traced;
 
 import io.opentracing.ActiveSpan;
-import io.opentracing.Span;
 import io.opentracing.Tracer;
 
 @ApplicationScoped
@@ -37,20 +36,14 @@ public class InventoryManager {
     public Properties get(String hostname) {
         systemClient.init(hostname, 9080);
         
-        // tag::custom-tracer[]
-        ActiveSpan activeSpan = tracer.activeSpan();
-        Tracer.SpanBuilder spanBuilder = tracer.buildSpan("addToInventory() Span")
-                .asChildOf(activeSpan.context());
-        // end::custom-tracer[]
-        
         Properties properties = systemClient.getProperties();
         if (properties != null) {
             // tag::custom-tracer[]
-            Span childSpan = spanBuilder.startManual();
-            // end::custom-tracer[]
-            invList.addToInventoryList(hostname, properties);
-            // tag::custom-tracer[]
-            childSpan.finish();
+            try (ActiveSpan childSpan = tracer.buildSpan("addToInventory() Span").startActive()) {
+                // tag::addToInvList[]
+                invList.addToInventoryList(hostname, properties);
+                // end::addToInvList[]
+            }
             // end::custom-tracer[]
         }
         return properties;

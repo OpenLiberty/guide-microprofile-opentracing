@@ -21,7 +21,6 @@ import javax.inject.Inject;
 import org.eclipse.microprofile.opentracing.Traced;
 
 import io.opentracing.ActiveSpan;
-import io.opentracing.Span;
 import io.opentracing.Tracer;
 
 @ApplicationScoped
