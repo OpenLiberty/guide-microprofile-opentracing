@@ -328,10 +328,11 @@ Then use it to define a new child span in the `get()` method around the `addToIn
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright]
 ----
 
-Next, run the `mvn package` command from the `start` directory to rebuild your services. Point to {inv-url}, check your Zipkin
-server, and you will see a new trace record of four spans long. The first two spans for the `getPropertiesForHost()`
-method in `InventoryResource.java` and the third span for the `getProperties()` method in `SystemResource.java`.
-The last span is the custom span you created around the `addToInventoryList()` call.
+Next, run the `mvn package` command from the `start` directory to rebuild your services. Point to
+{inv-url}/localhost, check your Zipkin server, and you will see a new trace record of four spans long.
+The first two spans for the `getPropertiesForHost()` method in `InventoryResource.java` and the third
+span for the `getProperties()` method in `SystemResource.java`. The last span is the custom span you
+created around the `addToInventoryList()` call.
 
 image::/guides/draft-guide-microprofile-opentracing/resources/inject-tracer.png[png][Inject tracer, width=100%]
 
