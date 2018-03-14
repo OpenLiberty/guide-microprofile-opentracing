@@ -98,7 +98,7 @@ at which the request was received and the time at which a response was sent back
 
 You might notice a red trace entry in Zipkin, which happens when an error is caught by the span.
 In this case, since one of the tests accesses the `/inventory/systems/badhostname` endpoint, which is
-invalid, an error is thrown. This behavior is as expected.
+invalid, an error is thrown. This behavior is expected.
 
 When you are done checking out the services, stop both Open Liberty servers:
 
@@ -285,7 +285,7 @@ Use the `@Traced` annotation to define explicit span creation for specific class
 If you place the annotation on a class, then its automatically applied to all methods within that class.
 If you place the annotation on a method, then it overrides the class annotation if one exists.
 
-The `@Traced` annotation can be configured with two parameters:
+The `@Traced` annotation can be configured with the following two parameters:
 
 - The `value=[true|false]` parameter indicates whether or not a particular class or method should
 be traced. For example, while all JAX-RS methods are traced by default, you can disable tracing by using
@@ -352,12 +352,12 @@ The `try` block that you see here is called a `try-with-resources` statement, me
 object is closed at the end of the statement. It's good practice to define custom spans inside
 such statements. Otherwise, any exceptions that are thrown before the span is closed will leak the active span.
 
-This simple example what you can do with the injected `Tracer`. More configuration
+This simple example shows what you can do with the injected `Tracer` object. More configuration
 options are available to you, including setting a timestamp for when a span was created and destroyed.
 However, these options require an implementation of their own, which does not come as a part of the Zipkin
-user feature that is provided. In a real development environment, implement all the necessary OpenTracing
+user feature that is provided. In a real development environment, implement all the OpenTracing
 interfaces that you deem necessary, which may include the `SpanBuilder` interface. You can use this
-interface for span creation and customization, including setting their timestamps.
+interface for span creation and customization, including setting timestamps.
 
 
 // =================================================================================================
