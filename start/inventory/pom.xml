@@ -138,17 +138,12 @@
                 <artifactId>liberty-maven-plugin</artifactId>
                 <version>${version.liberty-maven-plugin}</version>
                 <configuration>
-                    <install>
-                        <!-- <runtimeUrl>https://public.dhe.ibm.com/ibmdl/export/pub/software/openliberty/runtime/nightly/2018-03-10_0905/openliberty-all-18.0.0.1-201803100853.zip</runtimeUrl> -->
-                        <!-- <licenseCode>L-SWIS-A99U5C</licenseCode> -->
-                    </install>
-                    <assemblyArchive>../../wlp.zip</assemblyArchive>
-<!--                     <assemblyArtifact>
+                    <assemblyArtifact>
                         <groupId>io.openliberty</groupId>
                         <artifactId>openliberty-runtime</artifactId>
                         <version>${version.openliberty-runtime}</version>
                         <type>zip</type>
-                    </assemblyArtifact> -->
+                    </assemblyArtifact>
                     <configFile>src/main/liberty/config/server.xml</configFile>
                     <include>usr</include>
                     <bootstrapProperties>
