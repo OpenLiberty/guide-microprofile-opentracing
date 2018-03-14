@@ -205,17 +205,15 @@ the Zipkin server in a form of a user feature for Open Liberty.
 
 This feature is already configured for you in your `pom.xml` and `server.xml` files. It will be
 downloaded and installed automatically into each service when you run a Maven build. You can find it
-enabled in your `server.xml` files as:
-
-// This feature is already configured for you and it will be installed automatically into each service
-// when you build them. You can find it enabled in your `server.xml` files:
+enabled in your `server.xml` files:
 
 [source, xml, role="no_copy"]
 ----
 <feature>usr:opentracingZipkin-0.30</feature>
 ----
 
-Your `pom.xml` files download and install it using the following Maven plugin:
+The Maven plugin responsible for downloading and installing the feature is:
+// Your `pom.xml` files download and install this feature by using the following Maven plugin:
 
 // The user feature is pulled in and installed automatically using the following Maven plugin in `system/pom.xml` and
 // `inventory/pom.xml`:
@@ -266,7 +264,7 @@ a custom `Tracer` object to create and customize spans.
 Because tracing of all JAX-RS methods is enabled by default, you need only to enable MicroProfile
 OpenTracing and the Zipkin user feature in the `server.xml` file to see some basic traces in Zipkin.
 
-Both of these features are already been enabled in the `inventory/src/main/liberty/config/server.xml`
+Both of these features are already enabled in the `inventory/src/main/liberty/config/server.xml`
 and `system/src/main/liberty/config/server.xml` files:
 
 [source, xml, role="no_copy"]
@@ -275,14 +273,14 @@ and `system/src/main/liberty/config/server.xml` files:
 <feature>usr:opentracingZipkin-0.30</feature>
 ----
 
-Make sure your services are running. Then simply point your browser to any of their endpoints and
+Make sure your services are running. Then, simply point your browser to any of their endpoints and
 check your Zipkin server for traces.
 
 
 === Enabling explicit distributed tracing
 
 Use the `@Traced` annotation to define explicit span creation for specific classes and methods.
-If you place the annotation on a class, then its automatically applied to all methods within that class.
+If you place the annotation on a class, then it's automatically applied to all methods within that class.
 If you place the annotation on a method, then it overrides the class annotation if one exists.
 
 The `@Traced` annotation can be configured with the following two parameters:
@@ -291,7 +289,7 @@ The `@Traced` annotation can be configured with the following two parameters:
 be traced. For example, while all JAX-RS methods are traced by default, you can disable tracing by using
 the `@Traced(false)` annotation. This parameter is set to true by default.
 - The `operationName=<Span name>` parameter indicates the name of the span that is assigned to the
-particular method being traced. If you omit this parameter, the span will be named with the following
+particular method that is traced. If you omit this parameter, the span will be named with the following
 form: `<package name>.<class name>.<method name>`. If you place this parameter on a class, all methods
 within that class will have the same span name unless they are explicitly overridden with another
 `@Traced` annotation.
@@ -329,7 +327,7 @@ image::/guides/draft-guide-microprofile-opentracing/resources/disable-tracing.pn
 === Injecting a custom Tracer object
 
 The MicroProfile OpenTracing specification also makes the underlying OpenTracing `Tracer` instance
-available for use. You can access the configured `Tracer` by injecting it into a bean using the `@Inject`
+available for use. You can access the configured `Tracer` by injecting it into a bean by using the `@Inject`
 annotation from the CDI API.
 
 Inject the `Tracer` object into the `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file.
@@ -366,10 +364,11 @@ interface for span creation and customization, including setting timestamps.
 
 == Testing the services
 
-A few tests are included for you to test the basic functionality of the services. If a test
-failure occurs, then you might have introduced a bug into the code. These tests will run automatically
-as a part of the Maven build process when you run `mvn install`. You can also run these tests separately
-from the build by using the `mvn verify` command, but first make sure that the servers are stopped.
+A few tests are included for you to test the basic functionality of the services. not including the
+correctness of the traces. If a test failure occurs, then you might have introduced a bug into the code.
+These tests will run automatically as a part of the Maven build process when you run the `mvn install`
+command. You can also run these tests separately from the build by using the `mvn verify` command, but
+first make sure that the servers are stopped.
 
 No explicit tests exist to verify the correctness of the traces. Manually verify these traces by viewing
 them on the Zipkin server.
@@ -383,7 +382,7 @@ them on the Zipkin server.
 
 You have just utilized MicroProfile OpenTracing to customize how and which tracers are delivered to Zipkin.
 
-Feel free to try one of the related MicroProfile guides. They demonstrate new technologies that you
+Feel free to try one of the related MicroProfile guides. They demonstrate additional technologies that you
 can learn to expand on top of what you built here.
 
 include::{common-includes}/finish.adoc[]
