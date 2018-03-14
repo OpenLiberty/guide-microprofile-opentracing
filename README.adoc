@@ -253,7 +253,7 @@ in the IBM Knowledge Center.
 
 == Enabling distributed tracing
 
-The OpenTracing feature (`opentracing-1.0`) found inside Open Liberty enables tracing of all JAX-RS
+The `opentracing-1.0` OpenTracing feature found inside Open Liberty enables tracing of all JAX-RS
 methods by default, but you can use MicroProfile OpenTracing to control and customize these traces.
 Use the `@Traced` annotation to enable and disable tracing of particular methods. You can also inject
 a custom `Tracer` object to create and customize spans.
