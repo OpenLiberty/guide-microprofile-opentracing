@@ -197,9 +197,9 @@ include::{common-includes}/mvnpackage.adoc[]
 
 == Existing Tracer implementation
 
-To collect traces across your systems, you are required to implement the OpenTracing `Tracer`
-interface. For the purposes of this guide, we are providing a bare-bones `Tracer` implementation for
-the Zipkin server in a form of a user feature for Open Liberty.
+To collect traces across your systems, you need to implement the OpenTracing `Tracer`
+interface. For this guide, you can access a bare-bones `Tracer` implementation for
+the Zipkin server in the form of a user feature for Open Liberty.
 
 This feature is already configured for you in your `pom.xml` and `server.xml` files. It will be
 downloaded and installed automatically into each service when you run a Maven build. You can find it
