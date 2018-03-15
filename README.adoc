@@ -212,11 +212,7 @@ enabled in your `server.xml` files:
 <feature>usr:opentracingZipkin-0.30</feature>
 ----
 
-The Maven plugin responsible for downloading and installing the feature is:
-// Your `pom.xml` files download and install this feature by using the following Maven plugin:
-
-// The user feature is pulled in and installed automatically using the following Maven plugin in `system/pom.xml` and
-// `inventory/pom.xml`:
+The following Maven plugin is responsible for downloading and installing the feature:
 
 [source, xml, role="no_copy"]
 ----
@@ -364,9 +360,9 @@ interface for span creation and customization, including setting timestamps.
 
 == Testing the services
 
-A few tests are included for you to test the basic functionality of the services. not including the
-correctness of the traces. If a test failure occurs, then you might have introduced a bug into the code.
-These tests will run automatically as a part of the Maven build process when you run the `mvn install`
+A few tests are included for you to test the basic functionality of the services, but they do not
+test the correctness of the traces. If a test failure occurs, then you might have introduced a bug
+into the code. These tests will run automatically as a part of the Maven build process when you run the `mvn install`
 command. You can also run these tests separately from the build by using the `mvn verify` command, but
 first make sure that the servers are stopped.
 
