@@ -297,11 +297,12 @@ include::finish/inventory/src/main/java/io/openliberty/guides/inventory/Inventor
 ----
 
 Next, run the `mvn package` command from the `start` directory to rebuild your services. Point to the
-{inv-url} URL and check your Zipkin server. You see a new trace record that is three spans long with
-two spans for the `listContents()` JAX-RS method in the `InventoryResource` class and another span for
-the `list()` method in the `InventoryManager` class:
+{inv-url} URL and check your Zipkin server. You see a new trace record that is two spans long with
+one span for the `listContents()` JAX-RS method in the `InventoryResource` class and another span for
+the `list()` method in the `InventoryManager` class. Verify that these spans have the following names:
 
-image::/guides/draft-guide-microprofile-opentracing/resources/enable-tracing.png[png][Enable tracing, width=100%]
+- `get:io.openliberty.guides.inventory.inventoryresource.listcontents`
+- `inventorymanger.list`
 
 Now, tweak the existing `inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java` file
 and disable tracing of the `listContents()` JAX-RS method:
@@ -313,9 +314,9 @@ include::finish/inventory/src/main/java/io/openliberty/guides/inventory/Inventor
 
 Again, run the `mvn package` command from the `start` directory to rebuild your services. Point to the
 {inv-url} URL and check your Zipkin server. You see a new trace record that is just one span long for
-the remaining `list()` method in the `InventoryManager` class:
+the remaining `list()` method in the `InventoryManager` class. Verify that this span has the following name:
 
-image::/guides/draft-guide-microprofile-opentracing/resources/disable-tracing.png[png][Disable tracing, width=100%]
+- `inventorymanger.list`
 
 
 === Injecting a custom Tracer object
@@ -340,9 +341,13 @@ Next, run the `mvn package` command from the `start` directory to rebuild your s
 {inv-url}/localhost URL and check your Zipkin server. You see a new trace record that is four spans long
 with the first two spans for the `getPropertiesForHost()` method in the `InventoryResource` class and
 the third span for the `getProperties()` method in the `SystemResource` class. The last span is the
-custom span that you created around the `addToInventoryList()` call:
+custom span that you created around the `addToInventoryList()` call. Verify that these spans have the
+following names:
 
-image::/guides/draft-guide-microprofile-opentracing/resources/inject-tracer.png[png][Inject tracer, width=100%]
+- `get:io.openliberty.guides.inventory.inventoryresource.getpropertiesforhost`
+- `get`
+- `get:io.openliberty.guides.system.systemresource.getproperties`
+- `addtoinventory() span`
 
 This simple example shows what you can do with the injected `Tracer` object. More configuration
 options are available to you, including setting a timestamp for when a span was created and destroyed.
