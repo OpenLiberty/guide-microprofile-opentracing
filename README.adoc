@@ -59,10 +59,10 @@ include::{common-includes}/gitclonedraft.adoc[]
 
 For this guide, use Zipkin as your distributed tracing system. You can find the installation instructions
 for Zipkin at the Zipkin https://zipkin.io/pages/quickstart.html[quickstart page]. You are not required
-to use Zipkin, but keep in mind that you may need additional instructions not listed here if you choose
+to use Zipkin, but keep in mind that you might need more instructions that are not listed here if you choose
 to use another tracing system.
 
-Before you proceed, make sure your Zipkin server is up and running. By default, Zipkin can be found
+Before you proceed, make sure that your Zipkin server is up and running. By default, Zipkin can be found
 at the {zipkin-url} URL.
 
 
@@ -80,7 +80,7 @@ mvn install
 mvn liberty:start-server
 ```
 
-Make sure your Zipkin server is running and point your browser to the {inv-url}/localhost URL. When you visit
+Make sure that your Zipkin server is running and point your browser to the {inv-url}/localhost URL. When you visit
 this endpoint, you make two GET HTTP requests, one to the `system` service and one to the `inventory`
 service. Both of these requests are configured to be traced, so a new trace will be recorded in Zipkin.
 Visit the {zipkin-url} URL or another location where you configured Zipkin to run. Verify that this
@@ -91,7 +91,7 @@ new trace contains four spans with the following names:
 - `get:io.openliberty.guides.system.systemresource.getproperties`
 - `addtoinventory() span`
 
-You can inspect each span by clicking on it to reveal more detailed information, such as the time
+You can inspect each span by clicking it to reveal more detailed information, such as the time
 at which the request was received and the time at which a response was sent back.
 
 If you examine the other traces, you might notice a red trace entry, which happens when an error is
@@ -210,7 +210,7 @@ enabled in your `server.xml` files:
 <feature>usr:opentracingZipkin-0.30</feature>
 ----
 
-The following Maven plugin is responsible for downloading and installing the feature:
+The following Maven plug-in is responsible for downloading and installing the feature:
 
 [source, xml, role="no_copy"]
 ----
@@ -267,7 +267,7 @@ and `system/src/main/liberty/config/server.xml` files:
 <feature>usr:opentracingZipkin-0.30</feature>
 ----
 
-Make sure your services are running. Then, simply point your browser to any of their endpoints and
+Make sure that your services are running. Then, simply point your browser to any of their endpoints and
 check your Zipkin server for traces.
 
 
@@ -279,8 +279,8 @@ If you place the annotation on a method, then it overrides the class annotation 
 
 The `@Traced` annotation can be configured with the following two parameters:
 
-- The `value=[true|false]` parameter indicates whether or not a particular class or method should
-be traced. For example, while all JAX-RS methods are traced by default, you can disable tracing by using
+- The `value=[true|false]` parameter indicates whether or not a particular class or method is
+traced. For example, while all JAX-RS methods are traced by default, you can disable tracing by using
 the `@Traced(false)` annotation. This parameter is set to `true` by default.
 - The `operationName=<Span name>` parameter indicates the name of the span that is assigned to the
 particular method that is traced. If you omit this parameter, the span will be named with the following
@@ -353,7 +353,7 @@ This simple example shows what you can do with the injected `Tracer` object. Mor
 options are available to you, including setting a timestamp for when a span was created and destroyed.
 However, these options require an implementation of their own, which does not come as a part of the Zipkin
 user feature that is provided. In a real development environment, implement all the OpenTracing
-interfaces that you deem necessary, which may include the `SpanBuilder` interface. You can use this
+interfaces that you deem necessary, which might include the `SpanBuilder` interface. You can use this
 interface for span creation and customization, including setting timestamps.
 
 
@@ -379,7 +379,7 @@ them on the Zipkin server.
 
 == Great work! You're done!
 
-You have just utilized MicroProfile OpenTracing to customize how and which tracers are delivered to Zipkin.
+You have just used MicroProfile OpenTracing to customize how and which tracers are delivered to Zipkin.
 
 Feel free to try one of the related MicroProfile guides. They demonstrate additional technologies that you
 can learn to expand on top of what you built here.
