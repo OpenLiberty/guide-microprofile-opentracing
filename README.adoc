@@ -68,8 +68,6 @@ at the {zipkin-url} URL.
 
 === Try what you'll build
 
-**BEFORE YOU PROCEED. DOWNLOAD THE 18.0.0.1 OPEN LIBERTY GM AND PLACE IT UNDER wlp.zip UNDER THE ROOT DIRECTORY OF THIS GUIDE; ie. draft-guide-microprofile-opentracing/wlp.zip**
-
 The `finish` directory in the root directory of this guide contains two services that are configured
 to use MicroProfile OpenTracing. Feel free to give them a try before you proceed.
 
@@ -96,11 +94,11 @@ new trace contains four spans with the following names:
 You can inspect each span by clicking on it to reveal more detailed information, such as the time
 at which the request was received and the time at which a response was sent back.
 
-You might notice a red trace entry in Zipkin, which happens when an error is caught by the span.
-In this case, since one of the tests accesses the `/inventory/systems/badhostname` endpoint, which is
-invalid, an error is thrown. This behavior is expected.
+If you examine the other traces, you might notice a red trace entry, which happens when an error is
+caught by the span. In this case, since one of the tests accesses the `/inventory/systems/badhostname`
+endpoint, which is invalid, an error is thrown. This behavior is expected.
 
-When you are done checking out the services, stop both Open Liberty servers:
+When you are done checking out the services, stop both Open Liberty servers by running the following command:
 
 ```
 mvn liberty:stop-server
@@ -184,7 +182,7 @@ mvn install
 mvn liberty:start-server
 ```
 
-When the servers start, you can find the `system` and `inventory` services at the following locations:
+When the servers start, you can find the `system` and `inventory` services at the following URLs:
 
 - {sys-url}
 - {inv-url}
@@ -290,7 +288,7 @@ form: `<package name>.<class name>.<method name>`. If you place this parameter o
 within that class will have the same span name unless they are explicitly overridden with another
 `@Traced` annotation.
 
-Tweak the existing `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` class
+Tweak the existing `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file
 and enable tracing of the `list()` method:
 
 [source, Java]
@@ -305,7 +303,7 @@ the `list()` method in the `InventoryManager` class:
 
 image::/guides/draft-guide-microprofile-opentracing/resources/enable-tracing.png[png][Enable tracing, width=100%]
 
-Now, tweak the existing `inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java` class
+Now, tweak the existing `inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java` file
 and disable tracing of the `listContents()` JAX-RS method:
 
 [source, Java]
@@ -334,17 +332,17 @@ Then, use it to define a new child span in the `get()` method around the `addToI
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright]
 ----
 
+The `try` block that you see here is called a `try-with-resources` statement, meaning that the `childSpan`
+object is closed at the end of the statement. It's good practice to define custom spans inside
+such statements. Otherwise, any exceptions that are thrown before the span is closed will leak the active span.
+
 Next, run the `mvn package` command from the `start` directory to rebuild your services. Point to the
 {inv-url}/localhost URL and check your Zipkin server. You see a new trace record that is four spans long
 with the first two spans for the `getPropertiesForHost()` method in the `InventoryResource` class and
 the third span for the `getProperties()` method in the `SystemResource` class. The last span is the
-custom span that you created around the `addToInventoryList()` call.
+custom span that you created around the `addToInventoryList()` call:
 
 image::/guides/draft-guide-microprofile-opentracing/resources/inject-tracer.png[png][Inject tracer, width=100%]
-
-The `try` block that you see here is called a `try-with-resources` statement, meaning that the `childSpan`
-object is closed at the end of the statement. It's good practice to define custom spans inside
-such statements. Otherwise, any exceptions that are thrown before the span is closed will leak the active span.
 
 This simple example shows what you can do with the injected `Tracer` object. More configuration
 options are available to you, including setting a timestamp for when a span was created and destroyed.
