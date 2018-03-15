@@ -283,7 +283,7 @@ The `@Traced` annotation can be configured with the following two parameters:
 
 - The `value=[true|false]` parameter indicates whether or not a particular class or method should
 be traced. For example, while all JAX-RS methods are traced by default, you can disable tracing by using
-the `@Traced(false)` annotation. This parameter is set to true by default.
+the `@Traced(false)` annotation. This parameter is set to `true` by default.
 - The `operationName=<Span name>` parameter indicates the name of the span that is assigned to the
 particular method that is traced. If you omit this parameter, the span will be named with the following
 form: `<package name>.<class name>.<method name>`. If you place this parameter on a class, all methods
@@ -338,7 +338,7 @@ Next, run the `mvn package` command from the `start` directory to rebuild your s
 {inv-url}/localhost URL and check your Zipkin server. You see a new trace record that is four spans long
 with the first two spans for the `getPropertiesForHost()` method in the `InventoryResource` class and
 the third span for the `getProperties()` method in the `SystemResource` class. The last span is the
-custom span you created around the `addToInventoryList()` call.
+custom span that you created around the `addToInventoryList()` call.
 
 image::/guides/draft-guide-microprofile-opentracing/resources/inject-tracer.png[png][Inject tracer, width=100%]
 
