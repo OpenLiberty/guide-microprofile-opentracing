@@ -18,6 +18,5 @@ README.html
 # Zip files
 *.zip
 
-# Temporary hiding the docker directory and images
+# Temporary hiding the docker directory
 docker
-resources
