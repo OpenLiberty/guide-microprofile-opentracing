@@ -38,11 +38,11 @@ Without a distributed tracing system in place, analyzing the workflows of operat
 particularly in regard to pinpointing when and by whom a request is received, as well as when a response
 is sent back.
 
-MicroProfile OpenTracing enables distributed tracing in MicroProfile applications without adding
-any explicit distributed tracing code to the application. Note that the MicroProfile OpenTracing
-specification does not address the problem of defining, implementing, or configuring the underlying
-distributed tracing system. Rather, the specification makes it easy to instrument services with distributed
-tracing given an existing distributed tracing system.
+MicroProfile OpenTracing enables distributed tracing in microservices without adding any explicit
+distributed tracing code to the application. Note that the MicroProfile OpenTracing specification does
+not address the problem of defining, implementing, or configuring the underlying distributed tracing
+system. Rather, the specification makes it easy to instrument services with distributed tracing given
+an existing distributed tracing system.
 
 You will configure the provided `inventory` and `system` services to use distributed tracing with
 MicroProfile OpenTracing. You will run these services in two separate JVMs made of two server instances
@@ -91,6 +91,8 @@ new trace contains four spans with the following names:
 - `get:io.openliberty.guides.system.systemresource.getproperties`
 - `addtoinventory() span`
 
+// image::/guides/draft-guide-microprofile-opentracing/resources/disable-tracing.png[png][Disable tracing, width=100%]
+
 You can inspect each span by clicking it to reveal more detailed information, such as the time
 at which the request was received and the time at which a response was sent back.
 
@@ -98,7 +100,8 @@ If you examine the other traces, you might notice a red trace entry, which happe
 caught by the span. In this case, since one of the tests accesses the `/inventory/systems/badhostname`
 endpoint, which is invalid, an error is thrown. This behavior is expected.
 
-When you are done checking out the services, stop both Open Liberty servers by running the following command:
+When you are done checking out the services, stop both Open Liberty servers using the Maven
+`liberty:stop-server` goal:
 
 ```
 mvn liberty:stop-server
@@ -237,7 +240,7 @@ The following Maven plug-in is responsible for downloading and installing the fe
 
 If you want to install this feature yourself, see
 https://www.ibm.com/support/knowledgecenter/was_beta/com.ibm.websphere.wlp.nd.multiplatform.doc/ae/twlp_dist_tracing.html[Enabling distributed tracing]
-in the IBM Knowledge Center.
+in the IBM Knowledge Centre.
 
 
 // =================================================================================================
@@ -278,13 +281,13 @@ If you place the annotation on a method, then it overrides the class annotation 
 The `@Traced` annotation can be configured with the following two parameters:
 
 - The `value=[true|false]` parameter indicates whether or not a particular class or method is
-traced. For example, while all JAX-RS methods are traced by default, you can disable tracing by using
-the `@Traced(false)` annotation. This parameter is set to `true` by default.
+traced. For example, while all JAX-RS methods are traced by default, you can disable their tracing by
+using the `@Traced(false)` annotation. This parameter is set to `true` by default.
 - The `operationName=<Span name>` parameter indicates the name of the span that is assigned to the
 particular method that is traced. If you omit this parameter, the span will be named with the following
-form: `<package name>.<class name>.<method name>`. If you place this parameter on a class, all methods
-within that class will have the same span name unless they are explicitly overridden with another
-`@Traced` annotation.
+form: `<package name>.<class name>.<method name>`. If you use this parameter at a class level, then
+all methods within that class will have the same span name unless they are explicitly overridden by
+another `@Traced` annotation.
 
 Enable tracing of the `list()` non-JAX-RS method in the `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file:
 
@@ -323,7 +326,7 @@ the remaining `list()` method in the `InventoryManager` class. Verify that this 
 
 The MicroProfile OpenTracing specification also makes the underlying OpenTracing `Tracer` instance
 available for use. You can access the configured `Tracer` by injecting it into a bean by using the `@Inject`
-annotation from the CDI API.
+annotation from the Contexts and Dependency Injections API.
 
 Inject the `Tracer` object into the `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file.
 Then, use it to define a new child span in the `get()` method around the `addToInventoryList()` call:
@@ -354,9 +357,9 @@ following names:
 This simple example shows what you can do with the injected `Tracer` object. More configuration
 options are available to you, including setting a timestamp for when a span was created and destroyed.
 However, these options require an implementation of their own, which does not come as a part of the Zipkin
-user feature that is provided. In a real world scenario, implement all the OpenTracing interfaces that
-you deem necessary, which may include the `SpanBuilder` interface. You can use this interface for span
-creation and customization, including setting timestamps
+user feature that is provided. In a real-world scenario, implement all the OpenTracing interfaces that
+you deem necessary, which might include the `SpanBuilder` interface. You can use this interface for span
+creation and customization, including setting timestamps.
 
 
 // =================================================================================================
@@ -365,8 +368,8 @@ creation and customization, including setting timestamps
 
 == Testing the services
 
-No explicit tests exist to verify the correctness of the traces. Manually verify these traces by viewing
-them on the Zipkin server.
+No automated tests are provided to verify the correctness of the traces. Manually verify these traces
+by viewing them on the Zipkin server.
 
 A few tests are included for you to test the basic functionality of the services. If a test failure
 occurs, then you might have introduced a bug into the code. These tests will run automatically as a
@@ -381,7 +384,7 @@ stopped.
 
 == Great work! You're done!
 
-You have just utilized MicroProfile OpenTracing to customize how and which traces are delivered to Zipkin.
+You have just used MicroProfile OpenTracing to customize how and which traces are delivered to Zipkin.
 
 Feel free to try one of the related MicroProfile guides. They demonstrate additional technologies that you
 can learn to expand on top of what you built here.
