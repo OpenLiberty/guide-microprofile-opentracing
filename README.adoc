@@ -250,7 +250,7 @@ in the IBM Knowledge Center.
 == Enabling distributed tracing
 
 The `mpOpenTracing-1.0` MicroProfile OpenTracing feature enables tracing of all JAX-RS methods by default.
-You can further control and customize these traces using the `@Traced` annotation to enable and disable
+To further control and customize these traces, use the `@Traced` annotation to enable and disable
 tracing of particular methods. You can also inject a custom `Tracer` object to create and customize spans.
 
 
@@ -289,8 +289,7 @@ form: `<package name>.<class name>.<method name>`. If you place this parameter o
 within that class will have the same span name unless they are explicitly overridden with another
 `@Traced` annotation.
 
-Tweak the existing `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file
-and enable tracing of the `list()` method:
+Enable tracing of the `list()` non-JAX-RS method in the `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file:
 
 [source, Java]
 ----
@@ -307,8 +306,7 @@ the `list()` method in the `InventoryManager` class. Verify that these spans hav
 
 // image::/guides/draft-guide-microprofile-opentracing/resources/enable-tracing.png[png][Enable tracing, width=100%]
 
-Now, tweak the existing `inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java` file
-and disable tracing of the `listContents()` JAX-RS method:
+Now, disable tracing of the `listContents()` JAX-RS method in the `inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java` file:
 
 [source, Java]
 ----
@@ -359,9 +357,9 @@ following names:
 This simple example shows what you can do with the injected `Tracer` object. More configuration
 options are available to you, including setting a timestamp for when a span was created and destroyed.
 However, these options require an implementation of their own, which does not come as a part of the Zipkin
-user feature that is provided. In a real development environment, implement all the OpenTracing
-interfaces that you deem necessary, which may include the `SpanBuilder` interface. You can use this
-interface for span creation and customization, including setting timestamps.
+user feature that is provided. In a real world scenario, implement all the OpenTracing interfaces that
+you deem necessary, which may include the `SpanBuilder` interface. You can use this interface for span
+creation and customization, including setting timestamps.
 
 
 // =================================================================================================
@@ -370,14 +368,14 @@ interface for span creation and customization, including setting timestamps.
 
 == Testing the services
 
-A few tests are included for you to test the basic functionality of the services, but they do not
-test the correctness of the traces. If a test failure occurs, then you might have introduced a bug
-into the code. These tests will run automatically as a part of the Maven build process when you run the `mvn install`
-command. You can also run these tests separately from the build by using the `mvn verify` command, but
-first make sure that the servers are stopped.
-
 No explicit tests exist to verify the correctness of the traces. Manually verify these traces by viewing
 them on the Zipkin server.
+
+A few tests are included for you to test the basic functionality of the services. If a test failure
+occurs, then you might have introduced a bug into the code. These tests will run automatically as a
+part of the Maven build process when you run the `mvn install` command. You can also run these tests
+separately from the build by using the `mvn verify` command, but first make sure that the servers are
+stopped.
 
 
 // =================================================================================================
@@ -386,7 +384,7 @@ them on the Zipkin server.
 
 == Great work! You're done!
 
-You have just utilized MicroProfile OpenTracing to customize how and which tracers are delivered to Zipkin.
+You have just utilized MicroProfile OpenTracing to customize how and which traces are delivered to Zipkin.
 
 Feel free to try one of the related MicroProfile guides. They demonstrate additional technologies that you
 can learn to expand on top of what you built here.
