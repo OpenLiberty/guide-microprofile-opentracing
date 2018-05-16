@@ -181,7 +181,6 @@ and start the provided `system` and `inventory` services in the starting project
 directory and run the Maven `install` and `liberty:start-server` goals:
 
 ```
-cd ../start
 mvn install
 mvn liberty:start-server
 ```
