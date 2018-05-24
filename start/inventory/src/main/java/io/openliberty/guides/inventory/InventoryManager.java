@@ -27,18 +27,28 @@ import io.opentracing.Tracer;
 public class InventoryManager {
 
     private InventoryList invList = new InventoryList();
-    private SystemClient systemClient = new SystemClient();
+    private InventoryUtils invUtils = new InventoryUtils();
+
+    // tag::custom-tracer[]
+    @Inject Tracer tracer;
+    // end::custom-tracer[]
 
     public Properties get(String hostname) {
-        systemClient.init(hostname, 9080);
-        
-        Properties properties = systemClient.getProperties();
+
+        Properties properties = invUtils.getPropertiesWithGivenHostName(hostname);
         if (properties != null) {
-            invList.addToInventoryList(hostname, properties);
+            // tag::custom-tracer[]
+            try (ActiveSpan childSpan = tracer.buildSpan("addToInventory() Span").startActive()) {
+                // tag::addToInvList[]
+                invList.addToInventoryList(hostname, properties);
+                // end::addToInvList[]
+            }
+            // end::custom-tracer[]
         }
         return properties;
     }
 
+    @Traced(value = true, operationName = "InventoryManager.list")
     public InventoryList list() {
         return invList;
     }
