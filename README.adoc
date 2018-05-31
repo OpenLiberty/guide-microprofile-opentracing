@@ -167,7 +167,7 @@ mvn liberty:stop-server
 // - {inv-url}
 // - {sys-url}
 //
-// include::{common-includes}/mvnpackage.adoc[]
+// include::{common-includes}/mvncompile.adoc[]
 
 
 // =================================================================================================
