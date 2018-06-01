@@ -295,7 +295,7 @@ Enable tracing of the `list()` non-JAX-RS method in the `inventory/src/main/java
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright;!custom-tracer;addToInvList]
 ----
 
-Next, run the `mvn package` command from the `start` directory to rebuild your services. Point to the
+Next, run the `mvn compile` command from the `start` directory to recompile your services. Point to the
 {inv-url} URL and check your Zipkin server. You see a new trace record that is two spans long with
 one span for the `listContents()` JAX-RS method in the `InventoryResource` class and another span for
 the `list()` method in the `InventoryManager` class. Verify that these spans have the following names:
@@ -312,7 +312,7 @@ Now, disable tracing of the `listContents()` JAX-RS method in the `inventory/src
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
 ----
 
-Again, run the `mvn package` command from the `start` directory to rebuild your services. Point to the
+Again, run the `mvn compile` command from the `start` directory to recompile your services. Point to the
 {inv-url} URL and check your Zipkin server. You see a new trace record that is just one span long for
 the remaining `list()` method in the `InventoryManager` class. Verify that this span has the following name:
 
@@ -339,7 +339,7 @@ The `try` block that you see here is called a `try-with-resources` statement, me
 object is closed at the end of the statement. It's good practice to define custom spans inside
 such statements. Otherwise, any exceptions that are thrown before the span is closed will leak the active span.
 
-Next, run the `mvn package` command from the `start` directory to rebuild your services. Point to the
+Next, run the `mvn compile` command from the `start` directory to recompile your services. Point to the
 {inv-url}/localhost URL and check your Zipkin server. You see a new trace record that is four spans long
 with the first two spans for the `getPropertiesForHost()` method in the `InventoryResource` class and
 the third span for the `getProperties()` method in the `SystemResource` class. The last span is the
