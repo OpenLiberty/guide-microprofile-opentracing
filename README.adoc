@@ -83,8 +83,8 @@ mvn liberty:start-server
 Make sure that your Zipkin server is running and point your browser to the {inv-url}/localhost URL. When you visit
 this endpoint, you make two GET HTTP requests, one to the `system` service and one to the `inventory`
 service. Both of these requests are configured to be traced, so a new trace will be recorded in Zipkin.
-Visit the {zipkin-url} URL or another location where you configured Zipkin to run. Verify that this
-new trace contains four spans with the following names:
+Visit the {zipkin-url} URL or another location where you configured Zipkin to run. Sort the traces by
+newest first and verify that this new trace contains four spans with the following names:
 
 - `get:io.openliberty.guides.inventory.inventoryresource.getpropertiesforhost`
 - `get`
@@ -298,7 +298,8 @@ include::finish/inventory/src/main/java/io/openliberty/guides/inventory/Inventor
 Next, run the `mvn compile` command from the `start` directory to recompile your services. Point to the
 {inv-url} URL and check your Zipkin server. You see a new trace record that is two spans long with
 one span for the `listContents()` JAX-RS method in the `InventoryResource` class and another span for
-the `list()` method in the `InventoryManager` class. Verify that these spans have the following names:
+the `list()` method in the `InventoryManager` class. Sort by newest first and verify that these spans
+have the following names:
 
 - `get:io.openliberty.guides.inventory.inventoryresource.listcontents`
 - `inventorymanger.list`
@@ -314,7 +315,8 @@ include::finish/inventory/src/main/java/io/openliberty/guides/inventory/Inventor
 
 Again, run the `mvn compile` command from the `start` directory to recompile your services. Point to the
 {inv-url} URL and check your Zipkin server. You see a new trace record that is just one span long for
-the remaining `list()` method in the `InventoryManager` class. Verify that this span has the following name:
+the remaining `list()` method in the `InventoryManager` class. Sort by newest first and verify that
+this span has the following name:
 
 - `inventorymanger.list`
 
@@ -343,7 +345,8 @@ Next, run the `mvn compile` command from the `start` directory to recompile your
 {inv-url}/localhost URL and check your Zipkin server. You see a new trace record that is four spans long
 with the first two spans for the `getPropertiesForHost()` method in the `InventoryResource` class and
 the third span for the `getProperties()` method in the `SystemResource` class. The last span is the
-custom span that you created around the `addToInventoryList()` call. Verify that these spans have the
+custom span that you created around the `addToInventoryList()` call. Sort by newest first and verify
+that these spans have the
 following names:
 
 - `get:io.openliberty.guides.inventory.inventoryresource.getpropertiesforhost`
