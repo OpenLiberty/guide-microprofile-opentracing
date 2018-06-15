@@ -19,6 +19,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.eclipse.microprofile.opentracing.Traced;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import io.opentracing.ActiveSpan;
 import io.opentracing.Tracer;
@@ -33,19 +34,30 @@ public class InventoryManager {
     @Inject Tracer tracer;
     // end::custom-tracer[]
 
+    @Inject
+    @RestClient
+    private SystemClient defaultRestClient;
+
     public Properties get(String hostname) {
 
-        Properties properties = invUtils.getPropertiesWithGivenHostName(hostname);
-        if (properties != null) {
-            // tag::custom-tracer[]
-            try (ActiveSpan childSpan = tracer.buildSpan("addToInventory() Span").startActive()) {
-                // tag::addToInvList[]
-                invList.addToInventoryList(hostname, properties);
-                // end::addToInvList[]
-            }
-            // end::custom-tracer[]
+
+    Properties properties = null;
+    if (hostname.equals("localhost")) {
+      properties = invUtils.getPropertiesWithDefaultHostName(defaultRestClient);
+    } else {
+      properties = invUtils.getPropertiesWithGivenHostName(hostname);
+    }    
+
+    if (properties != null) {
+        // tag::custom-tracer[]
+        try (ActiveSpan childSpan = tracer.buildSpan("addToInventory() Span").startActive()) {
+            // tag::addToInvList[]
+            invList.addToInventoryList(hostname, properties);
+            // end::addToInvList[]
         }
-        return properties;
+        // end::custom-tracer[]
+    }
+    return properties;
     }
 
     @Traced(value = true, operationName = "InventoryManager.list")

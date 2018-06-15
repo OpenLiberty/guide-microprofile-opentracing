@@ -167,6 +167,7 @@
                     <bootstrapProperties>
                         <default.http.port>${inv.service.http.port}</default.http.port>
                         <default.https.port>${inv.service.https.port}</default.https.port>
+                        <system.http.port>${sys.service.http.port}</system.http.port>
                     </bootstrapProperties>
                 </configuration>
                 <executions>

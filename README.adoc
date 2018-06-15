@@ -301,7 +301,7 @@ one span for the `listContents()` JAX-RS method in the `InventoryResource` class
 the `list()` method in the `InventoryManager` class. Verify that these spans have the following names:
 
 - `get:io.openliberty.guides.inventory.inventoryresource.listcontents`
-- `inventorymanger.list`
+- `inventorymanager.list`
 
 // image::/guides/draft-guide-microprofile-opentracing/resources/enable-tracing.png[png][Enable tracing, width=100%]
 
@@ -316,7 +316,7 @@ Again, run the `mvn package` command from the `start` directory to rebuild your 
 {inv-url} URL and check your Zipkin server. You see a new trace record that is just one span long for
 the remaining `list()` method in the `InventoryManager` class. Verify that this span has the following name:
 
-- `inventorymanger.list`
+- `inventorymanager.list`
 
 // image::/guides/draft-guide-microprofile-opentracing/resources/disable-tracing.png[png][Disable tracing, width=100%]
 
