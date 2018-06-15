@@ -83,8 +83,8 @@ mvn liberty:start-server
 Make sure that your Zipkin server is running and point your browser to the {inv-url}/localhost URL. When you visit
 this endpoint, you make two GET HTTP requests, one to the `system` service and one to the `inventory`
 service. Both of these requests are configured to be traced, so a new trace will be recorded in Zipkin.
-Visit the {zipkin-url} URL or another location where you configured Zipkin to run. Verify that this
-new trace contains four spans with the following names:
+Visit the {zipkin-url} URL or another location where you configured Zipkin to run and sort the traces
+by newest first. Verify that this new trace contains four spans with the following names:
 
 - `get:io.openliberty.guides.inventory.inventoryresource.getpropertiesforhost`
 - `get`
@@ -295,10 +295,11 @@ Enable tracing of the `list()` non-JAX-RS method in the `inventory/src/main/java
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright;!custom-tracer;addToInvList]
 ----
 
-Next, run the `mvn package` command from the `start` directory to rebuild your services. Point to the
-{inv-url} URL and check your Zipkin server. You see a new trace record that is two spans long with
-one span for the `listContents()` JAX-RS method in the `InventoryResource` class and another span for
-the `list()` method in the `InventoryManager` class. Verify that these spans have the following names:
+Next, run the `mvn compile` command from the `start` directory to recompile your services. Point to the
+{inv-url} URL, check your Zipkin server, and sort the traces by newest first. You see a new trace record
+that is two spans long with one span for the `listContents()` JAX-RS method in the `InventoryResource`
+class and another span for the `list()` method in the `InventoryManager` class. Verify that these spans
+have the following names:
 
 - `get:io.openliberty.guides.inventory.inventoryresource.listcontents`
 - `inventorymanager.list`
@@ -312,9 +313,10 @@ Now, disable tracing of the `listContents()` JAX-RS method in the `inventory/src
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
 ----
 
-Again, run the `mvn package` command from the `start` directory to rebuild your services. Point to the
-{inv-url} URL and check your Zipkin server. You see a new trace record that is just one span long for
-the remaining `list()` method in the `InventoryManager` class. Verify that this span has the following name:
+Again, run the `mvn compile` command from the `start` directory to recompile your services. Point to the
+{inv-url} URL, check your Zipkin server, and sort the traces by newest first. You see a new trace record
+that is just one span long for the remaining `list()` method in the `InventoryManager` class. Verify
+that this span has the following name:
 
 - `inventorymanger.list`
 
@@ -339,12 +341,12 @@ The `try` block that you see here is called a `try-with-resources` statement, me
 object is closed at the end of the statement. It's good practice to define custom spans inside
 such statements. Otherwise, any exceptions that are thrown before the span is closed will leak the active span.
 
-Next, run the `mvn package` command from the `start` directory to rebuild your services. Point to the
-{inv-url}/localhost URL and check your Zipkin server. You see a new trace record that is four spans long
-with the first two spans for the `getPropertiesForHost()` method in the `InventoryResource` class and
-the third span for the `getProperties()` method in the `SystemResource` class. The last span is the
-custom span that you created around the `addToInventoryList()` call. Verify that these spans have the
-following names:
+Next, run the `mvn compile` command from the `start` directory to recompile your services. Point to the
+{inv-url}/localhost URL, check your Zipkin server, and sort the traces by newest first. You see a new
+trace record that is four spans long with the first two spans for the `getPropertiesForHost()` method
+in the `InventoryResource` class and the third span for the `getProperties()` method in the `SystemResource`
+class. The last span is the custom span that you created around the `addToInventoryList()` call. Verify
+that these spans have the following names:
 
 - `get:io.openliberty.guides.inventory.inventoryresource.getpropertiesforhost`
 - `get`
