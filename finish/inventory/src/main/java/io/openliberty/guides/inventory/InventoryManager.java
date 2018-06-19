@@ -27,42 +27,43 @@ import io.opentracing.Tracer;
 @ApplicationScoped
 public class InventoryManager {
 
-    private InventoryList invList = new InventoryList();
-    private InventoryUtils invUtils = new InventoryUtils();
+  private InventoryList invList = new InventoryList();
+  private InventoryUtils invUtils = new InventoryUtils();
 
-    // tag::custom-tracer[]
-    @Inject Tracer tracer;
-    // end::custom-tracer[]
+  // tag::custom-tracer[]
+  @Inject
+  Tracer tracer;
+  // end::custom-tracer[]
 
-    @Inject
-    @RestClient
-    private SystemClient defaultRestClient;
+  @Inject
+  @RestClient
+  private SystemClient defaultRestClient;
 
-    public Properties get(String hostname) {
-
+  public Properties get(String hostname) {
 
     Properties properties = null;
     if (hostname.equals("localhost")) {
       properties = invUtils.getPropertiesWithDefaultHostName(defaultRestClient);
     } else {
       properties = invUtils.getPropertiesWithGivenHostName(hostname);
-    }    
+    }
 
     if (properties != null) {
-        // tag::custom-tracer[]
-        try (ActiveSpan childSpan = tracer.buildSpan("addToInventory() Span").startActive()) {
-            // tag::addToInvList[]
-            invList.addToInventoryList(hostname, properties);
-            // end::addToInvList[]
-        }
-        // end::custom-tracer[]
+      // tag::custom-tracer[]
+      try (ActiveSpan childSpan = tracer.buildSpan("addToInventory() Span")
+                                        .startActive()) {
+        // tag::addToInvList[]
+        invList.addToInventoryList(hostname, properties);
+        // end::addToInvList[]
+      }
+      // end::custom-tracer[]
     }
     return properties;
-    }
+  }
 
-    @Traced(value = true, operationName = "InventoryManager.list")
-    public InventoryList list() {
-        return invList;
-    }
-    
+  @Traced(value = true, operationName = "InventoryManager.list")
+  public InventoryList list() {
+    return invList;
+  }
+
 }
