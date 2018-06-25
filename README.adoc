@@ -191,7 +191,7 @@ When the servers start, you can find the `system` and `inventory` services at th
 - {inv-url}
 
 
-include::{common-includes}/mvnpackage.adoc[]
+include::{common-includes}/mvncompile.adoc[]
 
 
 // =================================================================================================
