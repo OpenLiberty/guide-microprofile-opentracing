@@ -103,9 +103,10 @@ endpoint, which is invalid, an error is thrown. This behavior is expected.
 When you are done checking out the services, stop both Open Liberty servers using the Maven
 `liberty:stop-server` goal:
 
-```
+[role="command"]
+----
 mvn liberty:stop-server
-```
+----
 
 // =================================================================================================
 // Running the application with Docker
@@ -180,10 +181,11 @@ You'll need to start the services to see basic traces appear in Zipkin. So, befo
 and start the provided `system` and `inventory` services in the starting project. Navigate to the `start`
 directory and run the Maven `install` and `liberty:start-server` goals:
 
-```
+[role="command"]
+----
 mvn install
 mvn liberty:start-server
-```
+----
 
 When the servers start, you can find the `system` and `inventory` services at the following URLs:
 
@@ -258,13 +260,16 @@ tracing of particular methods. You can also inject a custom `Tracer` object to c
 Because tracing of all JAX-RS methods is enabled by default, you need only to enable MicroProfile
 OpenTracing and the Zipkin user feature in the `server.xml` file to see some basic traces in Zipkin.
 
+[role="code_command"]
+----
 Both of these features are already enabled in the `inventory/src/main/liberty/config/server.xml`
 and `system/src/main/liberty/config/server.xml` files:
-
-[source, xml, role="no_copy"]
 ----
-<feature>mpOpenTracing-1.0</feature>
-<feature>usr:opentracingZipkin-0.30</feature>
+
+server.xml,lines=7-11
+[source, xml, role="code_column"]
+----
+include::finish/inventory/src/main/liberty/config/server.xml[]
 ----
 
 Make sure that your services are running. Then, simply point your browser to any of their endpoints and
@@ -288,9 +293,13 @@ form: `<package name>.<class name>.<method name>`. If you use this parameter at 
 all methods within that class will have the same span name unless they are explicitly overridden by
 another `@Traced` annotation.
 
+[role="code_command"]
+----
 Enable tracing of the `list()` non-JAX-RS method in the `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file:
+----
 
-[source, Java]
+InventoryManager.java,lines=44
+[source, Java, role="code_column"]
 ----
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright;!custom-tracer;addToInvList]
 ----
@@ -306,9 +315,13 @@ have the following names:
 
 // image::/guides/draft-guide-microprofile-opentracing/resources/enable-tracing.png[png][Enable tracing, width=100%]
 
+[role="code_command"]
+----
 Now, disable tracing of the `listContents()` JAX-RS method in the `inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java` file:
+----
 
-[source, Java]
+InventoryResource.java,lines=50
+[source, Java, role="code_column"]
 ----
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
 ----
@@ -329,10 +342,14 @@ The MicroProfile OpenTracing specification also makes the underlying OpenTracing
 available for use. You can access the configured `Tracer` by injecting it into a bean by using the `@Inject`
 annotation from the Contexts and Dependency Injections API.
 
+[role="code_command"]
+----
 Inject the `Tracer` object into the `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file.
 Then, use it to define a new child span in the `get()` method around the `addToInventoryList()` call:
+----
 
-[source, Java]
+InventoryManager.java,lines=33
+[source, Java, role="code_column"]
 ----
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright]
 ----
