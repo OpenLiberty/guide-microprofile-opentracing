@@ -302,7 +302,7 @@ class and another span for the `list()` method in the `InventoryManager` class. 
 have the following names:
 
 - `get:io.openliberty.guides.inventory.inventoryresource.listcontents`
-- `inventorymanger.list`
+- `inventorymanager.list`
 
 // image::/guides/draft-guide-microprofile-opentracing/resources/enable-tracing.png[png][Enable tracing, width=100%]
 
