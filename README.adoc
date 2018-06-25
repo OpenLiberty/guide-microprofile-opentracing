@@ -71,11 +71,10 @@ at the {zipkin-url} URL.
 The `finish` directory in the root directory of this guide contains two services that are configured
 to use MicroProfile OpenTracing. Feel free to give them a try before you proceed.
 
-To try out the services, navigate to the `finish` directory and then run the Maven `install` and
-`liberty:start-server` goals to build the services and run them in two Open Liberty servers:
+To try out the services, navigate to the `finish` directory and run the Maven `install` phase and
+the Maven `liberty:start-server` goal to build the services and run them in two Open Liberty servers:
 
 ```
-cd finish
 mvn install
 mvn liberty:start-server
 ```
@@ -191,7 +190,7 @@ When the servers start, you can find the `system` and `inventory` services at th
 - {inv-url}
 
 
-include::{common-includes}/mvnpackage.adoc[]
+include::{common-includes}/mvncompile.adoc[]
 
 
 // =================================================================================================
