@@ -211,7 +211,7 @@ downloaded and installed automatically into each service when you run a Maven bu
 enabled in your `server.xml` files:
 
 server.xml,lines=8-11
-[source, xml, role="code_column"]
+[source, xml, linenums, role="code_column"]
 ----
 include::finish/inventory/src/main/liberty/config/server.xml[]
 ----
@@ -268,7 +268,7 @@ and `system/src/main/liberty/config/server.xml` files:
 ----
 
 server.xml,lines=7-8
-[source, xml, role="code_column"]
+[source, xml, linenums, role="code_column"]
 ----
 include::finish/inventory/src/main/liberty/config/server.xml[]
 ----
@@ -300,7 +300,7 @@ Enable tracing of the `list()` non-JAX-RS method in the `inventory/src/main/java
 ----
 
 InventoryManager.java,lines=44
-[source, Java, role="code_column"]
+[source, Java, linenums, role="code_column"]
 ----
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright;!custom-tracer;addToInvList]
 ----
@@ -350,7 +350,7 @@ Then, use it to define a new child span in the `get()` method around the `addToI
 ----
 
 InventoryManager.java,lines=33
-[source, Java, role="code_column"]
+[source, Java, linenums, role="code_column"]
 ----
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright]
 ----
