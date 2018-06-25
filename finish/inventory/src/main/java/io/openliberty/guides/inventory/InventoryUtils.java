@@ -26,21 +26,10 @@ import io.openliberty.guides.inventory.client.UnknownUrlExceptionMapper;
 public class InventoryUtils {
 
   private final String SYSTEM_PORT = System.getProperty("system.http.port");
-
-    public Properties getPropertiesForLocalhost(SystemClient defaultRestClient) {
-        try {
-            return defaultRestClient.getProperties();
-        } catch (ProcessingException ex) {
-            handleProcessingException(ex);
-        } catch (UnknownUrlException ex) {
-            System.err.println("The given URL is unreachable: " + ex.getMessage());
-        }
-        return null;
-    }
-
+  
     public Properties getProperties(String hostname) {
-        String customUrlString = "http://" + hostname + ":" + SYSTEM_PORT + "/system";
         try {
+            String customUrlString = "http://" + hostname + ":" + SYSTEM_PORT + "/system";
             URL customURL = new URL(customUrlString);
             SystemClient customRestClient = RestClientBuilder.newBuilder()
                                                              .baseUrl(customURL)

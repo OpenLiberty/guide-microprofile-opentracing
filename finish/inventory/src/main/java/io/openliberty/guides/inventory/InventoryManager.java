@@ -35,18 +35,8 @@ public class InventoryManager {
     Tracer tracer;
     // end::custom-tracer[]
 
-    @Inject
-    @RestClient
-    private SystemClient defaultRestClient;
-
     public Properties get(String hostname) {
-        Properties properties = null;
-
-        if (hostname.equals("localhost")) {
-            properties = invUtils.getPropertiesForLocalhost(defaultRestClient);
-        } else {
-            properties = invUtils.getProperties(hostname);
-        }
+        Properties properties = invUtils.getProperties(hostname);
 
         if (properties != null) {
             // tag::custom-tracer[]
