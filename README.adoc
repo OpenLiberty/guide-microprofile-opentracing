@@ -318,7 +318,7 @@ Again, run the `mvn compile` command from the `start` directory to recompile you
 that is just one span long for the remaining `list()` method in the `InventoryManager` class. Verify
 that this span has the following name:
 
-- `inventorymanger.list`
+- `inventorymanager.list`
 
 // image::/guides/draft-guide-microprofile-opentracing/resources/disable-tracing.png[png][Disable tracing, width=100%]
 
