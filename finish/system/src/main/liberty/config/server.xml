@@ -4,10 +4,10 @@
     <feature>jaxrs-2.0</feature>
     <feature>jsonp-1.0</feature>
     <feature>cdi-1.2</feature>
-    <feature>mpOpenTracing-1.0</feature>
-    <feature>usr:opentracingZipkin-0.30</feature>
     <feature>mpConfig-1.2</feature>
     <feature>mpRestClient-1.0</feature>
+    <feature>mpOpenTracing-1.0</feature>
+    <feature>usr:opentracingZipkin-0.30</feature>
   </featureManager>
 
   <opentracingZipkin host="localhost"/>

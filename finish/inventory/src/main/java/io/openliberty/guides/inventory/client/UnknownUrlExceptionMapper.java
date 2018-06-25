@@ -10,7 +10,6 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-// tag::mapper[]
 package io.openliberty.guides.inventory.client;
 
 import java.util.logging.Logger;
@@ -34,5 +33,5 @@ public class UnknownUrlExceptionMapper
   public UnknownUrlException toThrowable(Response response) {
     return new UnknownUrlException();
   }
+
 }
-// end::mapper[]
