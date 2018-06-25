@@ -74,10 +74,11 @@ to use MicroProfile OpenTracing. Feel free to give them a try before you proceed
 To try out the services, navigate to the `finish` directory and run the Maven `install` phase and
 the Maven `liberty:start-server` goal to build the services and run them in two Open Liberty servers:
 
-```
+[role="command"]
+----
 mvn install
 mvn liberty:start-server
-```
+----
 
 Make sure that your Zipkin server is running and point your browser to the {inv-url}/localhost URL. When you visit
 this endpoint, you make two GET HTTP requests, one to the `system` service and one to the `inventory`
