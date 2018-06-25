@@ -6,7 +6,7 @@
 // Contributors:
 //   IBM Corporation
 :projectid: microprofile-opentracing
-:page-layout: guide
+:page-layout: guide-multipane
 :page-duration: 20 minutes
 :page-releasedate: 2018-03-16
 :page-description: Explore how to enable and customize tracing of JAX-RS and non-JAX-RS methods by using MicroProfile OpenTracing.
