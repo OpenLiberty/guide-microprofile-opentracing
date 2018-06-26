@@ -57,6 +57,14 @@
             <groupId>org.eclipse.microprofile.opentracing</groupId>
             <artifactId>microprofile-opentracing-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.eclipse.microprofile.rest.client</groupId>
+            <artifactId>microprofile-rest-client-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>        
     </dependencies>
 
     <profiles>
@@ -150,6 +158,7 @@
                     <bootstrapProperties>
                         <default.http.port>${inv.service.http.port}</default.http.port>
                         <default.https.port>${inv.service.https.port}</default.https.port>
+                        <system.http.port>${sys.service.http.port}</system.http.port>
                     </bootstrapProperties>
                 </configuration>
                 <executions>

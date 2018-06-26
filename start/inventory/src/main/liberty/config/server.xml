@@ -4,6 +4,8 @@
     <feature>jaxrs-2.0</feature>
     <feature>jsonp-1.0</feature>
     <feature>cdi-1.2</feature>
+    <feature>mpConfig-1.2</feature>
+    <feature>mpRestClient-1.0</feature>
     <feature>mpOpenTracing-1.0</feature>
     <feature>usr:opentracingZipkin-0.30</feature>
   </featureManager>
@@ -13,7 +15,7 @@
   <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
       id="defaultHttpEndpoint" host="*" />
 
-  <!-- <logging traceSpecification="com.ibm.ws.opentracing.cdi.*=all"/> -->
+  <!-- <logging traceSpecification="*=info:com.ibm.ws.opentracing*=all:com.ibm.ws.microprofile.opentracing*=all"/> -->
 
   <webApplication location="inventory-service.war" contextRoot="/">
     <!-- enable visibility to third party apis -->
