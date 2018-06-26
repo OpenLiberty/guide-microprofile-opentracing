@@ -104,7 +104,7 @@ If you examine the other traces, you might notice a red trace entry, which happe
 caught by the span. In this case, since one of the tests accesses the `/inventory/systems/badhostname`
 endpoint, which is invalid, an error is thrown. This behavior is expected.
 
-When you are done checking out the services, stop both Open Liberty servers using the Maven
+When you are done checking out the traces, stop both Open Liberty servers using the Maven
 `liberty:stop-server` goal:
 
 ```
@@ -351,7 +351,7 @@ trace records, one for the `system` service and one for the `inventory` service.
 contains one span for the `getProperties()` method in the `SystemResource` class. The `inventory` 
 trace contains two spans. The first span is for the `getPropertiesForHost()` method in the `InventoryResource` 
 class. The second span is the custom span that you created around the `addToInventoryList()` call. 
-Verify that the two new traces contain spans with the following names:
+Verify that all of these spans have the following names:
 
 The `system` trace:
 
