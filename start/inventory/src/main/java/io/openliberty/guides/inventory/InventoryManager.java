@@ -19,6 +19,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.eclipse.microprofile.opentracing.Traced;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import io.opentracing.ActiveSpan;
 import io.opentracing.Tracer;
@@ -27,12 +28,10 @@ import io.opentracing.Tracer;
 public class InventoryManager {
 
     private InventoryList invList = new InventoryList();
-    private SystemClient systemClient = new SystemClient();
+    private InventoryUtils invUtils = new InventoryUtils();
 
     public Properties get(String hostname) {
-        systemClient.init(hostname, 9080);
-        
-        Properties properties = systemClient.getProperties();
+        Properties properties = invUtils.getProperties(hostname);
         if (properties != null) {
             invList.addToInventoryList(hostname, properties);
         }
@@ -42,5 +41,5 @@ public class InventoryManager {
     public InventoryList list() {
         return invList;
     }
-    
+
 }

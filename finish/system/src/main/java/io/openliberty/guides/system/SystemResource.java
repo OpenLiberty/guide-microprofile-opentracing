@@ -9,7 +9,7 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
- // end::copyright[]
+// end::copyright[]
 package io.openliberty.guides.system;
 
 import java.util.Properties;
@@ -30,5 +30,5 @@ public class SystemResource {
   @Produces(MediaType.APPLICATION_JSON)
   public Properties getProperties() {
     return System.getProperties();
-  } 
+  }
 }

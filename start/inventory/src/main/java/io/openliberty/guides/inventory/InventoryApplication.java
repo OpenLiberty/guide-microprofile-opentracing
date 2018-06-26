@@ -9,14 +9,14 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
- // end::copyright[]
+// end::copyright[]
 package io.openliberty.guides.inventory;
 
 // JAX-RS
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-@ApplicationPath("inventory")
+@ApplicationPath("/inventory")
 public class InventoryApplication extends Application {
 
 }
