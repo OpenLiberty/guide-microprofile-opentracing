@@ -44,6 +44,8 @@ public class InventoryResource {
                                 + "not be running on " + hostname)
                             .build();
         }
+
+        manager.add(hostname, props);
         return Response.ok(props).build();
     }
 
