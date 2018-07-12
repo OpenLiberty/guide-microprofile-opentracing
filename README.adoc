@@ -224,23 +224,24 @@ The following Maven plug-in is responsible for downloading and installing the fe
 
 [source, xml, role="no_copy"]
 ----
-<groupId>com.googlecode.maven-download-plugin</groupId>
-<artifactId>download-maven-plugin</artifactId>
-<version>${version.download-maven-plugin}</version>
-<executions>
-    <execution>
-        <id>install-tracer</id>
-        <phase>prepare-package</phase>
-        <goals>
-            <goal>wget</goal>
-        </goals>
-        <configuration>
-            <url>https://repo1.maven.org/maven2/net/wasdev/wlp/tracer/liberty-opentracing-zipkintracer/1.0/liberty-opentracing-zipkintracer-1.0-sample.zip</url>
-            <unpack>true</unpack>
-            <outputDirectory>${project.build.directory}/liberty/wlp/usr</outputDirectory>
-        </configuration>
-    </execution>
-</executions>
+<plugin>
+    <groupId>com.googlecode.maven-download-plugin</groupId>
+    <artifactId>download-maven-plugin</artifactId>
+    <version>${version.download-maven-plugin}</version>
+    <executions>
+        <execution>
+            <id>install-tracer</id>
+            <phase>prepare-package</phase>
+            <goals>
+                <goal>wget</goal>
+            </goals>
+            <configuration>
+                <url>https://repo1.maven.org/maven2/net/wasdev/wlp/tracer/liberty-opentracing-zipkintracer/1.0/liberty-opentracing-zipkintracer-1.0-sample.zip</url>
+                <unpack>true</unpack>
+                <outputDirectory>${project.build.directory}/liberty/wlp/usr</outputDirectory>
+            </configuration>
+        </execution>
+    </executions>
 </plugin>
 ----
 
