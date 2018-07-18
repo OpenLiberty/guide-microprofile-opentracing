@@ -17,6 +17,9 @@
 :source-highlighter: prettify
 = Enabling distributed tracing in microservices
 
+[.hidden]
+NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
+
 Explore how to enable and customize tracing of JAX-RS and non-JAX-RS methods by using MicroProfile OpenTracing.
 
 
@@ -93,7 +96,7 @@ The `system` trace:
 The `inventory` trace:
 
 - `get:io.openliberty.guides.inventory.inventoryresource.getpropertiesforhost`
-- `addtoinventory() span`
+- `add() span`
 
 // image::/guides/draft-guide-microprofile-opentracing/resources/disable-tracing.png[png][Disable tracing, width=100%]
 
@@ -360,7 +363,7 @@ The `system` trace:
 The `inventory` trace:
 
 - `get:io.openliberty.guides.inventory.inventoryresource.getpropertiesforhost`
-- `addtoinventory() span`
+- `add() span`
 
 // image::/guides/draft-guide-microprofile-opentracing/resources/inject-tracer.png[png][Inject tracer, width=100%]
 
