@@ -23,7 +23,7 @@ public class SystemData {
     @Override
     public boolean equals(Object host) {
         if (host instanceof System) {
-        return hostname.equals(((SystemData) host).getHostname());
+            return hostname.equals(((SystemData) host).getHostname());
         }
         return false;
     }
