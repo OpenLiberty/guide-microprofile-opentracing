@@ -164,12 +164,13 @@
                 <artifactId>liberty-maven-plugin</artifactId>
                 <version>2.4</version>
                 <configuration>
-                    <assemblyArtifact>
+                    <!-- <assemblyArtifact>
                         <groupId>io.openliberty</groupId>
                         <artifactId>openliberty-runtime</artifactId>
                         <version>${version.openliberty-runtime}</version>
                         <type>zip</type>
-                    </assemblyArtifact>
+                    </assemblyArtifact> -->
+                    <assemblyArchive>/Users/dima/Downloads/openliberty-all-18.0.0.3-20180822-1616.zip</assemblyArchive>
                     <configFile>src/main/liberty/config/server.xml</configFile>
                     <include>usr</include>
                     <bootstrapProperties>

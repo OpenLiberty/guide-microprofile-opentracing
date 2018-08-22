@@ -52,7 +52,7 @@ public class InventoryManager {
         SystemData system = new SystemData(hostname, props);
         if (!systems.contains(system)) {
             // tag::custom-tracer[]
-            try (ActiveSpan childSpan = tracer.buildSpan("add() Span")
+            try (Scope childScope = tracer.buildSpan("add() Span")
                                               .startActive()) {
                 // tag::addToInvList[]
                 systems.add(system);
