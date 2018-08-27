@@ -24,7 +24,7 @@
         <inv.service.http.port>9081</inv.service.http.port>
         <inv.service.https.port>9444</inv.service.https.port>
         <!-- Zipkin user feature download link -->
-        <zipkin.usr.feature>REPLACE_ME_WITH_VALID_LINK</zipkin.usr.feature>
+        <zipkin.usr.feature>REPLACE-WITH-VALID-LINK-LATER</zipkin.usr.feature>
     </properties>
 
     <!-- Shared dependencies. -->

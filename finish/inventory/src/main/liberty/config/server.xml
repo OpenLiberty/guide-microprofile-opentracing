@@ -6,8 +6,12 @@
     <feature>cdi-1.2</feature>
     <feature>mpConfig-1.2</feature>
     <feature>mpRestClient-1.0</feature>
+    <!-- tag::mpOpenTracing[] -->
     <feature>mpOpenTracing-1.1</feature>
+    <!-- end::mpOpenTracing[] -->
+    <!-- tag::zipkinUsr[] -->
     <feature>usr:opentracingZipkin-0.31</feature>
+    <!-- end::zipkinUsr[] -->
   </featureManager>
 
   <opentracingZipkin host="localhost"/>

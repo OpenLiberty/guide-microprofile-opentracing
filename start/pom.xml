@@ -23,6 +23,8 @@
         <sys.service.https.port>9443</sys.service.https.port>
         <inv.service.http.port>9081</inv.service.http.port>
         <inv.service.https.port>9444</inv.service.https.port>
+        <!-- Zipkin user feature download link -->
+        <zipkin.usr.feature>REPLACE-WITH-VALID-LINK-LATER</zipkin.usr.feature>
     </properties>
 
     <!-- Shared dependencies. -->
@@ -79,13 +81,13 @@
             <dependency>
                 <groupId>io.opentracing</groupId>
                 <artifactId>opentracing-api</artifactId>
-                <version>0.30.0</version>
+                <version>0.31.0</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>org.eclipse.microprofile.opentracing</groupId>
                 <artifactId>microprofile-opentracing-api</artifactId>
-                <version>1.0</version>
+                <version>1.1</version>
                 <scope>provided</scope>
             </dependency>
             <!-- for RestClient -->

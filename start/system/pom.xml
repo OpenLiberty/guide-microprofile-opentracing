@@ -52,6 +52,23 @@
             <groupId>org.eclipse.microprofile.opentracing</groupId>
             <artifactId>microprofile-opentracing-api</artifactId>
         </dependency>
+        <!-- JDK9+ -->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -134,10 +151,9 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <url>https://repo1.maven.org/maven2/net/wasdev/wlp/tracer/liberty-opentracing-zipkintracer/1.0/liberty-opentracing-zipkintracer-1.0-sample.zip</url>
+                            <url>${zipkin.usr.feature}</url>
                             <unpack>true</unpack>
                             <outputDirectory>${project.build.directory}/liberty/wlp/usr</outputDirectory>
-                            <!-- <md5></md5> -->
                         </configuration>
                     </execution>
                 </executions>

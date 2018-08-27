@@ -64,7 +64,24 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-        </dependency>        
+        </dependency>
+        <!-- JDK9+ -->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+        </dependency> 
     </dependencies>
 
     <profiles>
@@ -207,6 +224,7 @@
             </plugin>
 
             <!-- For downloading files -->
+            <!-- tag::download[] -->
             <plugin>
                 <groupId>com.googlecode.maven-download-plugin</groupId>
                 <artifactId>download-maven-plugin</artifactId>
@@ -219,14 +237,14 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <url>https://repo1.maven.org/maven2/net/wasdev/wlp/tracer/liberty-opentracing-zipkintracer/1.0/liberty-opentracing-zipkintracer-1.0-sample.zip</url>
+                            <url>${zipkin.usr.feature}</url>
                             <unpack>true</unpack>
                             <outputDirectory>${project.build.directory}/liberty/wlp/usr</outputDirectory>
-                            <!-- <md5>/md5> -->
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+            <!-- end::download[] -->
 
             <!-- Plugin to run unit tests -->
             <plugin>
