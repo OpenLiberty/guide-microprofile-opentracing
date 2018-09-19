@@ -24,7 +24,7 @@
         <inv.service.http.port>9081</inv.service.http.port>
         <inv.service.https.port>9444</inv.service.https.port>
         <!-- Zipkin user feature download link -->
-        <zipkin.usr.feature>REPLACE-WITH-VALID-LINK-LATER</zipkin.usr.feature>
+        <zipkin.usr.feature>https://github.com/WASdev/sample.opentracing.zipkintracer/releases/download/1.1/liberty-opentracing-zipkintracer-1.1-sample.zip</zipkin.usr.feature>
     </properties>
 
     <!-- Shared dependencies. -->
