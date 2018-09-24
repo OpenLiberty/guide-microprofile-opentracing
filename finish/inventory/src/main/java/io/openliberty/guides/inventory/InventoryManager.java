@@ -24,7 +24,7 @@ import java.util.Collections;
 import org.eclipse.microprofile.opentracing.Traced;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import io.opentracing.ActiveSpan;
+import io.opentracing.Scope;
 import io.opentracing.Tracer;
 import io.openliberty.guides.inventory.model.*;
 
@@ -52,8 +52,8 @@ public class InventoryManager {
         SystemData system = new SystemData(hostname, props);
         if (!systems.contains(system)) {
             // tag::custom-tracer[]
-            try (ActiveSpan childSpan = tracer.buildSpan("add() Span")
-                                              .startActive()) {
+            try (Scope childScope = tracer.buildSpan("add() Span")
+                                              .startActive(true)) {
                 // tag::addToInvList[]
                 systems.add(system);
                 // end::addToInvList[]

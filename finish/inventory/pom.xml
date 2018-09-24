@@ -17,6 +17,7 @@
     </properties>
 
     <dependencies>
+        <!-- For tests -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -33,34 +34,38 @@
             <groupId>org.glassfish</groupId>
             <artifactId>javax.json</artifactId>
         </dependency>
+        <!-- Open Liberty features -->
         <dependency>
-            <groupId>javax.ws.rs</groupId>
-            <artifactId>javax.ws.rs-api</artifactId>
+            <groupId>io.openliberty.features</groupId>
+            <artifactId>jaxrs-2.1</artifactId>
+            <type>esa</type>
         </dependency>
         <dependency>
-            <groupId>com.ibm.websphere.appserver.api</groupId>
-            <artifactId>com.ibm.websphere.appserver.api.jaxrs20</artifactId>
+            <groupId>io.openliberty.features</groupId>
+            <artifactId>jsonp-1.1</artifactId>
+            <type>esa</type>
         </dependency>
         <dependency>
-            <groupId>javax.json</groupId>
-            <artifactId>javax.json-api</artifactId>
+            <groupId>io.openliberty.features</groupId>
+            <artifactId>cdi-2.0</artifactId>
+            <type>esa</type>
         </dependency>
         <dependency>
-            <groupId>javax.enterprise</groupId>
-            <artifactId>cdi-api</artifactId>
+            <groupId>io.openliberty.features</groupId>
+            <artifactId>mpConfig-1.3</artifactId>
+            <type>esa</type>
         </dependency>
         <dependency>
-            <groupId>io.opentracing</groupId>
-            <artifactId>opentracing-api</artifactId>
+            <groupId>io.openliberty.features</groupId>
+            <artifactId>mpRestClient-1.1</artifactId>
+            <type>esa</type>
         </dependency>
         <dependency>
-            <groupId>org.eclipse.microprofile.opentracing</groupId>
-            <artifactId>microprofile-opentracing-api</artifactId>
+            <groupId>io.openliberty.features</groupId>
+            <artifactId>mpOpenTracing-1.1</artifactId>
+            <type>esa</type>
         </dependency>
-        <dependency>
-            <groupId>org.eclipse.microprofile.rest.client</groupId>
-            <artifactId>microprofile-rest-client-api</artifactId>
-        </dependency>
+        <!-- Java utility classes -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -224,6 +229,7 @@
             </plugin>
 
             <!-- For downloading files -->
+            <!-- tag::download[] -->
             <plugin>
                 <groupId>com.googlecode.maven-download-plugin</groupId>
                 <artifactId>download-maven-plugin</artifactId>
@@ -236,14 +242,14 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <url>https://repo1.maven.org/maven2/net/wasdev/wlp/tracer/liberty-opentracing-zipkintracer/1.0/liberty-opentracing-zipkintracer-1.0-sample.zip</url>
+                            <url>${zipkin.usr.feature}</url>
                             <unpack>true</unpack>
                             <outputDirectory>${project.build.directory}/liberty/wlp/usr</outputDirectory>
-                            <!-- <md5>/md5> -->
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+            <!-- end::download[] -->
 
             <!-- Plugin to run unit tests -->
             <plugin>

@@ -217,34 +217,16 @@ This feature is already configured for you in your `pom.xml` and `server.xml` fi
 downloaded and installed automatically into each service when you run a Maven build. You can find it
 enabled in your `server.xml` files:
 
-[source, xml, role="no_copy"]
+[source, xml, role="no_copy", indent=0]
 ----
-<feature>usr:opentracingZipkin-0.30</feature>
+include::finish/inventory/src/main/liberty/config/server.xml[tags=zipkinUsr]
 ----
 
 The following Maven plug-in is responsible for downloading and installing the feature:
 
-[source, xml, role="no_copy"]
+[source, xml, role="no_copy", indent=0]
 ----
-<plugin>
-    <groupId>com.googlecode.maven-download-plugin</groupId>
-    <artifactId>download-maven-plugin</artifactId>
-    <version>${version.download-maven-plugin}</version>
-    <executions>
-        <execution>
-            <id>install-tracer</id>
-            <phase>prepare-package</phase>
-            <goals>
-                <goal>wget</goal>
-            </goals>
-            <configuration>
-                <url>https://repo1.maven.org/maven2/net/wasdev/wlp/tracer/liberty-opentracing-zipkintracer/1.0/liberty-opentracing-zipkintracer-1.0-sample.zip</url>
-                <unpack>true</unpack>
-                <outputDirectory>${project.build.directory}/liberty/wlp/usr</outputDirectory>
-            </configuration>
-        </execution>
-    </executions>
-</plugin>
+include::finish/inventory/pom.xml[tags=download]
 ----
 
 If you want to install this feature yourself, see
@@ -258,7 +240,7 @@ in the IBM Knowledge Centre.
 
 == Enabling distributed tracing
 
-The `mpOpenTracing-1.0` MicroProfile OpenTracing feature enables tracing of all JAX-RS methods by default.
+The MicroProfile OpenTracing feature enables tracing of all JAX-RS methods by default.
 To further control and customize these traces, use the `@Traced` annotation to enable and disable
 tracing of particular methods. You can also inject a custom `Tracer` object to create and customize spans.
 
@@ -271,10 +253,9 @@ OpenTracing and the Zipkin user feature in the `server.xml` file to see some bas
 Both of these features are already enabled in the `inventory/src/main/liberty/config/server.xml`
 and `system/src/main/liberty/config/server.xml` files:
 
-[source, xml, role="no_copy"]
+[source, xml, role="no_copy", indent=0]
 ----
-<feature>mpOpenTracing-1.0</feature>
-<feature>usr:opentracingZipkin-0.30</feature>
+include::finish/inventory/src/main/liberty/config/server.xml[tags=zipkinUsr;mpOpenTracing]
 ----
 
 Make sure that your services are running. Then, simply point your browser to any of their endpoints and
