@@ -6,7 +6,7 @@
 // Contributors:
 //   IBM Corporation
 :projectid: microprofile-opentracing
-:page-layout: guide
+:page-layout: guide-multipane
 :page-duration: 20 minutes
 :page-guide-category: microprofile
 :page-essential: false
