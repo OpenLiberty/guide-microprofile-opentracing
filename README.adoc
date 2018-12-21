@@ -216,14 +216,14 @@ the Zipkin server in the form of a user feature for Open Liberty.
 This feature is already configured for you in your `pom.xml` and `server.xml` files. It will be
 downloaded and installed automatically into each service when you run a Maven build. You can find it
 enabled in your [hotspot=10]`server.xml` file.
-
+server.xml
 [source, xml, linenums, role="code_column"]
 ----
 include::finish/inventory/src/main/liberty/config/server.xml[tags=zipkinUsr]
 ----
 
 This [hotspot=232-250]`Maven plug-in` is responsible for downloading and installing the feature:
-
+pom.xml
 [source, xml, linenums, role="code_column"]
 ----
 include::finish/inventory/pom.xml[tags=download]
