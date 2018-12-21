@@ -78,7 +78,7 @@ to use MicroProfile OpenTracing. Feel free to give them a try before you proceed
 
 To try out the services, navigate to the `finish` directory and run the Maven `install` phase and
 the Maven `liberty:start-server` goal to build the services and run them in two Open Liberty servers:
-
+[role='command']
 ```
 mvn install
 mvn liberty:start-server
@@ -111,7 +111,7 @@ endpoint, which is invalid, an error is thrown. This behavior is expected.
 
 When you are done checking out the traces, stop both Open Liberty servers using the Maven
 `liberty:stop-server` goal:
-
+[role='command']
 ```
 mvn liberty:stop-server
 ```
@@ -188,7 +188,7 @@ mvn liberty:stop-server
 You'll need to start the services to see basic traces appear in Zipkin. So, before you proceed, build
 and start the provided `system` and `inventory` services in the starting project. Navigate to the `start`
 directory and run the Maven `install` and `liberty:start-server` goals:
-
+[role='command']
 ```
 mvn install
 mvn liberty:start-server
@@ -215,16 +215,16 @@ the Zipkin server in the form of a user feature for Open Liberty.
 
 This feature is already configured for you in your `pom.xml` and `server.xml` files. It will be
 downloaded and installed automatically into each service when you run a Maven build. You can find it
-enabled in your `server.xml` files:
+enabled in your [hotspot=10]`server.xml` file.
 
-[source, xml, role="no_copy", indent=0]
+[source, xml, linenums, role="code_column"]
 ----
 include::finish/inventory/src/main/liberty/config/server.xml[tags=zipkinUsr]
 ----
 
-The following Maven plug-in is responsible for downloading and installing the feature:
+This [hotspot=232-250]`Maven plug-in` is responsible for downloading and installing the feature:
 
-[source, xml, role="no_copy", indent=0]
+[source, xml, linenums, role="code_column"]
 ----
 include::finish/inventory/pom.xml[tags=download]
 ----
