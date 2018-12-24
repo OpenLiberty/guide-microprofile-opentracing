@@ -213,9 +213,17 @@ To collect traces across your systems, you need to implement the OpenTracing `Tr
 interface. For this guide, you can access a bare-bones `Tracer` implementation for
 the Zipkin server in the form of a user feature for Open Liberty.
 
-This feature is already configured for you in your `pom.xml` and `server.xml` files. It will be
+This feature is already configured for you in your [hotspot=1-267 file=1]`pom.xml` and [hotspot=1-26 file=0]`server.xml` files. It will be
 downloaded and installed automatically into each service when you run a Maven build. You can find it
-enabled in your [hotspot=10]`server.xml` file.
+enabled in your [hotspot=10 file=0]`server.xml` file.
+
+This [hotspot=232-250 file=1]`Maven plug-in` is responsible for downloading and installing the feature:
+
+
+
+If you want to install this feature yourself, see
+https://www.ibm.com/support/knowledgecenter/was_beta/com.ibm.websphere.wlp.nd.multiplatform.doc/ae/twlp_dist_tracing.html[Enabling distributed tracing]
+in the IBM Knowledge Centre.
 
 server.xml
 [source, xml, linenums, role="code_column"]
@@ -223,19 +231,11 @@ server.xml
 include::finish/inventory/src/main/liberty/config/server.xml
 ----
 
-This [hotspot=232-250]`Maven plug-in` is responsible for downloading and installing the feature:
-
 pom.xml
 [source, xml, linenums, role="code_column"]
 ----
 include::finish/inventory/pom.xml
 ----
-
-If you want to install this feature yourself, see
-https://www.ibm.com/support/knowledgecenter/was_beta/com.ibm.websphere.wlp.nd.multiplatform.doc/ae/twlp_dist_tracing.html[Enabling distributed tracing]
-in the IBM Knowledge Centre.
-
-
 // =================================================================================================
 // Enabling distributed tracing
 // =================================================================================================
@@ -252,13 +252,19 @@ tracing of particular methods. You can also inject a custom `Tracer` object to c
 Because tracing of all JAX-RS methods is enabled by default, you need only to enable MicroProfile
 OpenTracing and the Zipkin user feature in the `server.xml` file to see some basic traces in Zipkin.
 
-Both of these features are already enabled in the `inventory/src/main/liberty/config/server.xml`
-and `system/src/main/liberty/config/server.xml` files:
+Both of these features are already enabled in the [hotspot=9-10 file=0]`inventory/src/main/liberty/config/server.xml`
+and [hotspot=9-10 file=1]`system/src/main/liberty/config/server.xml` files:
 
 server.xml
 [source, xml, role="no_copy", indent=0]
 ----
-include::finish/inventory/src/main/liberty/config/server.xml[tags=zipkinUsr;mpOpenTracing]
+include::finish/inventory/src/main/liberty/config/server.xml
+----
+
+server.xml
+[source, xml, role="no_copy", indent=0]
+----
+include::finish/system/src/main/liberty/config/server.xml
 ----
 
 Make sure that your services are running. Then, simply point your browser to any of their endpoints and
@@ -325,8 +331,17 @@ The MicroProfile OpenTracing specification also makes the underlying OpenTracing
 available for use. You can access the configured `Tracer` by injecting it into a bean by using the `@Inject`
 annotation from the Contexts and Dependency Injections API.
 
-Inject the `Tracer` object into the `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file.
-Then, use it to define a new child span in the `get()` method around the `addToInventoryList()` call:
+[role="code_command hotspot=26-27"]
+----
+Add the `Tracer` object into the `InventoryManager` file.
+`inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
+----
+
+[role="code_command hotspot="]
+----
+Define a new child span in the `get()` method around the `addToInventoryList()` call.
+`inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
+----
 
 InventoryManager.java
 [source, Java, linenums, role="code_column"]
