@@ -289,7 +289,7 @@ another `@Traced` annotation.
 
 Enable tracing of the `list()` non-JAX-RS method in the `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file.
 
-[role="code_command hotspot=47", subs="quotes"]
+[role="code_command hotspot=42", subs="quotes"]
 ----
 Add the `Traced` annotation to the `InventoryManager` class.
 `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
