@@ -257,13 +257,13 @@ and [hotspot=9-10 file=1]`system/src/main/liberty/config/server.xml` files:
 server.xml
 [source, xml, linenums, role="code_column"]
 ----
-include::finish/inventory/src/main/liberty/config/server.xml
+include::finish/inventory/src/main/liberty/config/server.xml[tags=**]
 ----
 
 server.xml
 [source, xml,  linenums, role="code_column"]
 ----
-include::finish/system/src/main/liberty/config/server.xml
+include::finish/system/src/main/liberty/config/server.xml[tags=**]
 ----
 
 Make sure that your services are running. Then, simply point your browser to any of their endpoints and
