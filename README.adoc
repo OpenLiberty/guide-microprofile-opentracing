@@ -212,13 +212,13 @@ include::{common-includes}/mvncompile.adoc[]
 server.xml
 [source, xml, linenums, role="code_column"]
 ----
-include::finish/inventory/src/main/liberty/config/server.xml[]
+include::finish/inventory/src/main/liberty/config/server.xml[tags=**]
 ----
 
 pom.xml
 [source, xml, linenums, role="code_column"]
 ----
-include::finish/inventory/pom.xml[]
+include::finish/inventory/pom.xml[tags=**]
 ----
 
 To collect traces across your systems, you need to implement the OpenTracing `Tracer`
