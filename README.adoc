@@ -199,7 +199,7 @@ When the servers start, you can find the `system` and `inventory` services at th
 - {sys-url}
 - {inv-url}
 
-[role='command']
+
 include::{common-includes}/mvncompile.adoc[]
 
 
