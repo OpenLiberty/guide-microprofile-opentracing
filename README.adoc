@@ -287,7 +287,7 @@ form: `<package name>.<class name>.<method name>`. If you use this parameter at 
 all methods within that class will have the same span name unless they are explicitly overridden by
 another `@Traced` annotation.
 
-Enable tracing of the `list()` non-JAX-RS method in the `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file.
+Enable tracing of the [hotspot=48-50 file=0]`list()` non-JAX-RS method in the `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file.
 
 [role="code_command hotspot=42 file=0", subs="quotes"]
 ----
@@ -338,13 +338,13 @@ The MicroProfile OpenTracing specification also makes the underlying OpenTracing
 available for use. You can access the configured `Tracer` by injecting it into a bean by using the `@Inject`
 annotation from the Contexts and Dependency Injections API.
 
-[role="code_command hotspot=25-26", subs="quotes"]
+[role="code_command hotspot=25-26 file=0", subs="quotes"]
 ----
 Add the `Tracer` object into the `InventoryManager` file.
 `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
 ----
 
-[role="code_command hotspot=40-44", subs="quotes"]
+[role="code_command hotspot=40-44 file=0", subs="quotes"]
 ----
 Define a new child span in the `get()` method around the `addToInventoryList()` call.
 `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
@@ -363,8 +363,8 @@ such statements. Otherwise, any exceptions that are thrown before the span is cl
 Next, run the `mvn compile` command from the `start` directory to recompile your services. Point to the
 {inv-url}/localhost URL, check your Zipkin server, and sort the traces by newest first. You see two new
 trace records, one for the `system` service and one for the `inventory` service. The `system` trace 
-contains one span for the `getProperties()` method in the `SystemResource` class. The `inventory` 
-trace contains two spans. The first span is for the `getPropertiesForHost()` method in the `InventoryResource` 
+contains one span for the [hotspot=19-21 file=1]`getProperties()` method in the `SystemResource` class. The `inventory` 
+trace contains two spans. The first span is for the [hotspot=27-38 file=0]`getPropertiesForHost()` method in the `InventoryResource` 
 class. The second span is the custom span that you created around the `addToInventoryList()` call. 
 Verify that all of these spans have the following names:
 
@@ -386,6 +386,11 @@ user feature that is provided. In a real-world scenario, implement all the OpenT
 you deem necessary, which might include the `SpanBuilder` interface. You can use this interface for span
 creation and customization, including setting timestamps.
 
+SystemResource.java
+[source, Java, linenums, role="code_column"]
+----
+include::finish/system/src/main/java/io/openliberty/guides/system/SystemResource.java[tags=**;!copyright]
+----
 
 // =================================================================================================
 // Testing the services
