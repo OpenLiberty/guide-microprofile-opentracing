@@ -272,11 +272,11 @@ check your Zipkin server for traces.
 
 === Enabling explicit distributed tracing
 
-Use the `@Traced` annotation to define explicit span creation for specific classes and methods.
+Use the [hotspot=42 file=0]`@Traced` annotation to define explicit span creation for specific classes and methods.
 If you place the annotation on a class, then it's automatically applied to all methods within that class.
 If you place the annotation on a method, then it overrides the class annotation if one exists.
 
-The `@Traced` annotation can be configured with the following two parameters:
+The [hotspot=42 file=0]`@Traced` annotation can be configured with the following two parameters:
 
 - The `value=[true|false]` parameter indicates whether or not a particular class or method is
 traced. For example, while all JAX-RS methods are traced by default, you can disable their tracing by
