@@ -364,7 +364,7 @@ Next, run the `mvn compile` command from the `start` directory to recompile your
 {inv-url}/localhost URL, check your Zipkin server, and sort the traces by newest first. You see two new
 trace records, one for the `system` service and one for the `inventory` service. The `system` trace 
 contains one span for the [hotspot=19-21 file=1]`getProperties()` method in the `SystemResource` class. The `inventory` 
-trace contains two spans. The first span is for the [hotspot=27-38 file=0]`getPropertiesForHost()` method in the `InventoryResource` 
+trace contains two spans. The first span is for the [hotspot=27-38 file=2]`getPropertiesForHost()` method in the `InventoryResource` 
 class. The second span is the custom span that you created around the `addToInventoryList()` call. 
 Verify that all of these spans have the following names:
 
@@ -390,6 +390,12 @@ SystemResource.java
 [source, Java, linenums, role="code_column"]
 ----
 include::finish/system/src/main/java/io/openliberty/guides/system/SystemResource.java[tags=**;!copyright]
+----
+
+InventoryResource.java
+[source, Java, linenums, role="code_column"]
+----
+include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
 ----
 
 // =================================================================================================
