@@ -346,7 +346,7 @@ Add the `Tracer` object into the `InventoryManager` file.
 
 [role="code_command hotspot=40-44 file=0", subs="quotes"]
 ----
-Define a new child span in the `get()` method around the `addToInventoryList()` call.
+Define a new child span in the `get()` method around the `add()` call.
 `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
 ----
 
@@ -365,7 +365,7 @@ Next, run the `mvn compile` command from the `start` directory to recompile your
 trace records, one for the `system` service and one for the `inventory` service. The `system` trace 
 contains one span for the [hotspot=19-21 file=1]`getProperties()` method in the `SystemResource` class. The `inventory` 
 trace contains two spans. The first span is for the [hotspot=27-38 file=2]`getPropertiesForHost()` method in the `InventoryResource` 
-class. The second span is the custom span that you created around the `addToInventoryList()` call. 
+class. The second span is the custom span that you created around the [hotspot=40-44 file=0]`add()` call. 
 Verify that all of these spans have the following names:
 
 The `system` trace:
