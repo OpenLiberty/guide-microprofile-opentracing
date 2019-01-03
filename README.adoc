@@ -15,6 +15,7 @@
 :page-tags: ['MicroProfile', 'OpenTracing', 'microservices', '@Traced']
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['cdi-intro']
+:guide-author: Open Liberty
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
 = Enabling distributed tracing in microservices
@@ -199,7 +200,7 @@ When the servers start, you can find the `system` and `inventory` services at th
 - {sys-url}
 - {inv-url}
 
-
+[role='command']
 include::{common-includes}/mvncompile.adoc[]
 
 
@@ -301,7 +302,12 @@ InventoryManager.java
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright;!custom-tracer;addToInvList]
 ----
 
-Next, run the `mvn compile` command from the `start` directory to recompile your services. Point to the
+Next, run the following command from the `start` directory to recompile your services. 
+[role='command']
+```
+mvn compile
+```
+Point to the
 {inv-url} URL, check your Zipkin server, and sort the traces by newest first. You see a new trace record
 that is two spans long with one span for the [hotspot=43-45 file=1]`listContents()` JAX-RS method in the `InventoryResource`
 class and another span for the [hotspot=48-50 file=0]`list()` method in the `InventoryManager` class. Verify that these spans
@@ -337,7 +343,7 @@ that this span has the following name:
 === Injecting a custom Tracer object
 
 The MicroProfile OpenTracing specification also makes the underlying OpenTracing `Tracer` instance
-available for use. You can access the configured `Tracer` by injecting it into a bean by using the `@Inject`
+available for use. You can access the configured `Tracer` by injecting it into a bean by using the [hotspot=25 file=0]`@Inject`
 annotation from the Contexts and Dependency Injections API.
 
 [role="code_command hotspot=25-26 file=0", subs="quotes"]
@@ -362,7 +368,12 @@ The `try` block that you see here is called a `try-with-resources` statement, me
 object is closed at the end of the statement. It's good practice to define custom spans inside
 such statements. Otherwise, any exceptions that are thrown before the span is closed will leak the active span.
 
-Next, run the `mvn compile` command from the `start` directory to recompile your services. Point to the
+Next, run the following command from the `start` directory to recompile your services. 
+[role="command"]
+```
+mvn compile
+```
+Point to the
 {inv-url}/localhost URL, check your Zipkin server, and sort the traces by newest first. You see two new
 trace records, one for the `system` service and one for the `inventory` service. The `system` trace 
 contains one span for the [hotspot=19-21 file=1]`getProperties()` method in the `SystemResource` class. The `inventory` 
@@ -422,9 +433,10 @@ stopped.
 
 == Great work! You're done!
 
-You have just used MicroProfile OpenTracing to customize how and which traces are delivered to Zipkin.
+You have just used MicroProfile OpenTracing in Open Liberty to customize how and which traces are delivered to Zipkin.
 
 Feel free to try one of the related MicroProfile guides. They demonstrate additional technologies that you
 can learn to expand on top of what you built here.
 [role="command"]
 include::{common-includes}/finish.adoc[]
+include::https://raw.githubusercontent.com/OpenLiberty/guides-common/multipane/attribution.adoc[subs="attributes"]
