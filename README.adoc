@@ -18,6 +18,7 @@
 :guide-author: Open Liberty
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
+:guide-author: Open Liberty
 = Enabling distributed tracing in microservices
 
 [.hidden]
@@ -81,8 +82,7 @@ To try out the services, navigate to the `finish` directory and run the Maven `i
 the Maven `liberty:start-server` goal to build the services and run them in two Open Liberty servers:
 [role='command']
 ```
-mvn install
-mvn liberty:start-server
+mvn install liberty:start-server
 ```
 
 Make sure that your Zipkin server is running and point your browser to the {inv-url}/localhost URL. When you visit
@@ -191,8 +191,7 @@ and start the provided `system` and `inventory` services in the starting project
 directory and run the Maven `install` and `liberty:start-server` goals:
 [role='command']
 ```
-mvn install
-mvn liberty:start-server
+mvn install liberty:start-server
 ```
 
 When the servers start, you can find the `system` and `inventory` services at the following URLs:
