@@ -436,5 +436,4 @@ You have just used MicroProfile OpenTracing in Open Liberty to customize how and
 Feel free to try one of the related MicroProfile guides. They demonstrate additional technologies that you
 can learn to expand on top of what you built here.
 [role="command"]
-include::{common-includes}/finish.adoc[]
 include::https://raw.githubusercontent.com/OpenLiberty/guides-common/multipane/attribution.adoc[subs="attributes"]
