@@ -7,7 +7,6 @@
         <version>RELEASE</version>
     </parent>
 
-
     <groupId>io.openliberty.guides</groupId>
     <artifactId>mp-opentracing</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -138,17 +137,19 @@
                         <packagingExcludes>pom.xml</packagingExcludes>
                     </configuration>
                 </plugin>
+                <!-- Liberty Maven plugin -->
                 <plugin>
                     <groupId>net.wasdev.wlp.maven.plugins</groupId>
                     <artifactId>liberty-maven-plugin</artifactId>
-                    <version>2.3</version>
-                    <!-- This bit (inherited and confiruation skip) makes it so that these goals only execute on the child modules  -->
-                    <inherited>false</inherited>
                     <configuration>
-                        <skip>true</skip>
+                        <assemblyArtifact>
+                            <groupId>io.openliberty</groupId>
+                            <artifactId>openliberty-runtime</artifactId>
+                            <version>RELEASE</version>
+                            <type>zip</type>
+                        </assemblyArtifact>
                     </configuration>
                 </plugin>
-
                 <!-- Plugin to run unit tests -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -167,7 +168,6 @@
                         </execution>
                     </executions>
                 </plugin>
-
                 <!-- Plugin to run functional tests -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
