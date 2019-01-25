@@ -111,6 +111,7 @@ endpoint, which is invalid, an error is thrown. This behavior is expected.
 
 When you are done checking out the traces, stop both Open Liberty servers using the Maven
 `liberty:stop-server` goal:
+
 [role='command']
 ```
 mvn liberty:stop-server
@@ -224,11 +225,11 @@ To collect traces across your systems, you need to implement the OpenTracing `Tr
 interface. For this guide, you can access a bare-bones `Tracer` implementation for
 the Zipkin server in the form of a user feature for Open Liberty.
 
-This feature is already configured for you in your [hotspot=1-267 file=1]`pom.xml` and [hotspot=1-26 file=0]`server.xml` files. It will be
+This feature is already configured for you in your [hotspot=* file=1]`pom.xml` and [hotspot=* file=0]`server.xml` files. It will be
 downloaded and installed automatically into each service when you run a Maven build. You can find it
 enabled in your [hotspot=10 file=0]`server.xml` file.
 
-This [hotspot=229-247 file=1]`Maven plug-in` is responsible for downloading and installing the feature:
+This [hotspot=23 file=1]`Maven plug-in` is responsible for downloading and installing the feature:
 
 If you want to install this feature yourself, see
 https://www.ibm.com/support/knowledgecenter/was_beta/com.ibm.websphere.wlp.nd.multiplatform.doc/ae/twlp_dist_tracing.html[Enabling distributed tracing]
@@ -250,8 +251,7 @@ tracing of particular methods. You can also inject a custom `Tracer` object to c
 Because tracing of all JAX-RS methods is enabled by default, you need only to enable MicroProfile
 OpenTracing and the Zipkin user feature in the [hotspot=1-25 file=0]`server.xml` file to see some basic traces in Zipkin.
 
-Both of these features are already enabled in the [hotspot=9-10 file=0]`inventory/src/main/liberty/config/server.xml`
-and [hotspot=9-10 file=1]`system/src/main/liberty/config/server.xml` files:
+Both of these features are already enabled in the `inventory` and `system` configuration files.
 
 server.xml
 [source, xml, linenums, role="code_column"]
@@ -259,11 +259,6 @@ server.xml
 include::finish/inventory/src/main/liberty/config/server.xml[tags=**]
 ----
 
-server.xml
-[source, xml,  linenums, role="code_column"]
-----
-include::finish/system/src/main/liberty/config/server.xml[tags=**]
-----
 
 Make sure that your services are running. Then, simply point your browser to any of their endpoints and
 check your Zipkin server for traces.
@@ -286,7 +281,7 @@ form: `<package name>.<class name>.<method name>`. If you use this parameter at 
 all methods within that class will have the same span name unless they are explicitly overridden by
 another `@Traced` annotation.
 
-Enable tracing of the [hotspot=48-50 file=0]`list()` non-JAX-RS method in the `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file.
+Enable tracing of the [hotspot=43-45 file=0]`list()` non-JAX-RS method in the `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file.
 
 [role="code_command hotspot=42 file=0", subs="quotes"]
 ----
@@ -308,7 +303,7 @@ mvn compile
 Point to the
 {inv-url} URL, check your Zipkin server, and sort the traces by newest first. You see a new trace record
 that is two spans long with one span for the [hotspot=43-45 file=1]`listContents()` JAX-RS method in the `InventoryResource`
-class and another span for the [hotspot=48-50 file=0]`list()` method in the `InventoryManager` class. Verify that these spans
+class and another span for the [hotspot=43-45 file=0]`list()` method in the `InventoryManager` class. Verify that these spans
 have the following names:
 
 - `get:io.openliberty.guides.inventory.inventoryresource.listcontents`
