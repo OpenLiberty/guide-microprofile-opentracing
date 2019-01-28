@@ -285,7 +285,7 @@ Enable tracing of the [hotspot=43-45 file=0]`list()` non-JAX-RS method in the `i
 
 [role="code_command hotspot=42 file=0", subs="quotes"]
 ----
-#Add the `Traced` annotation to the `InventoryManager` class.#
+#Replace the `InventoryManager` class.#
 `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
 ----
 
@@ -311,9 +311,11 @@ have the following names:
 
 // image::/guides/draft-guide-microprofile-opentracing/resources/enable-tracing.png[png][Enable tracing, width=100%]
 
+Now, disable tracing of the `listContents()` by setting @Traced(false).
+
 [role='code_command' hotspot=42 file=1", subs="quotes"]
 ----
-#Now, disable tracing of the `listContents()` by setting @Traced(false).#
+#Replace the `InventoryResource` class#
 `inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
 ----
 
@@ -339,15 +341,12 @@ The MicroProfile OpenTracing specification also makes the underlying OpenTracing
 available for use. You can access the configured `Tracer` by injecting it into a bean by using the [hotspot=25 file=0]`@Inject`
 annotation from the Contexts and Dependency Injections API.
 
-[role="code_command hotspot=25-26 file=0", subs="quotes"]
-----
-#Add the `Tracer` object into the `InventoryManager` file.#
-`inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
-----
+Inject the `Tracer` object into the `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file.
+Then, use it to define a new child span in the `get()` method around the `addToInventoryList()` call.
 
-[role="code_command hotspot=40-44 file=0", subs="quotes"]
+[role="code_command hotspot=* file=0", subs="quotes"]
 ----
-#Define a new child span in the `get()` method around the `add()` call.#
+#Replace the `InventoryManager` class.#
 `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
 ----
 
