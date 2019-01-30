@@ -88,10 +88,9 @@ Make sure that your Zipkin server is running and point your browser to the {inv-
 this endpoint, you make two GET HTTP requests, one to the `system` service and one to the `inventory`
 service. Both of these requests are configured to be traced, so a new trace will be recorded in Zipkin.
 Visit the {zipkin-url} URL or another location where you configured Zipkin to run and sort the traces
-by newest first. Verify that this new trace contains four spans with the following names:
+by newest first. Verify that this new trace contains three spans with the following names:
 
 - `get:io.openliberty.guides.inventory.inventoryresource.getpropertiesforhost`
-- `get`
 - `get:io.openliberty.guides.system.systemresource.getproperties`
 - `addtoinventory() span`
 

@@ -39,17 +39,8 @@ public class InventoryManager {
 
     public Properties get(String hostname) {
         systemClient.init(hostname, 9080);
-        
         Properties properties = systemClient.getProperties();
-        // if (properties != null) {
-        //     // tag::custom-tracer[]
-        //     try (ActiveSpan childSpan = tracer.buildSpan("addToInventory() Span").startActive()) {
-        //         // tag::addToInvList[]
-        //         invList.addToInventoryList(hostname, properties);
-        //         // end::addToInvList[]
-        //     }
-        //     // end::custom-tracer[]
-        // }
+        
         return properties;
     }
 
