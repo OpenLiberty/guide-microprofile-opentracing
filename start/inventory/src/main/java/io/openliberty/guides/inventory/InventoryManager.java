@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Collections;
 
 import org.eclipse.microprofile.opentracing.Traced;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import io.opentracing.Scope;
 import io.opentracing.Tracer;
@@ -30,12 +29,15 @@ import io.openliberty.guides.inventory.model.*;
 
 @ApplicationScoped
 public class InventoryManager {
-
+    
     private List<SystemData> systems = Collections.synchronizedList(new ArrayList<>());
-    private InventoryUtils invUtils = new InventoryUtils();
+    private SystemClient systemClient = new SystemClient();
+
 
     public Properties get(String hostname) {
-        Properties properties = invUtils.getProperties(hostname);
+        systemClient.init(hostname, 9080);
+        Properties properties = systemClient.getProperties();
+        
         return properties;
     }
 
@@ -47,11 +49,13 @@ public class InventoryManager {
         SystemData system = new SystemData(hostname, props);
         if (!systems.contains(system)) {
                 systems.add(system);
+            }
+
         }
     }
 
     public InventoryList list() {
         return new InventoryList(systems);
     }
-
+    
 }
