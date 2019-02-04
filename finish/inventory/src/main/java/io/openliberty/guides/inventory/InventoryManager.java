@@ -1,6 +1,6 @@
 //tag::copyright[]
 /*******************************************************************************
-* Copyright (c) 2017, 2018 IBM Corporation and others.
+* Copyright (c) 2017, 2019 IBM Corporation and others.
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Collections;
 
 import org.eclipse.microprofile.opentracing.Traced;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import io.opentracing.Scope;
 import io.opentracing.Tracer;
@@ -30,17 +29,18 @@ import io.openliberty.guides.inventory.model.*;
 
 @ApplicationScoped
 public class InventoryManager {
-
+    
     private List<SystemData> systems = Collections.synchronizedList(new ArrayList<>());
-    private InventoryUtils invUtils = new InventoryUtils();
+    private SystemClient systemClient = new SystemClient();
 
     // tag::custom-tracer[]
-    @Inject
-    Tracer tracer;
+    @Inject Tracer tracer;
     // end::custom-tracer[]
 
     public Properties get(String hostname) {
-        Properties properties = invUtils.getProperties(hostname);
+        systemClient.init(hostname, 9080);
+        Properties properties = systemClient.getProperties();
+        
         return properties;
     }
 
@@ -66,5 +66,5 @@ public class InventoryManager {
     public InventoryList list() {
         return new InventoryList(systems);
     }
-
+    
 }

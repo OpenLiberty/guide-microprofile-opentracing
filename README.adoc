@@ -1,4 +1,4 @@
-// Copyright (c) 2017 IBM Corporation and others.
+// Copyright (c) 2017, 2019 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -86,19 +86,13 @@ mvn liberty:start-server
 
 Make sure that your Zipkin server is running and point your browser to the {inv-url}/localhost URL. When you visit
 this endpoint, you make two GET HTTP requests, one to the `system` service and one to the `inventory`
-service. Both of these requests are configured to be traced, so two new traces will be recorded in Zipkin.
+service. Both of these requests are configured to be traced, so a new trace will be recorded in Zipkin.
 Visit the {zipkin-url} URL or another location where you configured Zipkin to run and sort the traces
-by newest first. Verify that two new traces have been recorded, one for `system` and one for `inventory`, 
-and that they contain spans with the following names:
-
-The `system` trace:
-
-- `get:io.openliberty.guides.system.systemresource.getproperties`
-
-The `inventory` trace:
+by newest first. Verify that this new trace contains three spans with the following names:
 
 - `get:io.openliberty.guides.inventory.inventoryresource.getpropertiesforhost`
-- `add() span`
+- `get:io.openliberty.guides.system.systemresource.getproperties`
+- `addtoinventory() span`
 
 // image::/guides/draft-guide-microprofile-opentracing/resources/disable-tracing.png[png][Disable tracing, width=100%]
 
@@ -109,13 +103,12 @@ If you examine the other traces, you might notice a red trace entry, which happe
 caught by the span. In this case, since one of the tests accesses the `/inventory/systems/badhostname`
 endpoint, which is invalid, an error is thrown. This behavior is expected.
 
-When you are done checking out the traces, stop both Open Liberty servers using the Maven
+When you are done checking out the services, stop both Open Liberty servers using the Maven
 `liberty:stop-server` goal:
 
 ```
 mvn liberty:stop-server
 ```
-
 // =================================================================================================
 // Running the application with Docker
 // =================================================================================================
