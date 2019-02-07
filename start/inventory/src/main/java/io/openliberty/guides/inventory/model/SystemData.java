@@ -15,7 +15,7 @@ package io.openliberty.guides.inventory.model;
 import java.util.Properties;
 
 public class SystemData {
-
+    
     private final String hostname;
     private final Properties properties;
 
