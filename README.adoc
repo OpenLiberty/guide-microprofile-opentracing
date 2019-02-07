@@ -313,7 +313,7 @@ have the following names:
 
 Now, disable tracing of the `listContents()` by setting @Traced(false).
 
-[role='code_command' hotspot=42 file=1", subs="quotes"]
+[role="code_command hotspot=42 file=1", subs="quotes"]
 ----
 #Replace the `InventoryResource` class#
 `inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
