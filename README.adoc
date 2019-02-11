@@ -310,7 +310,7 @@ have the following names:
 `inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
 ----
 [role="edit_command_text"]
-Disable tracing of the [hotspot=41-43 file=1]`listContents()` by setting [hotspot=42 file=1]`@Traced(false)`.
+Disable tracing of the [hotspot=41-43 file=1]`listContents()` by setting [hotspot=39 file=1]`@Traced(false)`.
 
 InventoryResource.java
 [source, Java, linenums, role="code_column"]
@@ -320,7 +320,7 @@ include::finish/inventory/src/main/java/io/openliberty/guides/inventory/Inventor
 
 Again, run the `mvn compile` command from the `start` directory to recompile your services. Point to the
 {inv-url} URL, check your Zipkin server, and sort the traces by newest first. You see a new trace record
-that is just one span long for the remaining [hotspot=43-35 file=0]`list()` method in the `InventoryManager` class. Verify
+that is just one span long for the remaining [hotspot=43-45 file=0]`list()` method in the `InventoryManager` class. Verify
 that this span has the following name:
 
 - `inventorymanager.list`
