@@ -202,18 +202,6 @@ include::{common-includes}/mvncompile.adoc[]
 
 == Existing Tracer implementation
 
-server.xml
-[source, xml, linenums, role="code_column"]
-----
-include::finish/inventory/src/main/liberty/config/server.xml[tags=**]
-----
-
-pom.xml
-[source, xml, linenums, role="code_column"]
-----
-include::finish/inventory/pom.xml[tags=**]
-----
-
 To collect traces across your systems, you need to implement the OpenTracing `Tracer`
 interface. For this guide, you can access a bare-bones `Tracer` implementation for
 the Zipkin server in the form of a user feature for Open Liberty.
@@ -225,6 +213,18 @@ enabled in your [hotspot file=0]`server.xml` file and the [hotspot=41 file=1]`<a
 If you want to install this feature yourself, see
 https://www.ibm.com/support/knowledgecenter/was_beta/com.ibm.websphere.wlp.nd.multiplatform.doc/ae/twlp_dist_tracing.html[Enabling distributed tracing]
 in the IBM Knowledge Centre.
+
+server.xml
+[source, xml, linenums, role="code_column"]
+----
+include::finish/inventory/src/main/liberty/config/server.xml[tags=**]
+----
+
+pom.xml
+[source, xml, linenums, role="code_column"]
+----
+include::finish/inventory/pom.xml[tags=**]
+----
 
 // =================================================================================================
 // Enabling distributed tracing
