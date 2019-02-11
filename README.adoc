@@ -337,7 +337,7 @@ annotation from the Contexts and Dependency Injections API.
 Inject the `Tracer` object into the `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file.
 Then, use it to define a new child span in the `get()` method around the `addToInventoryList()` call.
 
-[role="code_command hotspot=* file=0", subs="quotes"]
+[role="code_command hotspot file=0", subs="quotes"]
 ----
 #Replace the `InventoryManager` class.#
 `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
