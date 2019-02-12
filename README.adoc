@@ -64,7 +64,7 @@ include::{common-includes}/gitclone.adoc[]
 
 
 For this guide, use Zipkin as your distributed tracing system. You can find the installation instructions
-for Zipkin at the Zipkin https://zipkin.io/pages/quickstart.html[quickstart page]. You are not required
+for Zipkin at the Zipkin https://zipkin.io/pages/quickstart.html[quickstart page^]. You are not required
 to use Zipkin, but keep in mind that you might need more instructions that are not listed here if you choose
 to use another tracing system.
 
@@ -152,7 +152,7 @@ mvn liberty:stop-server
 // {zipkin-url}. To retrieve the JVM system properties of the container running the `system` service, point
 // to {inv-url-docker}/sys (all containers are linked and therefore they can access each other by their container names).
 //
-// Feel free to read our https://openliberty.io/guides/docker.html[Docker guide] to learn more about developing
+// Feel free to read our https://openliberty.io/guides/docker.html[Docker guide^] to learn more about developing
 // applications with Open Liberty and Docker.
 //
 //
@@ -211,7 +211,7 @@ downloaded and installed automatically into each service when you run a Maven bu
 enabled in your [hotspot file=0]`server.xml` file and the [hotspot=41 file=1]`<artifactId>` in your [hotspot file=1]`pom.xml`.
 
 If you want to install this feature yourself, see
-https://www.ibm.com/support/knowledgecenter/was_beta/com.ibm.websphere.wlp.nd.multiplatform.doc/ae/twlp_dist_tracing.html[Enabling distributed tracing]
+https://www.ibm.com/support/knowledgecenter/was_beta/com.ibm.websphere.wlp.nd.multiplatform.doc/ae/twlp_dist_tracing.html[Enabling distributed tracing^]
 in the IBM Knowledge Centre.
 
 server.xml
