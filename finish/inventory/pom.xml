@@ -118,7 +118,7 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
         <profile>
             <id>teardown-test</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
             </activation>
             <build>
                 <plugins>
