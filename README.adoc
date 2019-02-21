@@ -210,7 +210,7 @@ This feature is already configured for you in your [hotspot file=1]`pom.xml` and
 downloaded and installed automatically into each service when you run a Maven build. You can find the [hotspot=8 file=0]`opentracingZipkin` feature
 enabled in your [hotspot=8 file=0]`server.xml` file.
 
-The [hotspot=191-231 file=1]`download-maven-plugin` Maven plug-in in your `pom.xml` is responsible for downloading and installing the feature.
+The [hotspot=191-212 file=1]`download-maven-plugin` Maven plug-in in your `pom.xml` is responsible for downloading and installing the feature.
 
 If you want to install this feature yourself, see
 https://www.ibm.com/support/knowledgecenter/was_beta/com.ibm.websphere.wlp.nd.multiplatform.doc/ae/twlp_dist_tracing.html[Enabling distributed tracing^]
