@@ -69,7 +69,7 @@ to use Zipkin, but keep in mind that you might need more instructions that are n
 to use another tracing system.
 
 Before you proceed, make sure that your Zipkin server is up and running. By default, Zipkin can be found
-at the {zipkin-url} URL.
+at the {zipkin-url}[{zipkin-url}^] URL.
 
 
 === Try what you'll build
