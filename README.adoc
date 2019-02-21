@@ -84,10 +84,10 @@ the Maven `liberty:start-server` goal to build the services and run them in two 
 mvn install liberty:start-server
 ```
 
-Make sure that your Zipkin server is running and point your browser to the {inv-url}/localhost URL. When you visit
-this endpoint, you make two GET HTTP requests, one to the `system` service and one to the `inventory`
+Make sure that your Zipkin server is running and point your browser to the {inv-url}/localhost[{inv-url}/localhost^] URL. 
+When you visit this endpoint, you make two GET HTTP requests, one to the `system` service and one to the `inventory`
 service. Both of these requests are configured to be traced, so a new trace will be recorded in Zipkin.
-Visit the {zipkin-url} URL or another location where you configured Zipkin to run and sort the traces
+Visit the {zipkin-url}[{zipkin-url}^] URL or another location where you configured Zipkin to run and sort the traces
 by newest first. Verify that this new trace contains three spans with the following names:
 
 - `get:io.openliberty.guides.inventory.inventoryresource.getpropertiesforhost`
@@ -189,8 +189,8 @@ mvn install liberty:start-server
 
 When the servers start, you can find the `system` and `inventory` services at the following URLs:
 
-- {sys-url}
-- {inv-url}
+- {sys-url}[{sys-url}^]
+- {inv-url}[{inv-url}^]
 
 [role='command']
 include::{common-includes}/mvncompile.adoc[]
@@ -292,7 +292,7 @@ Next, run the following command from the `start` directory to recompile your ser
 mvn compile
 ```
 Point to the
-{inv-url} URL, check your Zipkin server, and sort the traces by newest first. You see a new trace record
+{inv-url}[{inv-url}^] URL, check your Zipkin server, and sort the traces by newest first. You see a new trace record
 that is two spans long with one span for the [hotspot=41-43 file=1]`listContents()` JAX-RS method in the [hotspot file=1]`InventoryResource`
 class and another span for the [hotspot=43-45 file=0]`list()` method in the [hotspot file=0]`InventoryManager` class. Verify that these spans
 have the following names:
@@ -319,7 +319,7 @@ include::finish/inventory/src/main/java/io/openliberty/guides/inventory/Inventor
 ----
 
 Again, run the `mvn compile` command from the `start` directory to recompile your services. Point to the
-{inv-url} URL, check your Zipkin server, and sort the traces by newest first. You see a new trace record
+{inv-url}[{inv-url}^] URL, check your Zipkin server, and sort the traces by newest first. You see a new trace record
 that is just one span long for the remaining [hotspot=43-45 file=0]`list()` method in the `InventoryManager` class. Verify
 that this span has the following name:
 
@@ -359,7 +359,7 @@ Next, run the following command from the `start` directory to recompile your ser
 mvn compile
 ```
 Point to the
-{inv-url}/localhost URL, check your Zipkin server, and sort the traces by newest first. You see two new
+{inv-url}/localhost[{inv-url}/localhost^] URL, check your Zipkin server, and sort the traces by newest first. You see two new
 trace records, one for the `system` service and one for the `inventory` service. The `system` trace 
 contains one span for the [hotspot=19-21 file=1]`getProperties()` method in the `SystemResource` class. The `inventory` 
 trace contains two spans. The first span is for the [hotspot=26-36 file=2]`getPropertiesForHost()` method in the `InventoryResource` 
