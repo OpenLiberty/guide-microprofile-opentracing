@@ -203,7 +203,9 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
                         <configuration>
                             <url>${zipkin.usr.feature}</url>
                             <unpack>true</unpack>
-                            <outputDirectory>${project.build.directory}/liberty/wlp/usr</outputDirectory>
+                            <outputDirectory>
+                                ${project.build.directory}/liberty/wlp/usr
+                            </outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
