@@ -49,8 +49,6 @@ public class InventoryManager {
         SystemData system = new SystemData(hostname, props);
         if (!systems.contains(system)) {
                 systems.add(system);
-            }
-
         }
     }
 
