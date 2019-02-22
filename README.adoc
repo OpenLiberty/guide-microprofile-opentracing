@@ -97,7 +97,7 @@ by newest first. Verify that this new trace contains three spans with the follow
 
 - `get:io.openliberty.guides.inventory.inventoryresource.getpropertiesforhost`
 - `get:io.openliberty.guides.system.systemresource.getproperties`
-- `addtoinventory() span`
+- `add() span`
 
 // image::/guides/draft-guide-microprofile-opentracing/resources/disable-tracing.png[png][Disable tracing, width=100%]
 
@@ -202,10 +202,6 @@ When the servers start, you can find the `system` and `inventory` services at th
 
 - {sys-url}[{sys-url}^]
 - {inv-url}[{inv-url}^]
-
-[role='command']
-include::{common-includes}/mvncompile.adoc[]
-
 
 // =================================================================================================
 // Existing Tracer implementation
