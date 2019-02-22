@@ -344,7 +344,7 @@ available for use. You can access the configured `Tracer` by injecting it into a
 annotation from the Contexts and Dependency Injections API.
 
 Inject the `Tracer` object into the `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file.
-Then, use it to define a new child span in the `get()` method around the `addToInventoryList()` call.
+Then, use it to define a new child scope in the [hotspot=39 file=0]`add()` call.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -358,8 +358,7 @@ InventoryManager.java
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright]
 ----
 
-The `try` block that you see here is called a `try-with-resources` statement, meaning that the `childSpan`
-object is closed at the end of the statement. It's good practice to define custom spans inside
+The [hotspot=39-42 file=0]`try` block that you see here is called a `try-with-resources` statement, meaning that the `childScope` object is closed at the end of the statement. It's good practice to define custom spans inside
 such statements. Otherwise, any exceptions that are thrown before the span is closed will leak the active span.
 
 Next, run the following command from the `start` directory to recompile your services. 
