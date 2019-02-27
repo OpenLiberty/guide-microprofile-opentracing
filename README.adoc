@@ -281,7 +281,7 @@ form: `<package name>.<class name>.<method name>`. If you use this parameter at 
 all methods within that class will have the same span name unless they are explicitly overridden by
 another `@Traced` annotation.
 
-[role="code_command hotspot=42 file=0", subs="quotes"]
+[role="code_command hotspot file=0", subs="quotes"]
 ----
 #Update the `InventoryManager` class.#
 `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
@@ -313,7 +313,7 @@ have the following names:
 
 
 
-[role="code_command hotspot=42 file=1", subs="quotes"]
+[role="code_command hotspot file=1", subs="quotes"]
 ----
 #Update the `InventoryResource` class#
 `inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
