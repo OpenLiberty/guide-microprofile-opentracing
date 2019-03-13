@@ -14,6 +14,7 @@ package it.io.openliberty.guides.inventory;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import javax.json.JsonObject;
 import javax.ws.rs.client.Client;
@@ -132,17 +133,23 @@ public class InventoryEndpointTest {
         Response response = this.getResponse(invUrl + INVENTORY_SYSTEMS);
         this.assertResponse(invUrl, response);
 
-        Response badResponse = client.target(invUrl + INVENTORY_SYSTEMS + "/"
-                + "badhostname").request(MediaType.APPLICATION_JSON).get();
+        Response badResponse = client.target(invUrl + INVENTORY_SYSTEMS + "/" 
+                               + "badhostname").request(MediaType.APPLICATION_JSON).get();
 
-        String obj = badResponse.readEntity(String.class);
+        assertEquals("BadResponse expected status: 404. Response code not as expected.", 
+                                                            404, badResponse.getStatus());
 
-        boolean isError = obj.contains("ERROR");
-        assertTrue("badhostname is not a valid host but it didn't raise an error", isError);
+        String stringObj = badResponse.readEntity(String.class);
+        assertEquals("Reponse entity is not as expected.", stringObj, "{}");
+
+        try {
+            JsonObject jsonObj = badResponse.readEntity(JsonObject.class);
+            fail("Object should not be able to be read as JSON object");
+        } catch (Exception e) {}
 
         response.close();
         badResponse.close();
-    }
+   }
 
     /**
      * <p>
