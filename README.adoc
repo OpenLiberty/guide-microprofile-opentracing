@@ -302,7 +302,7 @@ mvn compile
 ```
 Point to the
 {inv-url}[{inv-url}^] URL, check your Zipkin server, and sort the traces by newest first. You see a new trace record
-that is two spans long with one span for the [hotspot=41-43 file=1]`listContents()` JAX-RS method in the [hotspot file=1]`InventoryResource`
+that is two spans long with one span for the [hotspot=40-42 file=1]`listContents()` JAX-RS method in the [hotspot file=1]`InventoryResource`
 class and another span for the [hotspot=43-45 file=0]`list()` method in the [hotspot file=0]`InventoryManager` class. Verify that these spans
 have the following names:
 
@@ -319,7 +319,7 @@ have the following names:
 `inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
 ----
 [role="edit_command_text"]
-Disable tracing of the `listContents()` JAX-RS method by setting [hotspot=39 file=1]`@Traced(false)`.
+Disable tracing of the `listContents()` JAX-RS method by setting [hotspot=38 file=1]`@Traced(false)`.
 
 InventoryResource.java
 [source, Java, linenums, role="code_column"]
