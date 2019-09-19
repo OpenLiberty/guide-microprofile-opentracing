@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017 IBM Corporation and others.
+ * Copyright (c) 2017, 2019 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -25,11 +25,11 @@ import javax.ws.rs.core.Response;
 
 import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
 
-public class SystemEndpointTest {
+public class SystemEndpointIT {
 
     @Test
     public void testGetProperties() {
-        String port = System.getProperty("sys.http.port");
+        String port = System.getProperty("sys.http.port", "9080");
         String url = "http://localhost:" + port + "/";
 
         Client client = ClientBuilder.newClient();

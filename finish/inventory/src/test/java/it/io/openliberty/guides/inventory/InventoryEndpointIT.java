@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2018 IBM Corporation and others.
+ * Copyright (c) 2018, 2019 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -28,7 +28,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class InventoryEndpointTest {
+public class InventoryEndpointIT {
 
     private static String sysPort;
     private static String invPort;
@@ -42,9 +42,9 @@ public class InventoryEndpointTest {
 
     @BeforeClass
     public static void oneTimeSetup() {
-        sysPort = System.getProperty("sys.http.port");
+        sysPort = System.getProperty("sys.http.port", "9080");
         sysUrl = "http://localhost:" + sysPort + "/";
-        invPort = System.getProperty("inv.http.port");
+        invPort = System.getProperty("inv.http.port", "9081");
         invUrl = "http://localhost:" + invPort + "/";
     }
 
