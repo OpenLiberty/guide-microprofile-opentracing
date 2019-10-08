@@ -148,6 +148,7 @@
                             <version>RELEASE</version>
                             <type>zip</type>
                         </assemblyArtifact>
+                        <skip>true</skip>
                     </configuration>
                 </plugin>
                 <!-- Plugin to run unit tests -->
