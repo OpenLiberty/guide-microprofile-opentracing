@@ -49,9 +49,12 @@ public class InventoryManager {
         props.setProperty("user.name", systemProps.getProperty("user.name"));
 
         SystemData system = new SystemData(hostname, props);
+        // tag::add[]
         if (!systems.contains(system)) {
             // tag::custom-tracer[]
+            // tag::try[]
             try (Scope childScope = tracer.buildSpan("add() Span")
+            // end::try[]
                                               .startActive(true)) {
                 // tag::addToInvList[]
                 systems.add(system);
@@ -59,11 +62,14 @@ public class InventoryManager {
             }
             // end::custom-tracer[]
         }
+        // end::add[]
     }
-
+    // tag::Traced[]
     @Traced(value = true, operationName = "InventoryManager.list")
+    // end::Traced[]
+    // tag::list[]
     public InventoryList list() {
         return new InventoryList(systems);
     }
-    
+    // end::list[]
 }
