@@ -290,7 +290,7 @@ another `@Traced` annotation.
 Enable tracing of the `list()` non-JAX-RS method by updating [hotspot=Traced file=0]`@Traced` as shown.
 
 InventoryManager.java
-[source, Java, linenums, role='code_column hide_tags=copyright,addToInvList']
+[source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[]
 ----
@@ -358,7 +358,7 @@ InventoryManager.java
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[]
 ----
 
-The [hotspot=tag::custom-tracer file=0]`try` block that you see here is called a `try-with-resources` statement, meaning that the `childScope` object is closed at the end of the statement. It's good practice to define custom spans inside
+The [hotspot=tag::try file=0]`try` block that you see here is called a `try-with-resources` statement, meaning that the `childScope` object is closed at the end of the statement. It's good practice to define custom spans inside
 such statements. Otherwise, any exceptions that are thrown before the span is closed will leak the active span.
 
 Next, run the following command from the `start` directory to recompile your services. 
