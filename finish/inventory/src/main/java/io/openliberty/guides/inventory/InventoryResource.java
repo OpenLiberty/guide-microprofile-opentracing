@@ -56,5 +56,5 @@ public class InventoryResource {
     public InventoryList listContents() {
         return manager.list();
     }
-    // end:listContents[]
+    // end::listContents[]
 }
