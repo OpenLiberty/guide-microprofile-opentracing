@@ -224,13 +224,13 @@ https://www.ibm.com/support/knowledgecenter/was_beta/com.ibm.websphere.wlp.nd.mu
 in the IBM Knowledge Centre.
 
 server.xml
-[source, xml, linenums, role="code_column"]
+[source, xml, linenums, role='code_column']
 ----
 include::finish/inventory/src/main/liberty/config/server.xml[]
 ----
 
 pom.xml
-[source, xml, linenums, role="code_column"]
+[source, xml, linenums, role='code_column']
 ----
 include::finish/inventory/pom.xml[]
 ----
@@ -254,7 +254,7 @@ OpenTracing and the Zipkin user feature in the [hotspot file=0]`server.xml` file
 Both of these features are already enabled in the `inventory` and `system` configuration files.
 
 server.xml
-[source, xml, linenums, role="code_column"]
+[source, xml, linenums, role='code_column']
 ----
 include::finish/inventory/src/main/liberty/config/server.xml[]
 ----
