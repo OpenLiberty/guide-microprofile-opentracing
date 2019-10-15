@@ -395,7 +395,7 @@ creation and customization, including setting timestamps.
 SystemResource.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/system/src/main/java/io/openliberty/guides/system/SystemResource.java[tags=**;!copyright]
+include::finish/system/src/main/java/io/openliberty/guides/system/SystemResource.java[]
 ----
 
 InventoryResource.java
