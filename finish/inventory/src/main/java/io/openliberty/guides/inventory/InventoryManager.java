@@ -55,12 +55,12 @@ public class InventoryManager {
             // tag::custom-tracer[]
             // tag::Try[]
             try (Scope childScope = tracer.buildSpan("add() Span")
-            // end::Try[]
                                               .startActive(true)) {
                 // tag::addToInvList[]
                 systems.add(system);
                 // end::addToInvList[]
             }
+            // end::Try[]
             // end::custom-tracer[]
         }
         // end::add[]
