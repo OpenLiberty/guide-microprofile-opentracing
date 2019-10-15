@@ -344,7 +344,7 @@ available for use. You can access the configured `Tracer` by injecting it into a
 annotation from the Contexts and Dependency Injections API.
 
 Inject the `Tracer` object into the `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file.
-Then, use it to define a new child scope in the [hotspot=try file=0]`add()` call.
+Then, use it to define a new child scope in the [hotspot=Try file=0]`add()` call.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -358,7 +358,7 @@ InventoryManager.java
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[]
 ----
 
-The [hotspot=tag::try file=0]`try` block that you see here is called a `try-with-resources` statement, meaning that the `childScope` object is closed at the end of the statement. It's good practice to define custom spans inside
+The [hotspot=try file=0]`try` block that you see here is called a `try-with-resources` statement, meaning that the `childScope` object is closed at the end of the statement. It's good practice to define custom spans inside
 such statements. Otherwise, any exceptions that are thrown before the span is closed will leak the active span.
 
 Next, run the following command from the `start` directory to recompile your services. 
@@ -369,7 +369,7 @@ mvn compile
 Point to the
 {inv-url}/localhost[{inv-url}/localhost^] URL, check your Zipkin server, and sort the traces by newest first. You see two new
 trace records, one for the `system` service and one for the `inventory` service. The `system` trace 
-contains one span for the [hotspot=getProperties file=1]`getProperties()` method in the `SystemResource` class. The `inventory` 
+contains one span for the [hotspot=get-properties file=1]`getProperties()` method in the `SystemResource` class. The `inventory` 
 trace contains two spans. The first span is for the [hotspot=getPropertiesForHost file=2]`getPropertiesForHost()` method in the `InventoryResource` 
 class. The second span is the custom span that you created around the [hotspot=add file=0]`add()` call. 
 Verify that all of these spans have the following names:

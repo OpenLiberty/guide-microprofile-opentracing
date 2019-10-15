@@ -28,6 +28,7 @@ import io.opentracing.Tracer;
 import io.openliberty.guides.inventory.model.*;
 
 @ApplicationScoped
+// tag::InventoryManager[]
 public class InventoryManager {
     
     private List<SystemData> systems = Collections.synchronizedList(new ArrayList<>());
@@ -52,9 +53,9 @@ public class InventoryManager {
         // tag::add[]
         if (!systems.contains(system)) {
             // tag::custom-tracer[]
-            // tag::try[]
+            // tag::Try[]
             try (Scope childScope = tracer.buildSpan("add() Span")
-            // end::try[]
+            // end::Try[]
                                               .startActive(true)) {
                 // tag::addToInvList[]
                 systems.add(system);
@@ -73,3 +74,4 @@ public class InventoryManager {
     }
     // end::list[]
 }
+// end::InventoryManager[]

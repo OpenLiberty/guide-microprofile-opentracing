@@ -28,9 +28,9 @@ public class SystemResource {
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  // tag::getProperties[]
+  // tag::get-properties[]
   public Properties getProperties() {
     return System.getProperties();
   }
-  // end::getProperties[]
+  // end::get-properties[]
 }

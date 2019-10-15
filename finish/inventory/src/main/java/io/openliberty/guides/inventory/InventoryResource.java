@@ -28,6 +28,7 @@ import io.openliberty.guides.inventory.model.InventoryList;
 
 @RequestScoped
 @Path("/systems")
+// tag::InventoryResource[]
 public class InventoryResource {
 
     @Inject InventoryManager manager;
@@ -48,6 +49,7 @@ public class InventoryResource {
     }
     // end::getPropertiesForHost[]
     @GET
+    
     // tag::Traced-false[]
     @Traced(false)
     // end::Traced-false[]
@@ -58,3 +60,4 @@ public class InventoryResource {
     }
     // end::listContents[]
 }
+// end::InventoryResource[]
