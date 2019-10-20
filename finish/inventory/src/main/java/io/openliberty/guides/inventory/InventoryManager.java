@@ -33,9 +33,9 @@ public class InventoryManager {
     
     private List<SystemData> systems = Collections.synchronizedList(new ArrayList<>());
     private SystemClient systemClient = new SystemClient();
-    // tag::custom-tracer[]
+    // tag::customTracer[]
     @Inject Tracer tracer;
-    // end::custom-tracer[]
+    // end::customTracer[]
 
     public Properties get(String hostname) {
         systemClient.init(hostname, 9080);
@@ -54,7 +54,9 @@ public class InventoryManager {
         if (!systems.contains(system)) {
             // tag::custom-tracer[]
             // tag::Try[]
+            // tag::addSpan[]
             try (Scope childScope = tracer.buildSpan("add() Span")
+            // end::addSpan[]
                                               .startActive(true)) {
                 // tag::addToInvList[]
                 systems.add(system);

@@ -49,7 +49,6 @@ public class InventoryResource {
     }
     // end::getPropertiesForHost[]
     @GET
-    
     // tag::Traced-false[]
     @Traced(false)
     // end::Traced-false[]
