@@ -371,7 +371,7 @@ Point to the
 trace records, one for the `system` service and one for the `inventory` service. The `system` trace 
 contains one span for the [hotspot=Properties file=1]`getProperties()` method in the `SystemResource` class. The `inventory` 
 trace contains two spans. The first span is for the [hotspot=getPropertiesForHost file=2]`getPropertiesForHost()` method in the `InventoryResource` 
-class. The second span is the custom span that you created around the [hotspot=add file=0]`add()` call. 
+class. The second span is the custom span that you created around the [hotspot=Add file=0]`add()` call. 
 Verify that all of these spans have the following names:
 
 The `system` trace:

@@ -50,7 +50,7 @@ public class InventoryManager {
         props.setProperty("user.name", systemProps.getProperty("user.name"));
 
         SystemData system = new SystemData(hostname, props);
-        // tag::add[]
+        // tag::Add[]
         if (!systems.contains(system)) {
             // tag::custom-tracer[]
             // tag::Try[]
@@ -65,7 +65,7 @@ public class InventoryManager {
             // end::Try[]
             // end::custom-tracer[]
         }
-        // end::add[]
+        // end::Add[]
     }
     // tag::Traced[]
     @Traced(value = true, operationName = "InventoryManager.list")
