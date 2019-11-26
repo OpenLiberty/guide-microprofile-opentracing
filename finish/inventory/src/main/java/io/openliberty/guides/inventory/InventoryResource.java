@@ -48,6 +48,7 @@ public class InventoryResource {
         return Response.ok(props).build();
     }
     // end::getPropertiesForHost[]
+    
     @GET
     // tag::Traced-false[]
     @Traced(false)
