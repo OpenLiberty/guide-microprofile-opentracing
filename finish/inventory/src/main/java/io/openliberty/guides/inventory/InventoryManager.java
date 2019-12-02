@@ -33,7 +33,6 @@ public class InventoryManager {
     
     private List<SystemData> systems = Collections.synchronizedList(new ArrayList<>());
     private SystemClient systemClient = new SystemClient();
-    
     // tag::customTracer[]
     @Inject Tracer tracer;
     // end::customTracer[]
