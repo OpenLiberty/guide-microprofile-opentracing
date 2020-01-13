@@ -16,8 +16,8 @@
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['cdi-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
-:page-seo-title: Enabling distributed tracing in microservices using Eclipse MicroProfile OpenTracing
-:page-seo-description: A tutorial on how to enable distributed tracing in Java microservices to easily trace the flow of a request that spans multiple resources by using MicroProfile OpenTracing and a Zipkin tracing system.
+:page-seo-title: Enabling distributed tracing in Java microservices using Eclipse MicroProfile OpenTracing
+:page-seo-description: A getting started tutorial and an example on how to enable distributed tracing in Java microservices to easily trace request flows that span multiple resources by using MicroProfile OpenTracing and Zipkin tracing system.
 :source-highlighter: prettify
 :guide-author: Open Liberty
 = Enabling distributed tracing in microservices
