@@ -216,25 +216,25 @@ interface. For this guide, you can access a bare-bones `Tracer` implementation f
 the Zipkin server in the form of a user feature for Open Liberty.
 
 This feature is already configured for you in your [hotspot file=1]`pom.xml` and [hotspot file=0]`server.xml` files. It will be
-downloaded and installed automatically into each service when you run a Maven build. You can find the [hotspot=8 file=0]`opentracingZipkin` feature
-enabled in your [hotspot=8 file=0]`server.xml` file.
+downloaded and installed automatically into each service when you run a Maven build. You can find the [hotspot=zipkinUsr file=0]`opentracingZipkin` feature
+enabled in your [hotspot file=0]`server.xml` file.
 
-The [hotspot=191-211 file=1]`download-maven-plugin` Maven plug-in in your `pom.xml` is responsible for downloading and installing the feature.
+The [hotspot=download file=1]`download-maven-plugin` Maven plug-in in your `pom.xml` is responsible for downloading and installing the feature.
 
 If you want to install this feature yourself, see
 https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/twlp_dist_tracing.html[Enabling distributed tracing^]
 in the IBM Knowledge Centre.
 
 server.xml
-[source, xml, linenums, role="code_column"]
+[source, xml, linenums, role='code_column']
 ----
-include::finish/inventory/src/main/liberty/config/server.xml[tags=**]
+include::finish/inventory/src/main/liberty/config/server.xml[]
 ----
 
 pom.xml
-[source, xml, linenums, role="code_column"]
+[source, xml, linenums, role='code_column']
 ----
-include::finish/inventory/pom.xml[tags=**]
+include::finish/inventory/pom.xml[]
 ----
 
 // =================================================================================================
@@ -250,15 +250,15 @@ tracing of particular methods. You can also inject a custom `Tracer` object to c
 
 === Enabling distributed tracing without code instrumentation
 
-Because tracing of all JAX-RS methods is enabled by default, you need only to enable MicroProfile
-OpenTracing and the Zipkin user feature in the [hotspot=7-8 file=0]`server.xml` file to see some basic traces in Zipkin.
+Because tracing of all JAX-RS methods is enabled by default, you need only to enable the MicroProfile
+OpenTracing feature and the Zipkin user feature in the [hotspot=mpOpenTracing file=0]`server.xml` file to see some basic traces in Zipkin.
 
 Both of these features are already enabled in the `inventory` and `system` configuration files.
 
 server.xml
-[source, xml, linenums, role="code_column"]
+[source, xml, linenums, role='code_column']
 ----
-include::finish/inventory/src/main/liberty/config/server.xml[tags=**]
+include::finish/inventory/src/main/liberty/config/server.xml[]
 ----
 
 
@@ -268,11 +268,11 @@ check your Zipkin server for traces.
 
 === Enabling explicit distributed tracing
 
-Use the [hotspot=42 file=0]`@Traced` annotation to define explicit span creation for specific classes and methods.
+Use the [hotspot=Traced file=0]`@Traced` annotation to define explicit span creation for specific classes and methods.
 If you place the annotation on a class, then it's automatically applied to all methods within that class.
 If you place the annotation on a method, then it overrides the class annotation if one exists.
 
-The [hotspot=42 file=0]`@Traced` annotation can be configured with the following two parameters:
+The [hotspot=Traced file=0]`@Traced` annotation can be configured with the following two parameters:
 
 - The `value=[true|false]` parameter indicates whether or not a particular class or method is
 traced. For example, while all JAX-RS methods are traced by default, you can disable their tracing by
@@ -289,12 +289,12 @@ another `@Traced` annotation.
 `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
 ----
 [role="edit_command_text"]
-Enable tracing of the `list()` non-JAX-RS method by updating [hotspot=42 file=0]`@Traced` as shown.
+Enable tracing of the [hotspot=list file=0]`list()` non-JAX-RS method by updating [hotspot=Traced file=0]`@Traced` as shown.
 
 InventoryManager.java
-[source, Java, linenums, role="code_column"]
+[source, Java, linenums, role='code_column tags=addToInvList hide_tags=copyright,customTracer,Try']
 ----
-include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright;!custom-tracer;addToInvList]
+include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[]
 ----
 
 Next, run the following command from the `start` directory to recompile your services. 
@@ -304,8 +304,8 @@ mvn compile
 ```
 Point to the
 {inv-url}[{inv-url}^] URL, check your Zipkin server, and sort the traces by newest first. You see a new trace record
-that is two spans long with one span for the [hotspot=40-42 file=1]`listContents()` JAX-RS method in the [hotspot file=1]`InventoryResource`
-class and another span for the [hotspot=43-45 file=0]`list()` method in the [hotspot file=0]`InventoryManager` class. Verify that these spans
+that is two spans long with one span for the [hotspot=listContents file=1]`listContents()` JAX-RS method in the [hotspot file=1]`InventoryResource`
+class and another span for the [hotspot=list file=0]`list()` method in the [hotspot file=0]`InventoryManager` class. Verify that these spans
 have the following names:
 
 - `get:io.openliberty.guides.inventory.inventoryresource.listcontents`
@@ -321,17 +321,17 @@ have the following names:
 `inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
 ----
 [role="edit_command_text"]
-Disable tracing of the `listContents()` JAX-RS method by setting [hotspot=38 file=1]`@Traced(false)`.
+Disable tracing of the [hotspot=listContents file=1]`listContents()` JAX-RS method by setting [hotspot=Traced-false file=1]`@Traced(false)`.
 
 InventoryResource.java
-[source, Java, linenums, role="code_column"]
+[source, Java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
+include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
 ----
 
 Again, run the `mvn compile` command from the `start` directory to recompile your services. Point to the
 {inv-url}[{inv-url}^] URL, check your Zipkin server, and sort the traces by newest first. You see a new trace record
-that is just one span long for the remaining [hotspot=43-45 file=0]`list()` method in the `InventoryManager` class. Verify
+that is just one span long for the remaining [hotspot=list file=0]`list()` method in the `InventoryManager` class. Verify
 that this span has the following name:
 
 - `inventorymanager.list`
@@ -342,11 +342,11 @@ that this span has the following name:
 === Injecting a custom Tracer object
 
 The MicroProfile OpenTracing specification also makes the underlying OpenTracing `Tracer` instance
-available for use. You can access the configured `Tracer` by injecting it into a bean by using the [hotspot=23 file=0]`@Inject`
+available for use. You can access the configured `Tracer` by injecting it into a bean by using the [hotspot=customTracer file=0]`@Inject`
 annotation from the Contexts and Dependency Injections API.
 
 Inject the `Tracer` object into the `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file.
-Then, use it to define a new child scope in the [hotspot=39 file=0]`add()` call.
+Then, use it to define a new child scope in the [hotspot=addSpan file=0]`add()` call.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -355,12 +355,12 @@ Then, use it to define a new child scope in the [hotspot=39 file=0]`add()` call.
 ----
 
 InventoryManager.java
-[source, Java, linenums, role="code_column"]
+[source, Java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright]
+include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[]
 ----
 
-The [hotspot=39-42 file=0]`try` block that you see here is called a `try-with-resources` statement, meaning that the `childScope` object is closed at the end of the statement. It's good practice to define custom spans inside
+The [hotspot=Try file=0]`try` block that you see here is called a `try-with-resources` statement, meaning that the `childScope` object is closed at the end of the statement. It's good practice to define custom spans inside
 such statements. Otherwise, any exceptions that are thrown before the span is closed will leak the active span.
 
 Next, run the following command from the `start` directory to recompile your services. 
@@ -371,9 +371,9 @@ mvn compile
 Point to the
 {inv-url}/localhost[{inv-url}/localhost^] URL, check your Zipkin server, and sort the traces by newest first. You see two new
 trace records, one for the `system` service and one for the `inventory` service. The `system` trace 
-contains one span for the [hotspot=19-21 file=1]`getProperties()` method in the `SystemResource` class. The `inventory` 
-trace contains two spans. The first span is for the [hotspot=26-36 file=2]`getPropertiesForHost()` method in the `InventoryResource` 
-class. The second span is the custom span that you created around the [hotspot=38-43 file=0]`add()` call. 
+contains one span for the [hotspot=Properties file=1]`getProperties()` method in the `SystemResource` class. The `inventory` 
+trace contains two spans. The first span is for the [hotspot=getPropertiesForHost file=2]`getPropertiesForHost()` method in the `InventoryResource` 
+class. The second span is the custom span that you created around the [hotspot=Add file=0]`add()` call. 
 Verify that all of these spans have the following names:
 
 The `system` trace:
@@ -395,15 +395,15 @@ you deem necessary, which might include the `SpanBuilder` interface. You can use
 creation and customization, including setting timestamps.
 
 SystemResource.java
-[source, Java, linenums, role="code_column"]
+[source, Java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/system/src/main/java/io/openliberty/guides/system/SystemResource.java[tags=**;!copyright]
+include::finish/system/src/main/java/io/openliberty/guides/system/SystemResource.java[]
 ----
 
 InventoryResource.java
-[source, Java, linenums, role="code_column"]
+[source, Java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
+include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
 ----
 
 // =================================================================================================

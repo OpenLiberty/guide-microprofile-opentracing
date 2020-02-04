@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017, 2019 IBM Corporation and others.
+ * Copyright (c) 2017, 2020 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -28,6 +28,7 @@ import io.openliberty.guides.inventory.model.InventoryList;
 
 @RequestScoped
 @Path("/systems")
+// tag::InventoryResource[]
 public class InventoryResource {
 
     @Inject InventoryManager manager;
@@ -35,6 +36,7 @@ public class InventoryResource {
     @GET
     @Path("/{hostname}")
     @Produces(MediaType.APPLICATION_JSON)
+    // tag::getPropertiesForHost[]
     public Response getPropertiesForHost(@PathParam("hostname") String hostname) {
         Properties props = manager.get(hostname);
         if (props == null) {
@@ -45,12 +47,17 @@ public class InventoryResource {
         manager.add(hostname, props);
         return Response.ok(props).build();
     }
-
+    // end::getPropertiesForHost[]
+    
     @GET
+    // tag::Traced-false[]
     @Traced(false)
+    // end::Traced-false[]
     @Produces(MediaType.APPLICATION_JSON)
+    // tag::listContents[]
     public InventoryList listContents() {
         return manager.list();
     }
-    
+    // end::listContents[]
 }
+// end::InventoryResource[]
