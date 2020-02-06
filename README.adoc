@@ -248,8 +248,7 @@ tracing of particular methods. You can also inject a custom `Tracer` object to c
 
 === Enabling distributed tracing without code instrumentation
 
-Because tracing of all JAX-RS methods is enabled by default, you need only to enable MicroProfile
-OpenTracing and the Zipkin user feature in the [hotspot=mpOpenTracing file=0]`server.xml` file to see some basic traces in Zipkin.
+Because tracing of all JAX-RS methods is enabled by default, you need only to enable [hotspot=mpOpenTracing file=0]`MicroProfile OpenTracing` feature and the [hotspot=zipkinUsr file=0]`Zipkin` user feature in the [hotspot file=0]`server.xml` file to see some basic traces in Zipkin.
 
 Both of these features are already enabled in the `inventory` and `system` configuration files.
 
@@ -388,7 +387,7 @@ The `inventory` trace:
 This simple example shows what you can do with the injected `Tracer` object. More configuration
 options are available to you, including setting a timestamp for when a span was created and destroyed.
 However, these options require an implementation of their own, which does not come as a part of the Zipkin
-user features that is provided. In a real-world scenario, implement all the OpenTracing interfaces that
+user feature that is provided. In a real-world scenario, implement all the OpenTracing interfaces that
 you deem necessary, which might include the `SpanBuilder` interface. You can use this interface for span
 creation and customization, including setting timestamps.
 
