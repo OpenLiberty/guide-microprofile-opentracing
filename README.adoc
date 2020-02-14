@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2019 IBM Corporation and others.
+// Copyright (c) 2017, 2020 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -250,8 +250,7 @@ tracing of particular methods. You can also inject a custom `Tracer` object to c
 
 === Enabling distributed tracing without code instrumentation
 
-Because tracing of all JAX-RS methods is enabled by default, you need only to enable the MicroProfile
-OpenTracing feature and the Zipkin user feature in the [hotspot=mpOpenTracing file=0]`server.xml` file to see some basic traces in Zipkin.
+Because tracing of all JAX-RS methods is enabled by default, you need only to enable [hotspot=mpOpenTracing file=0]`MicroProfile OpenTracing` feature and the [hotspot=zipkinUsr file=0]`Zipkin` user feature in the `server.xml` file to see some basic traces in Zipkin.
 
 Both of these features are already enabled in the `inventory` and `system` configuration files.
 
