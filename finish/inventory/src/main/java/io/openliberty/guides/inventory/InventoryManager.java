@@ -1,6 +1,6 @@
 //tag::copyright[]
 /*******************************************************************************
-* Copyright (c) 2017, 2019 IBM Corporation and others.
+* Copyright (c) 2017, 2020 IBM Corporation and others.
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -28,13 +28,14 @@ import io.opentracing.Tracer;
 import io.openliberty.guides.inventory.model.*;
 
 @ApplicationScoped
+// tag::InventoryManager[]
 public class InventoryManager {
     
     private List<SystemData> systems = Collections.synchronizedList(new ArrayList<>());
     private SystemClient systemClient = new SystemClient();
-    // tag::custom-tracer[]
+    // tag::customTracer[]
     @Inject Tracer tracer;
-    // end::custom-tracer[]
+    // end::customTracer[]
 
     public Properties get(String hostname) {
         systemClient.init(hostname, 9080);
@@ -49,21 +50,29 @@ public class InventoryManager {
         props.setProperty("user.name", systemProps.getProperty("user.name"));
 
         SystemData system = new SystemData(hostname, props);
+        // tag::Add[]
         if (!systems.contains(system)) {
-            // tag::custom-tracer[]
+            // tag::Try[]
+            // tag::addSpan[]
             try (Scope childScope = tracer.buildSpan("add() Span")
+            // end::addSpan[]
                                               .startActive(true)) {
                 // tag::addToInvList[]
                 systems.add(system);
                 // end::addToInvList[]
             }
-            // end::custom-tracer[]
+            // end::Try[]
         }
+        // end::Add[]
     }
 
+    // tag::Traced[]
     @Traced(value = true, operationName = "InventoryManager.list")
+    // end::Traced[]
+    // tag::list[]
     public InventoryList list() {
         return new InventoryList(systems);
     }
-    
+    // end::list[]
 }
+// end::InventoryManager[]
