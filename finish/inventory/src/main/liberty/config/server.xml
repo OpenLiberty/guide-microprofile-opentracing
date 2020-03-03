@@ -13,6 +13,8 @@
   </featureManager>
 
   <opentracingZipkin host="localhost"/>
+  <variable name="default.http.port" defaultValue="9081"/>
+  <variable name="default.https.port" defaultValue="9444"/>
 
   <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
       id="defaultHttpEndpoint" host="*" />
