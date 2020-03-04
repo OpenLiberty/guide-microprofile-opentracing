@@ -12,9 +12,9 @@
  // end::copyright[]
 package it.io.openliberty.guides.system;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import javax.json.JsonObject;
 
@@ -38,7 +38,7 @@ public class SystemEndpointIT {
         WebTarget target = client.target(url + "system/properties");
         Response response = target.request().get();
 
-        assertEquals("Incorrect response code from " + url, 200, response.getStatus());
+        assertEquals(200, response.getStatus(), "Incorrect response code from " + url);
 
         JsonObject obj = response.readEntity(JsonObject.class);
 

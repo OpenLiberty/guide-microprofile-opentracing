@@ -12,9 +12,9 @@
 // end::copyright[]
 package it.io.openliberty.guides.inventory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import javax.json.JsonObject;
 import javax.ws.rs.client.Client;
@@ -23,10 +23,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class InventoryEndpointIT {
 
@@ -40,7 +40,7 @@ public class InventoryEndpointIT {
     private final String SYSTEM_PROPERTIES = "system/properties";
     private final String INVENTORY_SYSTEMS = "inventory/systems";
 
-    @BeforeClass
+    @BeforeAll
     public static void oneTimeSetup() {
         sysPort = System.getProperty("sys.http.port", "9080");
         sysUrl = "http://localhost:" + sysPort + "/";
@@ -48,13 +48,13 @@ public class InventoryEndpointIT {
         invUrl = "http://localhost:" + invPort + "/";
     }
 
-    @Before
+    @BeforeEach
     public void setup() {
         client = ClientBuilder.newClient();
         client.register(JsrJsonpProvider.class);
     }
 
-    @After
+    @AfterEach
     public void teardown() {
         client.close();
     }
@@ -75,8 +75,7 @@ public class InventoryEndpointIT {
 
         int expected = 0;
         int actual = obj.getInt("total");
-        assertEquals("The inventory should be empty on application start but it wasn't", 
-                     expected, actual);
+        assertEquals(expected, actual, "The inventory should be empty on application start but it wasn't");
 
         response.close();
     }
@@ -91,14 +90,12 @@ public class InventoryEndpointIT {
 
         int expected = 1;
         int actual = obj.getInt("total");
-        assertEquals("The inventory should have one entry for localhost", 
-                     expected, actual);
+        assertEquals(expected, actual, "The inventory should have one entry for localhost", );
 
         boolean localhostExists = obj.getJsonArray("systems").getJsonObject(0)
                                                              .get("hostname").toString()
                                                              .contains("localhost");
-        assertTrue("A host was registered, but it was not localhost", 
-                   localhostExists);
+        assertTrue(localhostExists,"A host was registered, but it was not localhost");
 
         response.close();
     }
@@ -136,11 +133,10 @@ public class InventoryEndpointIT {
         Response badResponse = client.target(invUrl + INVENTORY_SYSTEMS + "/" 
                                + "badhostname").request(MediaType.APPLICATION_JSON).get();
 
-        assertEquals("BadResponse expected status: 404. Response code not as expected.", 
-                                                            404, badResponse.getStatus());
+        assertEquals(404, badResponse.getStatus(), "BadResponse expected status: 404. Response code not as expected.");
 
         String stringObj = badResponse.readEntity(String.class);
-        assertEquals("Reponse entity is not as expected.", stringObj, "{}");
+        assertEquals(stringObj, "{}", "Reponse entity is not as expected.");
 
         try {
             JsonObject jsonObj = badResponse.readEntity(JsonObject.class);
@@ -175,7 +171,7 @@ public class InventoryEndpointIT {
      *          - response received from the target URL.
      */
     private void assertResponse(String url, Response response) {
-        assertEquals("Incorrect response code from " + url, 200, response.getStatus());
+        assertEquals(200, response.getStatus(),"Incorrect response code from " + url);
     }
 
     /**
@@ -193,9 +189,9 @@ public class InventoryEndpointIT {
      */
     private void assertProperty(String propertyName, String hostname,
             String expected, String actual) {
-        assertEquals("JVM system property [" + propertyName + "] "
+        assertEquals(expected, actual, "JVM system property [" + propertyName + "] "
                 + "in the system service does not match the one stored in "
-                + "the inventory service for " + hostname, expected, actual);
+                + "the inventory service for " + hostname);
     }
 
     /**
