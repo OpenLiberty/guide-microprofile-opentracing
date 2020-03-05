@@ -74,22 +74,8 @@ Before you proceed, make sure that your Zipkin server is up and running. By defa
 at the {zipkin-url}[{zipkin-url}^] URL.
 
 
-=== Try what you'll build
-
-The `finish` directory in the root directory of this guide contains two services that are configured
-to use MicroProfile OpenTracing. Feel free to give them a try before you proceed.
-
-To try out the services, navigate to the `finish` directory and run the Maven `install` phase to build the services
-[role='command']
-```
-mvn install
-```
-
-then, run the Maven `liberty:start-server` goal to start them in two Open Liberty servers:
-[role='command']
-```
-mvn liberty:start-server
-```
+[role=command]
+include::{common-includes}/twyb-intro.adoc[]
 
 Make sure that your Zipkin server is running and point your browser to the {inv-url}/localhost[{inv-url}/localhost^] URL. 
 When you visit this endpoint, you make two GET HTTP requests, one to the `system` service and one to the `inventory`
@@ -111,11 +97,11 @@ caught by the span. In this case, since one of the tests accesses the `/inventor
 endpoint, which is invalid, an error is thrown. This behavior is expected.
 
 When you are done checking out the services, stop both Open Liberty servers using the Maven
-`liberty:stop-server` goal:
+`liberty:stop` goal:
 
 [role='command']
 ```
-mvn liberty:stop-server
+mvn liberty:stop
 ```
 // =================================================================================================
 // Running the application with Docker
@@ -188,17 +174,10 @@ mvn liberty:stop-server
 
 You'll need to start the services to see basic traces appear in Zipkin. So, before you proceed, build
 and start the provided `system` and `inventory` services in the starting project. Navigate to the `start`
-directory and run the Maven `install` goal
-[role='command']
-```
-mvn install
-```
+directory.
 
-then, run the `liberty:start-server` goal:
-[role='command']
-```
-mvn liberty:start-server
-```
+[role=command]
+include::{common-includes}/devmode-start.adoc[]
 
 When the servers start, you can find the `system` and `inventory` services at the following URLs:
 
@@ -296,11 +275,6 @@ InventoryManager.java
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[]
 ----
 
-Next, run the following command from the `start` directory to recompile your services. 
-[role='command']
-```
-mvn compile
-```
 Point to the
 {inv-url}[{inv-url}^] URL, check your Zipkin server, and sort the traces by newest first. You see a new trace record
 that is two spans long with one span for the [hotspot=listContents file=1]`listContents()` JAX-RS method in the [hotspot file=1]`InventoryResource`
@@ -328,8 +302,7 @@ InventoryResource.java
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
 ----
 
-Again, run the `mvn compile` command from the `start` directory to recompile your services. Point to the
-{inv-url}[{inv-url}^] URL, check your Zipkin server, and sort the traces by newest first. You see a new trace record
+Point to the {inv-url}[{inv-url}^] URL, check your Zipkin server, and sort the traces by newest first. You see a new trace record
 that is just one span long for the remaining [hotspot=list file=0]`list()` method in the `InventoryManager` class. Verify
 that this span has the following name:
 
@@ -362,11 +335,6 @@ include::finish/inventory/src/main/java/io/openliberty/guides/inventory/Inventor
 The [hotspot=Try file=0]`try` block that you see here is called a `try-with-resources` statement, meaning that the `childScope` object is closed at the end of the statement. It's good practice to define custom spans inside
 such statements. Otherwise, any exceptions that are thrown before the span is closed will leak the active span.
 
-Next, run the following command from the `start` directory to recompile your services. 
-[role="command"]
-```
-mvn compile
-```
 Point to the
 {inv-url}/localhost[{inv-url}/localhost^] URL, check your Zipkin server, and sort the traces by newest first. You see two new
 trace records, one for the `system` service and one for the `inventory` service. The `system` trace 
@@ -414,11 +382,7 @@ include::finish/inventory/src/main/java/io/openliberty/guides/inventory/Inventor
 No automated tests are provided to verify the correctness of the traces. Manually verify these traces
 by viewing them on the Zipkin server.
 
-A few tests are included for you to test the basic functionality of the services. If a test failure
-occurs, then you might have introduced a bug into the code. These tests will run automatically as a
-part of the Maven build process when you run the `mvn install` command. You can also run these tests
-separately from the build by using the `mvn verify` command, but first make sure that the servers are
-stopped.
+Since you started Open Liberty in development mode at the start of the guide, press the enter/return key to run the tests.
 
 
 // =================================================================================================
