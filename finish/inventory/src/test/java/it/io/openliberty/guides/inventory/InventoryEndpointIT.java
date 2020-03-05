@@ -90,7 +90,7 @@ public class InventoryEndpointIT {
 
         int expected = 1;
         int actual = obj.getInt("total");
-        assertEquals(expected, actual, "The inventory should have one entry for localhost", );
+        assertEquals(expected, actual, "The inventory should have one entry for localhost");
 
         boolean localhostExists = obj.getJsonArray("systems").getJsonObject(0)
                                                              .get("hostname").toString()

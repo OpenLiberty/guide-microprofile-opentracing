@@ -3,188 +3,101 @@
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <groupId>io.openliberty.guides</groupId>
     <modelVersion>4.0.0</modelVersion>
-
-    <parent>
-        <groupId>io.openliberty.guides</groupId>
-        <artifactId>guide-microprofile-opentracing</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
-
     <artifactId>inventory-service</artifactId>
     <packaging>war</packaging>
+    <version>1.0-SNAPSHOT</version>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <!-- Plugins -->
-        <version.exec-maven-plugin>1.6.0</version.exec-maven-plugin>
+        <failOnMissingWebXml>false</failOnMissingWebXml>
+        <version.liberty-maven-plugin>3.2</version.liberty-maven-plugin>
+        <version.maven-failsafe-plugin>2.22.2</version.maven-failsafe-plugin>
+        <version.maven-war-plugin>3.2.3</version.maven-war-plugin>
+        <version.maven-surefire-plugin>2.22.2</version.maven-surefire-plugin>
+        <version.download-maven-plugin>1.4.0</version.download-maven-plugin>
+        <!-- OpenLiberty runtime -->
+        <version.openliberty-runtime>RELEASE</version.openliberty-runtime>
+        <inv.service.http.port>9081</inv.service.http.port>
+        <inv.service.https.port>9444</inv.service.https.port>
+        <!-- Zipkin user feature download link -->
+        <zipkin.usr.feature>https://github.com/WASdev/sample.opentracing.zipkintracer/releases/download/1.3/liberty-opentracing-zipkintracer-1.3-sample.zip</zipkin.usr.feature>
     </properties>
 
     <dependencies>
         <!-- Open Liberty features -->
         <dependency>
-            <groupId>io.openliberty.features</groupId>
-            <artifactId>jaxrs-2.1</artifactId>
-            <type>esa</type>
+            <groupId>org.eclipse.microprofile</groupId>
+            <artifactId>microprofile</artifactId>
+            <version>3.2</version>
+            <type>pom</type>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>io.openliberty.features</groupId>
-            <artifactId>jsonp-1.1</artifactId>
-            <type>esa</type>
-        </dependency>
-        <dependency>
-            <groupId>io.openliberty.features</groupId>
-            <artifactId>cdi-2.0</artifactId>
-            <type>esa</type>
-        </dependency>
-        <dependency>
-            <groupId>io.openliberty.features</groupId>
-            <artifactId>mpOpenTracing-1.3</artifactId>
-            <type>esa</type>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-web-api</artifactId>
+            <version>8.0.0</version>
+            <scope>provided</scope>
         </dependency>
         <!-- For tests -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+       <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.5.2</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-rs-client</artifactId>
+            <version>3.3.4</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-rs-extension-providers</artifactId>
+            <version>3.3.4</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>javax.json</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
+            <version>1.1.4</version>
+            <scope>test</scope>
         </dependency>
         <!-- Support for JDK 9 and above -->
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
+            <version>2.3.1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.activation</groupId>
             <artifactId>activation</artifactId>
-        </dependency> 
+            <version>1.1.1</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
-
-    <profiles>
-        <!-- Start system service before running tests -->
-        <profile>
-            <id>setup-test</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <version>${version.exec-maven-plugin}</version>
-                        <executions>
-                            <execution>
-                                <id>test-start-system-service</id>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <phase>pre-integration-test</phase>
-                                <configuration>
-                                    <workingDirectory>../system</workingDirectory>
-                                    <executable>mvn${mvn.extension}</executable>
-                                    <arguments>
-                                        <argument>liberty:start-server</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <!-- Stop system service after running tests -->
-        <profile>
-            <id>teardown-test</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <version>${version.exec-maven-plugin}</version>
-                        <executions>
-                            <execution>
-                                <id>test-stop-system-service</id>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <phase>post-integration-test</phase>
-                                <configuration>
-                                    <workingDirectory>../system</workingDirectory>
-                                    <executable>mvn${mvn.extension}</executable>
-                                    <arguments>
-                                        <argument>liberty:stop-server</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
+                <version>${version.maven-war-plugin}</version>
             </plugin>
 
             <!-- Liberty plugin -->
             <plugin>
-                <groupId>net.wasdev.wlp.maven.plugins</groupId>
+                <groupId>io.openliberty.tools</groupId>
                 <artifactId>liberty-maven-plugin</artifactId>
-                <configuration>
-                    <configFile>src/main/liberty/config/server.xml</configFile>
-                    <include>usr</include>
-                    <bootstrapProperties>
-                        <default.http.port>${inv.service.http.port}</default.http.port>
-                        <default.https.port>${inv.service.https.port}</default.https.port>
-                        <system.http.port>${sys.service.http.port}</system.http.port>
-                    </bootstrapProperties>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>install-apps</id>
-                        <configuration>
-                            <appsDirectory>apps</appsDirectory>
-                            <stripVersion>true</stripVersion>
-                            <installAppPackages>project</installAppPackages>
-                            <looseApplication>true</looseApplication>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>install-feature</id>
-                        <configuration>
-                            <skip>true</skip>
-                        </configuration>
-                    </execution>
-                </executions>
+                <version>${version.liberty-maven-plugin}</version>
             </plugin>
 
             <!-- For downloading files -->
@@ -216,12 +129,19 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <version>${version.maven-surefire-plugin}</version>
             </plugin>
 
             <!-- Plugin to run functional tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${version.maven-failsafe-plugin}</version>
+                <configuration>
+                    <systemPropertyVariables>
+                        <backend.http.port>${backend.service.http.port}</backend.http.port>
+                    </systemPropertyVariables>
+                </configuration>
             </plugin>
         </plugins>
     </build>
