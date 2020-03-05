@@ -42,9 +42,7 @@ public class SystemEndpointIT {
 
         JsonObject obj = response.readEntity(JsonObject.class);
 
-        assertEquals("The system property for the local and remote JVM should match",
-                     System.getProperty("os.name"),
-                     obj.getString("os.name"));
+        assertEquals(System.getProperty("os.name"), obj.getString("os.name"),"The system property for the local and remote JVM should match");
         
         response.close();
     }
