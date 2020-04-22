@@ -17,7 +17,6 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-
         <!-- Plugins -->
         <version.maven-war-plugin>3.2.3</version.maven-war-plugin>
         <version.download-maven-plugin>1.5.1</version.download-maven-plugin>
