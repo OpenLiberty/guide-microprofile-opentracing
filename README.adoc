@@ -328,7 +328,12 @@ InventoryResource.java
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
 ----
 
-Again, run the `mvn compile` command from the `start` directory to recompile your services. Point to the
+Again, run the `mvn compile` command from the `start` directory to recompile your services:
+[role="command"]
+```
+mvn compile
+```
+Point to the
 {inv-url}[{inv-url}^] URL, check your Zipkin server, and sort the traces by newest first. You see a new trace record
 that is just one span long for the remaining [hotspot=list file=0]`list()` method in the `InventoryManager` class. Verify
 that this span has the following name:
@@ -420,6 +425,13 @@ part of the Maven build process when you run the `mvn install` command. You can 
 separately from the build by using the `mvn verify` command, but first make sure that the servers are
 stopped.
 
+When you are done checking out the services, stop the server by using the Maven
+`liberty:stop-server` goal:
+
+[role='command']
+```
+mvn liberty:stop-server
+```
 
 // =================================================================================================
 // Great work! You're done!
