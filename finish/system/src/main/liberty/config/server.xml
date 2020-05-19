@@ -8,8 +8,6 @@
     <feature>usr:opentracingZipkin-0.31</feature>
   </featureManager>
 
-  <opentracingZipkin host="localhost"/>
-
   <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
       id="defaultHttpEndpoint" host="*" />
 

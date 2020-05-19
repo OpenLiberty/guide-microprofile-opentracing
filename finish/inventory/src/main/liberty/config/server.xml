@@ -9,8 +9,6 @@
     <!-- end::mpOpenTracing[] -->
   </featureManager>
 
-  <opentracingZipkin host="localhost"/>
-
   <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
       id="defaultHttpEndpoint" host="*" />
       

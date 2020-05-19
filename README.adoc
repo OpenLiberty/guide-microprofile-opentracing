@@ -17,7 +17,7 @@
 :page-related-guides: ['cdi-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :page-seo-title: Enabling distributed tracing in Java microservices using Eclipse MicroProfile OpenTracing
-:page-seo-description: A getting started tutorial and an example on how to enable distributed tracing in Java microservices to easily trace request flows that span multiple resources by using MicroProfile OpenTracing and Zipkin tracing system.
+:page-seo-description: A getting started tutorial and an example on how to enable distributed tracing in Java microservices to easily trace request flows that span multiple resources by using MicroProfile OpenTracing and Jaeger tracing system.
 :source-highlighter: prettify
 :guide-author: Open Liberty
 = Enabling distributed tracing in microservices
@@ -31,7 +31,7 @@ Explore how to enable and customize tracing of JAX-RS and non-JAX-RS methods by 
 :inv-url: http://localhost:9081/inventory/systems
 :inv-url-docker: http://localhost:9080/inventory/systems
 :sys-url: http://localhost:9080/system/properties
-:zipkin-url: http://localhost:9411
+:jaeger-url: http://localhost:16686
 
 
 == What you'll learn
@@ -65,36 +65,45 @@ server, then any logging software would do the trick.
 include::{common-includes}/gitclone.adoc[]
 
 
-For this guide, use Zipkin as your distributed tracing system. You can find the installation instructions
-for Zipkin at the Zipkin https://zipkin.io/pages/quickstart.html[quickstart page^]. You are not required
-to use Zipkin, but keep in mind that you might need more instructions that are not listed here if you choose
-to use another tracing system.
+For this guide, use Jaeger as your distributed tracing system.
 
-Before you proceed, make sure that your Zipkin server is up and running. By default, Zipkin can be found
-at the {zipkin-url}[{zipkin-url}^] URL.
+// TODO
+//You can find the installation instructions
+//for Zipkin at the Zipkin https://zipkin.io/pages/quickstart.html[quickstart page^]. You are not required
+//to use Zipkin, but keep in mind that you might need more instructions that are not listed here if you choose
+//to use another tracing system.
 
+You can start the Jaeger all-in-one executable using Docker
+[role='command']
+```
+docker run -d --name jaeger \
+  -e COLLECTOR_ZIPKIN_HTTP_PORT=9411 \
+  -p 5775:5775/udp \
+  -p 6831:6831/udp \
+  -p 6832:6832/udp \
+  -p 5778:5778 \
+  -p 16686:16686 \
+  -p 14268:14268 \
+  -p 14250:14250 \
+  -p 9411:9411 \
+  jaegertracing/all-in-one:1.17
+```
+
+You can find more information about Jaeger in their
+https://www.jaegertracing.io/docs/1.17/getting-started/[Getting Started^] docs.
+
+Before you proceed, make sure that your Jaeger server is up and running. Jaeger can be found
+at the {jaeger-url}[{jaeger-url}^] URL.
 
 === Try what you'll build
 
-The `finish` directory in the root directory of this guide contains two services that are configured
-to use MicroProfile OpenTracing. Feel free to give them a try before you proceed.
-
-To try out the services, navigate to the `finish` directory and run the Maven `install` phase to build the services
 [role='command']
-```
-mvn install
-```
+include::{common-includes}/twyb-intro.adoc[]
 
-then, run the Maven `liberty:start-server` goal to start them in two Open Liberty servers:
-[role='command']
-```
-mvn liberty:start-server
-```
-
-Make sure that your Zipkin server is running and point your browser to the {inv-url}/localhost[{inv-url}/localhost^] URL. 
+Make sure that your Jaeger server is running and point your browser to the {inv-url}/localhost[{inv-url}/localhost^] URL.
 When you visit this endpoint, you make two GET HTTP requests, one to the `system` service and one to the `inventory`
-service. Both of these requests are configured to be traced, so a new trace will be recorded in Zipkin.
-Visit the {zipkin-url}[{zipkin-url}^] URL or another location where you configured Zipkin to run and sort the traces
+service. Both of these requests are configured to be traced, so a new trace will be recorded in Jaeger.
+Visit the {jaeger-url}[{jaeger-url}^] URL or another location where you configured Jaeger to run and sort the traces
 by newest first. Verify that this new trace contains three spans with the following names:
 
 - `get:io.openliberty.guides.inventory.inventoryresource.getpropertiesforhost`
@@ -110,95 +119,20 @@ If you examine the other traces, you might notice a red trace entry, which happe
 caught by the span. In this case, since one of the tests accesses the `/inventory/systems/badhostname`
 endpoint, which is invalid, an error is thrown. This behavior is expected.
 
-When you are done checking out the services, stop both Open Liberty servers using the Maven
-`liberty:stop-server` goal:
-
 [role='command']
-```
-mvn liberty:stop-server
-```
-// =================================================================================================
-// Running the application with Docker
-// =================================================================================================
-
-// == Running the services
-//
-// Before you begin, you must build and run the `inventory` and `system` services. You must also start
-// your Zipkin server (or another tracing system of your choice). You have two options for doing this:
-//
-// - Running everything inside Docker containers
-// - Running the two services outside of Docker in two separate Open Liberty servers
-//
-//
-// === Running with Docker
-//
-// *THIS DOES NOT WORK AS OF MARCH 2, 2018 BECAUSE IT REQUIRES OL 18.0.0.1 WHICH IS NOT A PART OF ANY DOCKER IMAGE*
-//
-// If you are using Docker to run your Zipkin server and you would prefer running your services with Docker
-// as well, then follow these instructions:
-//
-// A `Dockerfile` and a `docker-compose.yaml` are provided under the `docker` directory in the root directory
-// of this guide. Navigate to this directory and build your services:
-//
-// ```
-// cd docker
-// mvn package
-// ```
-//
-// Stop your Zipkin container if you have previously started it, then run the following command:
-//
-// ```
-// docker-compose up -d
-// ```
-//
-// This command picks up the `Dockerfile` and the `docker-compose.yaml` and builds a Docker image containing
-// the Open Liberty runtime. Three containers are also built and started alongside the image: one for the
-// `system` service, one for the `inventory` service, and one for the Zipkin server.
-//
-// Once the containers are running, the `inventory` service can be reached at {inv-url-docker} and the Zipkin server at
-// {zipkin-url}. To retrieve the JVM system properties of the container running the `system` service, point
-// to {inv-url-docker}/sys (all containers are linked and therefore they can access each other by their container names).
-//
-// Feel free to read our https://openliberty.io/guides/docker.html[Docker guide^] to learn more about developing
-// applications with Open Liberty and Docker.
-//
-//
-// === Running the services outside of Docker
-//
-// Navigate to the `start` directory, then build the services and run them in Open Liberty:
-//
-// ```
-// cd start
-// mvn install liberty:start-server
-// ```
-//
-// You can find the `inventory` and `system` services at:
-//
-// - {inv-url}
-// - {sys-url}
-//
-// include::{common-includes}/mvncompile.adoc[]
-
+include::{common-includes}/twyb-end.adoc[]
 
 // =================================================================================================
 // Running the services
 // =================================================================================================
+== Building the application
 
-== Running the services
+You'll need to start the services to see basic traces appear in Jaeger. You will need two command-line instances to
+start the two services in development mode. Navigate to the `start/inventory`
+directory in one command-line instance and `start/system` in the other.
 
-You'll need to start the services to see basic traces appear in Zipkin. So, before you proceed, build
-and start the provided `system` and `inventory` services in the starting project. Navigate to the `start`
-directory and run the Maven `install` goal
 [role='command']
-```
-mvn install
-```
-
-then, run the `liberty:start-server` goal:
-[role='command']
-```
-mvn liberty:start-server
-```
+include::{common-includes}/devmode-start.adoc[]
 
 When the servers start, you can find the `system` and `inventory` services at the following URLs:
 
@@ -209,17 +143,14 @@ When the servers start, you can find the `system` and `inventory` services at th
 // Existing Tracer implementation
 // =================================================================================================
 
-== Existing Tracer implementation
+== Existing Tracer implementation TODO
 
 To collect traces across your systems, you need to implement the OpenTracing `Tracer`
 interface. For this guide, you can access a bare-bones `Tracer` implementation for
-the Zipkin server in the form of a user feature for Open Liberty.
+the Jaeger server in the form of a user feature for Open Liberty.
 
 This feature is already configured for you in your [hotspot file=1]`pom.xml` and [hotspot file=0]`server.xml` files. It will be
-downloaded and installed automatically into each service when you run a Maven build. You can find the [hotspot=zipkinUsr file=0]`opentracingZipkin` feature
-enabled in your [hotspot file=0]`server.xml` file.
-
-The [hotspot=download file=1]`download-maven-plugin` Maven plug-in in your `pom.xml` is responsible for downloading and installing the feature.
+downloaded and installed automatically into each service when you run a Maven build.
 
 If you want to install this feature yourself, see
 https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/twlp_dist_tracing.html[Enabling distributed tracing^]
@@ -250,7 +181,7 @@ tracing of particular methods. You can also inject a custom `Tracer` object to c
 
 === Enabling distributed tracing without code instrumentation
 
-Because tracing of all JAX-RS methods is enabled by default, you need only to enable [hotspot=mpOpenTracing file=0]`MicroProfile OpenTracing` feature and the [hotspot=zipkinUsr file=0]`Zipkin` user feature in the `server.xml` file to see some basic traces in Zipkin.
+Because tracing of all JAX-RS methods is enabled by default, you need only to enable [hotspot=mpOpenTracing file=0]`MicroProfile OpenTracing` feature in the `server.xml` file to see some basic traces in Jaeger.
 
 Both of these features are already enabled in the `inventory` and `system` configuration files.
 
@@ -262,7 +193,7 @@ include::finish/inventory/src/main/liberty/config/server.xml[]
 
 
 Make sure that your services are running. Then, simply point your browser to any of their endpoints and
-check your Zipkin server for traces.
+check your Jaeger server for traces.
 
 
 === Enabling explicit distributed tracing
@@ -302,7 +233,7 @@ Next, run the following command from the `start` directory to recompile your ser
 mvn compile
 ```
 Point to the
-{inv-url}[{inv-url}^] URL, check your Zipkin server, and sort the traces by newest first. You see a new trace record
+{inv-url}[{inv-url}^] URL, check your Jaeger server, and sort the traces by newest first. You see a new trace record
 that is two spans long with one span for the [hotspot=listContents file=1]`listContents()` JAX-RS method in the [hotspot file=1]`InventoryResource`
 class and another span for the [hotspot=list file=0]`list()` method in the [hotspot file=0]`InventoryManager` class. Verify that these spans
 have the following names:
@@ -328,13 +259,9 @@ InventoryResource.java
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
 ----
 
-Again, run the `mvn compile` command from the `start` directory to recompile your services:
-[role="command"]
-```
-mvn compile
-```
-Point to the
-{inv-url}[{inv-url}^] URL, check your Zipkin server, and sort the traces by newest first. You see a new trace record
+Again, run the `mvn compile` command from the `start` directory to recompile your services. Point to the
+{inv-url}[{inv-url}^] URL, check your Jaeger server, and sort the traces by newest first. You see a new trace record
+
 that is just one span long for the remaining [hotspot=list file=0]`list()` method in the `InventoryManager` class. Verify
 that this span has the following name:
 
@@ -373,7 +300,7 @@ Next, run the following command from the `start` directory to recompile your ser
 mvn compile
 ```
 Point to the
-{inv-url}/localhost[{inv-url}/localhost^] URL, check your Zipkin server, and sort the traces by newest first. You see two new
+{inv-url}/localhost[{inv-url}/localhost^] URL, check your Jaeger server, and sort the traces by newest first. You see two new
 trace records, one for the `system` service and one for the `inventory` service. The `system` trace 
 contains one span for the [hotspot=Properties file=1]`getProperties()` method in the `SystemResource` class. The `inventory` 
 trace contains two spans. The first span is for the [hotspot=getPropertiesForHost file=2]`getPropertiesForHost()` method in the `InventoryResource` 
@@ -393,7 +320,7 @@ The `inventory` trace:
 
 This simple example shows what you can do with the injected `Tracer` object. More configuration
 options are available to you, including setting a timestamp for when a span was created and destroyed.
-However, these options require an implementation of their own, which does not come as a part of the Zipkin
+However, these options require an implementation of their own, which does not come as a part of the Jaeger
 user feature that is provided. In a real-world scenario, implement all the OpenTracing interfaces that
 you deem necessary, which might include the `SpanBuilder` interface. You can use this interface for span
 creation and customization, including setting timestamps.
@@ -417,7 +344,7 @@ include::finish/inventory/src/main/java/io/openliberty/guides/inventory/Inventor
 == Testing the services
 
 No automated tests are provided to verify the correctness of the traces. Manually verify these traces
-by viewing them on the Zipkin server.
+by viewing them on the Jaeger server.
 
 A few tests are included for you to test the basic functionality of the services. If a test failure
 occurs, then you might have introduced a bug into the code. These tests will run automatically as a
@@ -439,7 +366,7 @@ mvn liberty:stop-server
 
 == Great work! You're done!
 
-You have just used MicroProfile OpenTracing in Open Liberty to customize how and which traces are delivered to Zipkin.
+You have just used MicroProfile OpenTracing in Open Liberty to customize how and which traces are delivered to Jaeger.
 
 Feel free to try one of the related MicroProfile guides. They demonstrate additional technologies that you
 can learn to expand on top of what you built here.
