@@ -97,8 +97,24 @@ at the {jaeger-url}[{jaeger-url}^] URL.
 
 === Try what you'll build
 
+=== Try what you'll build
+
+The `finish` directory in the root of this guide contains the finished application. Give it a try before you proceed.
+
+To try out the application, first go to the `finish` directory and run the following
+Maven goal to build the application and deploy it to Open Liberty:
+
 [role='command']
-include::{common-includes}/twyb-intro.adoc[]
+```
+mvn liberty:start -pl system,inventory
+```
+
+After you see the following message, your application server is ready.
+
+[role="no_copy"]
+----
+The defaultServer server is ready to run a smarter planet.
+----
 
 Make sure that your Jaeger server is running and point your browser to the {inv-url}/localhost[{inv-url}/localhost^] URL.
 When you visit this endpoint, you make two GET HTTP requests, one to the `system` service and one to the `inventory`
@@ -114,10 +130,6 @@ by newest first. Verify that this new trace contains three spans with the follow
 
 You can inspect each span by clicking it to reveal more detailed information, such as the time
 at which the request was received and the time at which a response was sent back.
-
-If you examine the other traces, you might notice a red trace entry, which happens when an error is
-caught by the span. In this case, since one of the tests accesses the `/inventory/systems/badhostname`
-endpoint, which is invalid, an error is thrown. This behavior is expected.
 
 [role='command']
 include::{common-includes}/twyb-end.adoc[]
