@@ -5,17 +5,13 @@
     <feature>jsonp-1.1</feature>
     <feature>cdi-2.0</feature>
     <feature>mpOpenTracing-1.3</feature>
-    <feature>usr:opentracingZipkin-0.31</feature>
   </featureManager>
-
-  <opentracingZipkin host="localhost"/>
 
   <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
       id="defaultHttpEndpoint" host="*" />
 
-  <webApplication location="system-service.war" contextRoot="/">
+  <webApplication location="system.war" contextRoot="/">
     <!-- enable visibility to third party apis -->
-    <classloader apiTypeVisibility="api,ibm-api,spec,stable,third-party"/>
+    <classloader apiTypeVisibility="+third-party"/>
   </webApplication>
-
 </server>

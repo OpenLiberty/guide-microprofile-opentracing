@@ -1,6 +1,6 @@
 //tag::copyright[]
 /*******************************************************************************
-* Copyright (c) 2017, 2019 IBM Corporation and others.
+* Copyright (c) 2017, 2020 IBM Corporation and others.
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -21,6 +21,7 @@ import javax.inject.Inject;
 import java.util.List;
 import java.util.Collections;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.opentracing.Traced;
 
 import io.opentracing.Scope;
@@ -29,13 +30,17 @@ import io.openliberty.guides.inventory.model.*;
 
 @ApplicationScoped
 public class InventoryManager {
+
+    @Inject
+    @ConfigProperty(name="system.http.port")
+    int SYSTEM_PORT;
     
     private List<SystemData> systems = Collections.synchronizedList(new ArrayList<>());
     private SystemClient systemClient = new SystemClient();
 
 
     public Properties get(String hostname) {
-        systemClient.init(hostname, 9080);
+        systemClient.init(hostname, SYSTEM_PORT);
         Properties properties = systemClient.getProperties();
         
         return properties;

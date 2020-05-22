@@ -12,14 +12,14 @@
 // end::copyright[]
 package io.openliberty.guides.inventory.client;	
 
-import javax.ws.rs.client.Client;		
-import javax.ws.rs.client.ClientBuilder;		
-import javax.ws.rs.client.Invocation.Builder;		
-import javax.ws.rs.core.HttpHeaders;		
-import javax.ws.rs.core.MediaType;		
-import javax.ws.rs.core.Response;		
-import javax.ws.rs.core.Response.Status;		
-import java.util.Properties;		 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Invocation.Builder;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import java.util.Properties;
 import java.net.URI;
 
 public class SystemClient {
