@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2018 IBM Corporation and others.
+ * Copyright (c) 2020 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,9 +12,8 @@
 // end::copyright[]
 package it.io.openliberty.guides.inventory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.json.JsonObject;
 import javax.ws.rs.client.Client;
@@ -140,12 +139,8 @@ public class InventoryEndpointTest {
                                                             404, badResponse.getStatus());
 
         String stringObj = badResponse.readEntity(String.class);
-        assertEquals("Reponse entity is not as expected.", stringObj, "{}");
-
-        try {
-            JsonObject jsonObj = badResponse.readEntity(JsonObject.class);
-            fail("Object should not be able to be read as JSON object");
-        } catch (Exception e) {}
+        assertTrue(stringObj.contains("error"), 
+        "badhostname is not a valid host but it didn't raise an error");
 
         response.close();
         badResponse.close();

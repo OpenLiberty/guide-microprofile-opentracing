@@ -38,10 +38,12 @@ public class InventoryResource {
     @Produces(MediaType.APPLICATION_JSON)
     // tag::getPropertiesForHost[]
     public Response getPropertiesForHost(@PathParam("hostname") String hostname) {
+        System.out.println("HELLO");
         Properties props = manager.get(hostname);
         if (props == null) {
             return Response.status(Response.Status.NOT_FOUND)
-                           .entity(new Properties())
+                           .entity("{ \"error\" : \"Unknown hostname or the system service " 
+                           + "may not be running on " + hostname + "\" }")
                            .build();
         }
         manager.add(hostname, props);
