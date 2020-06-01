@@ -139,8 +139,8 @@ public class InventoryEndpointTest {
                                                             404, badResponse.getStatus());
 
         String stringObj = badResponse.readEntity(String.class);
-        assertTrue(stringObj.contains("error"), 
-        "badhostname is not a valid host but it didn't raise an error");
+        assertTrue("badhostname is not a valid host but it didn't raise an error", 
+                                                            stringObj.contains("error"));
 
         response.close();
         badResponse.close();
