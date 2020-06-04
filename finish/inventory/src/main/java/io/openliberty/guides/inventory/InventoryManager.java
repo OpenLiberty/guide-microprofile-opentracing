@@ -67,7 +67,7 @@ public class InventoryManager {
     }
 
     // tag::Traced[]
-    @Traced(value = true, operationName = "InventoryManager.list")
+    @Traced(operationName = "InventoryManager.list")
     // end::Traced[]
     // tag::list[]
     public InventoryList list() {
