@@ -65,7 +65,7 @@ server, then any logging software would do the trick.
 You will use Docker in this guide to deploy the Jaeger server. For Docker installation instructions, refer to the
 official https://docs.docker.com/install/[Docker documentation^].
 
-==== Deploying Jaeger
+=== Deploying Jaeger
 You can start the Jaeger all-in-one executable using Docker
 [role='command']
 ```
