@@ -52,32 +52,20 @@ not address the problem of defining, implementing, or configuring the underlying
 system. Rather, the specification makes it easy to instrument services with distributed tracing given
 an existing distributed tracing system.
 
-You will configure the provided `inventory` and `system` services to use distributed tracing with
+https://www.jaegertracing.io/[Jaeger^] is a an open-sourced distributed tracing system which is compatible with the
+OpenTracing specification. Jaeger also provides an implementation of `Tracer` in their client package that is compatible
+with MicroProfile OpenTracing.
+
+You will configure the provided `inventory` and `system` services to use Jaeger for distributed tracing with
 MicroProfile OpenTracing. You will run these services in two separate JVMs made of two server instances
 to demonstrate tracing in a distributed environment. If all the components were to run on a single
 server, then any logging software would do the trick.
-
-Jaeger is a an open-sourced distributed tracing system which is compatible with the OpenTracing specification.
-Jaeger also provides an implementation of `Tracer` in their client package that is compatible with MicroProfile
-Opentracing.
-
-For this guide, you will use Jaeger as your distributed tracing system.
 
 == Additional prerequisites
 You will use Docker in this guide to deploy the Jaeger server. For Docker installation instructions, refer to the
 official https://docs.docker.com/install/[Docker documentation^].
 
-// =================================================================================================
-// Getting Started
-// =================================================================================================
-[role='command']
-include::{common-includes}/gitclone.adoc[]
-
-=== Try what you'll build
-
-The `finish` directory in the root of this guide contains the finished application. Give it a try before you proceed.
-
-==== Starting Jaeger
+==== Deploying Jaeger
 You can start the Jaeger all-in-one executable using Docker
 [role='command']
 ```
@@ -94,19 +82,37 @@ docker run -d --name jaeger \
   jaegertracing/all-in-one:1.17
 ```
 
-You can find more information about Jaeger in their
-https://www.jaegertracing.io/docs/1.17/getting-started/[Getting Started^] docs.
+You can find more information about the Jaeger server in their
+https://www.jaegertracing.io/docs/1.17/getting-started/[Getting Started^] documentation.
 
 Before you proceed, make sure that your Jaeger server is up and running. Jaeger can be found
 at the {jaeger-url}[{jaeger-url}^] URL.
 
-To try out the application, you will need two command-line instances.
-Navigate to the `finish/inventory` directory in one command-line instance and `finish/system` in the other.
+// =================================================================================================
+// Getting Started
+// =================================================================================================
+[role='command']
+include::{common-includes}/gitclone.adoc[]
+
+=== Try what you'll build
+
+The `finish` directory in the root of this guide contains the finished application. Give it a try before you proceed.
+
+
+Open a command-line session and navigate to the `finish/inventory` directory.
+Run the following Maven goal to build the service and deploy it to Open Liberty:
+[role="command"]
+----
+mvn liberty:run
+----
+
+Open another command-line session and navigate to the `finish/system` directory.
 Run the following Maven goal to build the services and deploy them to Open Liberty:
 [role="command"]
 ----
 mvn liberty:run
 ----
+
 
 After you see the following message, your application server is ready.
 
@@ -123,7 +129,7 @@ To view the traces, visit the {jaeger-url}[{jaeger-url}^] URL. Under the `Search
 you can view the traces for the `inventory` or `system` services by selecting them in the
 `Select a service` dropdown and clicking the `Find Traces` button at the bottom of the section.
 
-If you only see the `jaeger-service` listed in the dropdown, you may need to wait a little longer and refresh the page
+If you only see the `jaeger-query` listed in the dropdown, you may need to wait a little longer and refresh the page
 to see the application services.
 
 View the traces for `inventory`. You should see a trace with the following header:
@@ -133,20 +139,28 @@ inventory: GET:io.openliberty.guides.inventory.InventoryResource.getPropertiesFo
 ----
 
 The trace should have 4 spans, 3 from `inventory` and 1 from `system`. Click on the trace to view its details.
+Under `Service & Operation`, you should see the spans in this trace.
 You can inspect each span by clicking it to reveal more detailed information, such as the time
 at which the request was received and the time at which a response was sent back.
-For each span, click on `tags` to view all tags for this span. The JAX-RS spans are tagged with HTTP information.
 
 Verify that there are three spans from `inventory`:
-- `GET:io.openliberty.guides.inventory.InventoryResource.getPropertiesForHost` with tag `span.kind` as `"server"`
-- `GET` with tag `span.kind` as `"client"`
-- `add() Span` with no `span.kind`
+
+- `GET:io.openliberty.guides.inventory.InventoryResource.getPropertiesForHost` (JAX-RS)
+- `GET` (JAX-RS Client)
+- `add() Span` (Custom Tracer injection)
 
 Verify that there is one span from `system`:
-- `GET:io.openliberty.guides.system.SystemResource.getProperties` with tag `span.kind` as `"server"`
 
-[role='command']
-include::{common-includes}/twyb-end.adoc[]
+- `GET:io.openliberty.guides.system.SystemResource.getProperties` (JAX-RS)
+
+After you are finished checking out the application, stop the Open Liberty servers by pressing CTRL+C in the
+shell sessions where you ran the `system` and `inventory` services.
+Alternatively, you can run the `liberty:stop` goal from the finish directory in another shell session for the `inventory`
+and `system` modules:
+[role="command"]
+----
+mvn -pl system,inventory liberty:stop
+----
 
 // =================================================================================================
 // Running the services
@@ -154,8 +168,9 @@ include::{common-includes}/twyb-end.adoc[]
 == Building the application
 
 You'll need to start the services to see basic traces appear in Jaeger. You will need two command-line instances to
-start the two services in development mode. Navigate to the `start/inventory`
-directory in one command-line instance and `start/system` in the other.
+start the two services in development mode.
+Open a command-line session and navigate to the `start/inventory` directory.
+Open another command-line session and navigate to the `start/system` directory.
 
 [role='command']
 include::{common-includes}/devmode-start.adoc[]
@@ -175,7 +190,7 @@ To collect traces across your systems, you need to implement the OpenTracing `Tr
 interface.
 Jaeger provides a `Tracer` implementation for the Jaeger server in the `jaeger-client` package.
 
-This package is already added as a dependency for you in your [hotspot file=0]`pom.xml` file.
+This package is already added as a dependency for you in your [hotspot=jaeger file=0]`pom.xml` file.
 It will be downloaded and installed automatically into each service when you run a Maven build.
 
 pom.xml
@@ -205,8 +220,8 @@ to see some basic traces in Jaeger.
 To add the availability of Jaeger APIs to the application, `third-party` must be added to the types of API packages that
 this class loader.
 Instead of explicitly configuring a list of API packages which includes `third-party`, the value `+third-party` can be
-set to the `apiTypeVisibility` attribute of the [hotspot=thirdParty]`<classLoader />` configuration to add
-`third-party` to the default list of API package types supported.
+set to the [hotspot=thirdParty]`apiTypeVisibility` attribute of the [hotspot=thirdParty]`<classLoader />`
+configuration to add `third-party` to the default list of API package types supported.
 
 server.xml
 [source, xml, linenums, role='code_column']
@@ -250,9 +265,12 @@ include::finish/inventory/src/main/java/io/openliberty/guides/inventory/Inventor
 
 Point to the {inv-url}[{inv-url}^] URL and check your Jaeger server at {jaeger-url}[{jaeger-url}^].
 Select the `inventory` traces and click the `Find Traces` button.
+
 You see a new trace record that is two spans long with one span for the [hotspot=listContents file=1]`listContents()`
 JAX-RS method in the [hotspot file=1]`InventoryResource` class and another span for the [hotspot=list file=0]`list()`
-method in the [hotspot file=0]`InventoryManager` class. Verify that these spans have the following names:
+method in the [hotspot file=0]`InventoryManager` class.
+
+Verify that these spans have the following names:
 
 - `GET:io.openliberty.guides.inventory.InventoryResource.listContents`
 - `InventoryManager.list`
@@ -300,22 +318,24 @@ InventoryManager.java
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[]
 ----
 
-The [hotspot=Try file=0]`try` block that you see here is called a `try-with-resources` statement, meaning that the `childScope` object is closed at the end of the statement. It's good practice to define custom spans inside
-such statements. Otherwise, any exceptions that are thrown before the span is closed will leak the active span.
+The [hotspot=Try file=0]`try` block that you see here is called a `try-with-resources` statement, meaning that the
+`childScope` object is closed at the end of the statement.
+It's good practice to define custom spans inside such statements.
+Otherwise, any exceptions that are thrown before the span is closed will leak the active span.
 
-Point to the {inv-url}[{inv-url}^] URL and check your Jaeger server at {jaeger-url}[{jaeger-url}^].
+Point to the {inv-url}/localhost[{inv-url}/localhost^] URL and check your Jaeger server at {jaeger-url}[{jaeger-url}^].
 Select the `inventory` traces and click the `Find Traces` button.
 Verify that the spans in the new trace have the following names:
 
 The `system` trace:
 
-- `GET:io.openliberty.guides.system.SystemResource.getProperties` with tag `span.kind` as `"server"`
+- `GET:io.openliberty.guides.system.SystemResource.getProperties`
 
 The `inventory` trace:
 
-- `GET:io.openliberty.guides.inventory.InventoryResource.getPropertiesForHost` with tag `span.kind` as `"server"`
-- `GET` with tag `span.kind` as `"client"`
-- `add() Span` with no `span.kind`
+- `GET:io.openliberty.guides.inventory.InventoryResource.getPropertiesForHost`
+- `GET`
+- `add() Span`
 
 This simple example shows what you can do with the injected `Tracer` object. More configuration
 options are available to you, including setting a timestamp for when a span was created and destroyed.
@@ -349,10 +369,15 @@ A few tests are included for you to test the basic functionality of the services
 occurs, then you might have introduced a bug into the code.
 
 [role='command']
-include::{common-includes}/devmode-start.adoc[]
+include::{common-includes}/devmode-test.adoc[]
 
-[role='command']
-include::{common-includes}/devmode-quit.adoc[]
+=== Running the tests
+
+Since you started Open Liberty in dev mode, press the `enter/return` key in the shell sessions where you started the
+`system` and `inventory` services to run the tests for the `system` service and the `inventory` service, respectively.
+
+When you are done checking out the service, exit development mode by pressing CTRL+C, or by typing `q` and then
+pressing the `enter/return key`. in the shell sessions where you ran the `system` and `inventory` services.
 
 To stop the Jaeger server, run
 
