@@ -38,13 +38,13 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
             <scope>provided</scope>
         </dependency>
         <!-- For Jaeger -->
-        <!-- tag::jaeger -->
+        <!-- tag::jaeger[] -->
         <dependency>
             <groupId>io.jaegertracing</groupId>
             <artifactId>jaeger-client</artifactId>
             <version>0.34.0</version>
         </dependency>
-        <!-- end::jaeger -->
+        <!-- end::jaeger[] -->
         <!-- For tests -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>

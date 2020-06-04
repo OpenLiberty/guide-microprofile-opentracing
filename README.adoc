@@ -190,7 +190,7 @@ To collect traces across your systems, you need to implement the OpenTracing `Tr
 interface.
 Jaeger provides a `Tracer` implementation for the Jaeger server in the `jaeger-client` package.
 
-This package is already added as a dependency for you in your [hotspot=jaeger file=0]`pom.xml` file.
+This package is already added as a dependency for you in your [hotspot=jaeger]`pom.xml` file.
 It will be downloaded and installed automatically into each service when you run a Maven build.
 
 pom.xml
