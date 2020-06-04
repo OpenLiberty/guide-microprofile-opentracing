@@ -19,10 +19,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -58,13 +55,7 @@ public class InventoryEndpointIT {
     }
 
     @Test
-    public void testSuite() {
-        this.testEmptyInventory();
-        this.testHostRegistration();
-        this.testSystemPropertiesMatch();
-        this.testUnknownHost();
-    }
-
+    @Order(1)
     public void testEmptyInventory() {
         Response response = this.getResponse(invUrl + INVENTORY_SYSTEMS);
         this.assertResponse(invUrl, response);
@@ -79,6 +70,8 @@ public class InventoryEndpointIT {
         response.close();
     }
 
+    @Test
+    @Order(2)
     public void testHostRegistration() {
         this.visitLocalhost();
 
@@ -101,6 +94,8 @@ public class InventoryEndpointIT {
         response.close();
     }
 
+    @Test
+    @Order(3)
     public void testSystemPropertiesMatch() {
         Response invResponse = this.getResponse(invUrl + INVENTORY_SYSTEMS);
         Response sysResponse = this.getResponse(sysUrl + SYSTEM_PROPERTIES);
@@ -127,6 +122,8 @@ public class InventoryEndpointIT {
         sysResponse.close();
     }
 
+    @Test
+    @Order(4)
     public void testUnknownHost() {
         Response response = this.getResponse(invUrl + INVENTORY_SYSTEMS);
         this.assertResponse(invUrl, response);

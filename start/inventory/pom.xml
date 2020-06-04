@@ -62,6 +62,12 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
             <version>3.3.6</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.json</artifactId>
+            <version>1.1.4</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
