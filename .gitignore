@@ -9,6 +9,9 @@ target/
 .factorypath
 MANIFEST.MF
 
+# Idea generated
+.idea/
+
 # MacOS system files
 .DS_Store
 

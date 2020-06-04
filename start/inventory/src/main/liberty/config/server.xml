@@ -13,7 +13,9 @@
 
   <webApplication location="inventory.war" contextRoot="/">
     <!-- enable visibility to third party apis -->
+    <!-- tag::thirdParty -->
     <classloader apiTypeVisibility="+third-party"/>
+    <!-- end::thirdParty -->
   </webApplication>
 
 </server>

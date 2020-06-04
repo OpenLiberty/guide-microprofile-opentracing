@@ -52,7 +52,7 @@ public class InventoryResource {
     
     @GET
     // tag::Traced-false[]
-    @Traced(false)
+//    @Traced(false)
     // end::Traced-false[]
     @Produces(MediaType.APPLICATION_JSON)
     // tag::listContents[]
