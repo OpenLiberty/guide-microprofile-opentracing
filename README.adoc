@@ -66,6 +66,7 @@ You will use Docker in this guide to deploy the Jaeger server. For Docker instal
 official https://docs.docker.com/install/[Docker documentation^].
 
 *Deploying Jaeger*
+
 You can start the Jaeger all-in-one executable using Docker
 [role='command']
 ```
