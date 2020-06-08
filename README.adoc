@@ -204,7 +204,7 @@ include::finish/inventory/pom.xml[]
 // Enabling distributed tracing
 // =================================================================================================
 
-== Enabling distributed tracing
+== Enabling and disabling distributed tracing
 
 The MicroProfile OpenTracing feature enables tracing of all JAX-RS methods by default.
 To further control and customize these traces, use the `@Traced` annotation to enable and disable
@@ -258,16 +258,10 @@ another `@Traced` annotation.
 [role="edit_command_text"]
 Enable tracing of the [hotspot=list file=0]`list()` non-JAX-RS method by updating [hotspot=Traced file=0]`@Traced` as shown.
 
-InventoryManager.java
-[source, Java, linenums, role='code_column tags=addToInvList hide_tags=copyright,customTracer,Try']
-----
-include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[]
-----
-
 Point to the {inv-url}[{inv-url}^] URL and check your Jaeger server at {jaeger-url}[{jaeger-url}^].
 Select the `inventory` traces and click the `Find Traces` button.
 
-You see a new trace record that is two spans long with one span for the [hotspot=listContents file=1]`listContents()`
+You see a new trace record that is two spans long with one span for the [hotspot=listContents file=1 hide_tags=Traced-false]`listContents()`
 JAX-RS method in the [hotspot file=1]`InventoryResource` class and another span for the [hotspot=list file=0]`list()`
 method in the [hotspot file=0]`InventoryManager` class.
 
@@ -275,6 +269,23 @@ Verify that these spans have the following names:
 
 - `GET:io.openliberty.guides.inventory.InventoryResource.listContents`
 - `InventoryManager.list`
+
+InventoryManager.java
+[source, Java, linenums, role='code_column hide_tags=copyright,addSpan,endTry tags=addToInvList']
+----
+include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[]
+----
+
+InventoryResource.java
+[source, Java, linenums, role='code_column hide_tags=copyright,Traced-false']
+----
+include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
+----
+
+=== Disable automatic distributed tracing
+
+You can use the `@Traced` annotation with a value of `false` to disable the automatic distributed tracing of JAX-RS
+methods.
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
@@ -284,12 +295,6 @@ Verify that these spans have the following names:
 [role="edit_command_text"]
 Disable tracing of the [hotspot=listContents file=1]`listContents()` JAX-RS method by setting [hotspot=Traced-false file=1]`@Traced(false)`.
 
-InventoryResource.java
-[source, Java, linenums, role='code_column hide_tags=copyright']
-----
-include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
-----
-
 Point to the {inv-url}[{inv-url}^] URL and check your Jaeger server at {jaeger-url}[{jaeger-url}^].
 Select the `inventory` traces and click the `Find Traces` button.
 You see a new trace record that is just one span long for the remaining [hotspot=list file=0]`list()` method in the
@@ -297,6 +302,18 @@ You see a new trace record that is just one span long for the remaining [hotspot
 Verify that this span has the following name:
 
 - `InventoryManager.list`
+
+InventoryManager.java
+[source, Java, linenums, role='code_column hide_tags=copyright,addSpan,endTry tags=addToInvList']
+----
+include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[]
+----
+
+InventoryResource.java
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
+----
 
 === Injecting a custom Tracer object
 
