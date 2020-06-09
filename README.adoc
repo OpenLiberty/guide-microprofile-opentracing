@@ -14,7 +14,7 @@
 :page-description: Explore how to enable and customize tracing of JAX-RS and non-JAX-RS methods by using MicroProfile OpenTracing.
 :page-tags: ['MicroProfile', 'OpenTracing', 'microservices', '@Traced']
 :page-permalink: /guides/{projectid}
-:imagesdir: /guides/{projectid}/assets
+:imagesdir: /img/guide/{projectid}
 :page-related-guides: ['cdi-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :page-seo-title: Enabling distributed tracing in Java microservices using Eclipse MicroProfile OpenTracing
