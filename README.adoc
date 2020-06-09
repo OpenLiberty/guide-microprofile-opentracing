@@ -14,7 +14,7 @@
 :page-description: Explore how to enable and customize tracing of JAX-RS and non-JAX-RS methods by using MicroProfile OpenTracing.
 :page-tags: ['MicroProfile', 'OpenTracing', 'microservices', '@Traced']
 :page-permalink: /guides/{projectid}
-:imagesdir: /img/guide/{projectid}
+:imagesdir: /guides/{projectid}/assets
 :page-related-guides: ['cdi-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :page-seo-title: Enabling distributed tracing in Java microservices using Eclipse MicroProfile OpenTracing
@@ -137,6 +137,7 @@ to see the application services.
 View the traces for `inventory`. You should see the following trace:
 
 image::tracelist.png[Trace result,align="center"]
+{empty} +
 
 The trace should have 4 spans, 3 from `inventory` and 1 from `system`. Click on the trace to view its details.
 Under `Service & Operation`, you should see the spans in this trace.
@@ -146,6 +147,7 @@ at which the request was received and the time at which a response was sent back
 Verify that there are three spans from `inventory` and one span from `system`:
 
 image::trace01.png[Finished application's trace,align="center"]
+{empty} +
 
 After you are finished checking out the application, stop the Open Liberty servers by pressing CTRL+C in the
 shell sessions where you ran the `system` and `inventory` services.
@@ -261,6 +263,7 @@ method in the [hotspot file=0]`InventoryManager` class.
 Verify that you see the following spans:
 
 image::trace02.png[Explicit trace span,align="center"]
+{empty} +
 
 InventoryManager.java
 [source, Java, linenums, role='code_column hide_tags=copyright,addSpan,endTry tags=addToInvList']
@@ -295,6 +298,7 @@ You see a new trace record that is just one span long for the remaining [hotspot
 Verify that you see the following span:
 
 image::trace03.png[Disable trace span,align="center"]
+{empty} +
 
 InventoryManager.java
 [source, Java, linenums, role='code_column hide_tags=copyright,addSpan,endTry tags=addToInvList']
@@ -341,6 +345,7 @@ Verify that the spans in the new trace have the following names:
 Verify that there are three spans from `inventory` and one span from `system`:
 
 image::trace01.png[Trace with custom span,align="center"]
+{empty} +
 
 This simple example shows what you can do with the injected `Tracer` object. More configuration
 options are available to you, including setting a timestamp for when a span was created and destroyed.
