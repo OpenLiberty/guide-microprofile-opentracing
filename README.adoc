@@ -14,6 +14,7 @@
 :page-description: Explore how to enable and customize tracing of JAX-RS and non-JAX-RS methods by using MicroProfile OpenTracing.
 :page-tags: ['MicroProfile', 'OpenTracing', 'microservices', '@Traced']
 :page-permalink: /guides/{projectid}
+:imagesdir: /img/guide/{projectid}
 :page-related-guides: ['cdi-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :page-seo-title: Enabling distributed tracing in Java microservices using Eclipse MicroProfile OpenTracing
@@ -133,26 +134,18 @@ you can view the traces for the `inventory` or `system` services by selecting th
 If you only see the `jaeger-query` listed in the dropdown, you may need to wait a little longer and refresh the page
 to see the application services.
 
-View the traces for `inventory`. You should see a trace with the following header:
-[role='no_copy']
-----
-inventory: GET:io.openliberty.guides.inventory.InventoryResource.getPropertiesForHost
-----
+View the traces for `inventory`. You should see the following trace:
+
+image::tracelist.png[Trace result,align="center"]
 
 The trace should have 4 spans, 3 from `inventory` and 1 from `system`. Click on the trace to view its details.
 Under `Service & Operation`, you should see the spans in this trace.
 You can inspect each span by clicking it to reveal more detailed information, such as the time
 at which the request was received and the time at which a response was sent back.
 
-Verify that there are three spans from `inventory`:
+Verify that there are three spans from `inventory` and one span from `system`:
 
-- `GET:io.openliberty.guides.inventory.InventoryResource.getPropertiesForHost` (JAX-RS)
-- `GET` (JAX-RS Client)
-- `add() Span` (Custom Tracer injection)
-
-Verify that there is one span from `system`:
-
-- `GET:io.openliberty.guides.system.SystemResource.getProperties` (JAX-RS)
+image::trace01.png[Finished application's trace,align="center"]
 
 After you are finished checking out the application, stop the Open Liberty servers by pressing CTRL+C in the
 shell sessions where you ran the `system` and `inventory` services.
@@ -265,10 +258,9 @@ You see a new trace record that is two spans long with one span for the [hotspot
 JAX-RS method in the [hotspot file=1]`InventoryResource` class and another span for the [hotspot=list file=0]`list()`
 method in the [hotspot file=0]`InventoryManager` class.
 
-Verify that these spans have the following names:
+Verify that you see the following spans:
 
-- `GET:io.openliberty.guides.inventory.InventoryResource.listContents`
-- `InventoryManager.list`
+image::trace02.png[Explicit trace span,align="center"]
 
 InventoryManager.java
 [source, Java, linenums, role='code_column hide_tags=copyright,addSpan,endTry tags=addToInvList']
@@ -299,9 +291,10 @@ Point to the {inv-url}[{inv-url}^] URL and check your Jaeger server at {jaeger-u
 Select the `inventory` traces and click the `Find Traces` button.
 You see a new trace record that is just one span long for the remaining [hotspot=list file=0]`list()` method in the
 `InventoryManager` class.
-Verify that this span has the following name:
 
-- `InventoryManager.list`
+Verify that you see the following span:
+
+image::trace03.png[Disable trace span,align="center"]
 
 InventoryManager.java
 [source, Java, linenums, role='code_column hide_tags=copyright,addSpan,endTry tags=addToInvList']
@@ -345,15 +338,9 @@ Point to the {inv-url}/localhost[{inv-url}/localhost^] URL and check your Jaeger
 Select the `inventory` traces and click the `Find Traces` button.
 Verify that the spans in the new trace have the following names:
 
-The `system` trace:
+Verify that there are three spans from `inventory` and one span from `system`:
 
-- `GET:io.openliberty.guides.system.SystemResource.getProperties`
-
-The `inventory` trace:
-
-- `GET:io.openliberty.guides.inventory.InventoryResource.getPropertiesForHost`
-- `GET`
-- `add() Span`
+image::trace01.png[Trace with custom span,align="center"]
 
 This simple example shows what you can do with the injected `Tracer` object. More configuration
 options are available to you, including setting a timestamp for when a span was created and destroyed.
