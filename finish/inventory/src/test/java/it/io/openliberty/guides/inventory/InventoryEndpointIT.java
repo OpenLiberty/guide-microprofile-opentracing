@@ -58,7 +58,6 @@ public class InventoryEndpointIT {
     @Test
     @Order(1)
     public void testEmptyInventory() {
-        System.out.println("first");
         Response response = this.getResponse(invUrl + INVENTORY_SYSTEMS);
         this.assertResponse(invUrl, response);
 
@@ -75,7 +74,6 @@ public class InventoryEndpointIT {
     @Test
     @Order(2)
     public void testHostRegistration() {
-        System.out.println("second");
         this.visitLocalhost();
 
         Response response = this.getResponse(invUrl + INVENTORY_SYSTEMS);
@@ -100,7 +98,6 @@ public class InventoryEndpointIT {
     @Test
     @Order(3)
     public void testSystemPropertiesMatch() {
-        System.out.println("third");
         Response invResponse = this.getResponse(invUrl + INVENTORY_SYSTEMS);
         Response sysResponse = this.getResponse(sysUrl + SYSTEM_PROPERTIES);
 
@@ -129,7 +126,6 @@ public class InventoryEndpointIT {
     @Test
     @Order(4)
     public void testUnknownHost() {
-        System.out.println("fourth");
         Response response = this.getResponse(invUrl + INVENTORY_SYSTEMS);
         this.assertResponse(invUrl, response);
 
