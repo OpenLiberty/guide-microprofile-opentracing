@@ -1,23 +1,23 @@
 <server description="Sample Liberty server">
 
-  <featureManager>
-    <feature>jaxrs-2.1</feature>
-    <feature>jsonp-1.1</feature>
-    <feature>cdi-2.0</feature>
-    <feature>mpConfig-1.4</feature>
-    <!-- tag::mpOpenTracing[] -->
-    <feature>mpOpenTracing-1.3</feature>
-    <!-- end::mpOpenTracing[] -->
-  </featureManager>
+    <featureManager>
+        <feature>jaxrs-2.1</feature>
+        <feature>jsonp-1.1</feature>
+        <feature>cdi-2.0</feature>
+        <feature>mpConfig-1.4</feature>
+        <!-- tag::mpOpenTracing[] -->
+        <feature>mpOpenTracing-1.3</feature>
+        <!-- end::mpOpenTracing[] -->
+    </featureManager>
 
-  <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
-      id="defaultHttpEndpoint" host="*" />
-      
-  <webApplication location="inventory.war" contextRoot="/">
-    <!-- enable visibility to third party apis -->
-    <!-- tag::thirdParty[] -->
-    <classloader apiTypeVisibility="+third-party"/>
-    <!-- end::thirdParty[] -->
-  </webApplication>
+    <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
+                  id="defaultHttpEndpoint" host="*" />
+
+    <webApplication location="inventory.war" contextRoot="/">
+        <!-- enable visibility to third party apis -->
+        <!-- tag::thirdParty[] -->
+        <classloader apiTypeVisibility="+third-party"/>
+        <!-- end::thirdParty[] -->
+    </webApplication>
 
 </server>

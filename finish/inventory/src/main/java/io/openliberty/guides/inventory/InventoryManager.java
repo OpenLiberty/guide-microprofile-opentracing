@@ -76,5 +76,11 @@ public class InventoryManager {
         return new InventoryList(systems);
     }
     // end::list[]
+
+    int clear() {
+        int propertiesClearedCount = systems.size();
+        systems.clear();
+        return propertiesClearedCount;
+    }
 }
 // end::InventoryManager[]

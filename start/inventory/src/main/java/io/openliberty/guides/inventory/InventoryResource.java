@@ -15,10 +15,7 @@ package io.openliberty.guides.inventory;
 import java.util.Properties;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -48,9 +45,22 @@ public class InventoryResource {
     }
 
     @GET
+    @Traced(false)
     @Produces(MediaType.APPLICATION_JSON)
     public InventoryList listContents() {
         return manager.list();
     }
-    
+
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response clearContents() {
+        int cleared = manager.clear();
+
+        if (cleared == 0) {
+            return Response.status(Response.Status.NOT_MODIFIED)
+                    .build();
+        }
+        return Response.status(Response.Status.OK)
+                .build();
+    }
 }

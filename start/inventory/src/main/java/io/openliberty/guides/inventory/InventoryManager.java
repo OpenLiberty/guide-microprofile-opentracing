@@ -34,16 +34,14 @@ public class InventoryManager {
     @Inject
     @ConfigProperty(name="system.http.port")
     int SYSTEM_PORT;
-    
+
     private List<SystemData> systems = Collections.synchronizedList(new ArrayList<>());
     private SystemClient systemClient = new SystemClient();
 
 
     public Properties get(String hostname) {
         systemClient.init(hostname, SYSTEM_PORT);
-        Properties properties = systemClient.getProperties();
-        
-        return properties;
+        return systemClient.getProperties();
     }
 
     public void add(String hostname, Properties systemProps) {
@@ -60,5 +58,10 @@ public class InventoryManager {
     public InventoryList list() {
         return new InventoryList(systems);
     }
-    
+
+    int clear() {
+        int propertiesClearedCount = systems.size();
+        systems.clear();
+        return propertiesClearedCount;
+    }
 }

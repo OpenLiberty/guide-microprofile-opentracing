@@ -53,7 +53,7 @@ not address the problem of defining, implementing, or configuring the underlying
 system. Rather, the specification makes it easy to instrument services with distributed tracing given
 an existing distributed tracing system.
 
-https://www.jaegertracing.io/[Jaeger^] is a an open-sourced distributed tracing system which is compatible with the
+https://www.jaegertracing.io/[Jaeger^] is a an open-source distributed tracing system which is compatible with the
 OpenTracing specification. Jaeger also provides an implementation of `Tracer` in their client package that is compatible
 with MicroProfile OpenTracing.
 
@@ -163,13 +163,33 @@ mvn liberty:stop
 // =================================================================================================
 == Building the application
 
-You'll need to start the services to see basic traces appear in Jaeger. You will need two command-line instances to
-start the two services in development mode.
-Open a command-line session and navigate to the `start/inventory` directory.
-Open another command-line session and navigate to the `start/system` directory.
+You'll need to start the services to see basic traces appear in Jaeger.
 
-[role='command']
-include::{common-includes}/devmode-start.adoc[]
+When you run Open Liberty in dev mode, the server listens for file changes and automatically recompiles and deploys your
+updates whenever you save a new change.
+
+Open a command-line session and navigate to the `start/inventory` directory.
+Run the following Maven goal to start the `inventory` service in dev mode:
+[role="command"]
+----
+mvn liberty:dev
+----
+
+Open a command-line session and navigate to the `start/system` directory.
+Run the following Maven goal to start the `system` service in dev mode:
+[role="command"]
+----
+mvn liberty:dev
+----
+
+After you see the following message, your application server in dev mode is ready:
+[role="no_copy"]
+----
+Press the Enter key to run tests on demand.
+----
+
+Dev mode holds your command line to listen for file changes. Open another command line to continue, or open the project
+in your editor.
 
 When the servers start, you can find the `system` and `inventory` services at the following URLs:
 
@@ -214,7 +234,7 @@ Because tracing of all JAX-RS methods is enabled by default, you need only to en
 to see some basic traces in Jaeger.
 
 To add the availability of Jaeger APIs to the application, `third-party` must be added to the types of API packages that
-this class loader.
+this class loader supports.
 Instead of explicitly configuring a list of API packages which includes `third-party`, the value `+third-party` can be
 set to the [hotspot=thirdParty]`apiTypeVisibility` attribute of the [hotspot=thirdParty]`<classLoader />`
 configuration to add `third-party` to the default list of API package types supported.
