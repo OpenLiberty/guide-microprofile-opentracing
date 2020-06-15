@@ -85,7 +85,7 @@ docker run -d --name jaeger \
 ```
 
 You can find more information about the Jaeger server in their
-https://www.jaegertracing.io/docs/1.17/getting-started/[Getting Started^] documentation.
+https://www.jaegertracing.io/docs/1.17/getting-started/[documentation^].
 
 Before you proceed, make sure that your Jaeger server is up and running. Jaeger can be found
 at the {jaeger-url}[{jaeger-url}^] URL.
