@@ -13,6 +13,8 @@
 package it.io.openliberty.guides.inventory;
 
 import javax.json.JsonObject;
+import javax.servlet.ServletException;
+import javax.ws.rs.ServerErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
@@ -26,22 +28,31 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class InventoryEndpointIT {
 
-    private static String sysPort;
-    private static String invPort;
     private static String sysUrl;
     private static String invUrl;
 
     private Client client;
 
-    private final String SYSTEM_PROPERTIES = "system/properties";
-    private final String INVENTORY_SYSTEMS = "inventory/systems";
+    private final static String INVENTORY_SYSTEMS = "inventory/systems";
+    private final static String SYSTEM_PROPERTIES = "system/properties";
 
     @BeforeAll
-    public static void oneTimeSetup() {
-        sysPort = System.getProperty("sys.http.port");
+    public static void oneTimeSetup() throws ServletException {
+        String sysPort = System.getProperty("sys.http.port");
         sysUrl = "http://localhost:" + sysPort + "/";
-        invPort = System.getProperty("inv.http.port");
+        String invPort = System.getProperty("inv.http.port");
         invUrl = "http://localhost:" + invPort + "/";
+
+        Response clearResponse = ClientBuilder.newClient()
+                .register(JsrJsonpProvider.class)
+                .target(invUrl + INVENTORY_SYSTEMS)
+                .request()
+                .delete();
+
+        if (clearResponse.getStatus() != Response.Status.OK.getStatusCode()
+                && clearResponse.getStatus() != Response.Status.NOT_MODIFIED.getStatusCode()) {
+            throw new ServletException("Could not clear inventory manager.");
+        }
     }
 
     @BeforeEach

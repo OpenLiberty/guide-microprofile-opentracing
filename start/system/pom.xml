@@ -39,6 +39,17 @@
             <artifactId>jaeger-client</artifactId>
             <version>0.34.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.30</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.30</version>
+            <scope>test</scope>
+        </dependency>
         <!-- For tests -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -58,7 +69,6 @@
             <version>3.3.6</version>
             <scope>test</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.glassfish/javax.json -->
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>javax.json</artifactId>
