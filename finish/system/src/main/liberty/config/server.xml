@@ -1,21 +1,17 @@
 <server description="Sample Liberty server">
 
-  <featureManager>
-    <feature>jaxrs-2.1</feature>
-    <feature>jsonp-1.1</feature>
-    <feature>cdi-2.0</feature>
-    <feature>mpOpenTracing-1.3</feature>
-    <feature>usr:opentracingZipkin-0.31</feature>
-  </featureManager>
+    <featureManager>
+        <feature>jaxrs-2.1</feature>
+        <feature>jsonp-1.1</feature>
+        <feature>cdi-2.0</feature>
+        <feature>mpOpenTracing-1.3</feature>
+    </featureManager>
 
-  <opentracingZipkin host="localhost"/>
+    <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
+                  id="defaultHttpEndpoint" host="*" />
 
-  <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
-      id="defaultHttpEndpoint" host="*" />
-
-  <webApplication location="system-service.war" contextRoot="/">
-    <!-- enable visibility to third party apis -->
-    <classloader apiTypeVisibility="api,ibm-api,spec,stable,third-party"/>
-  </webApplication>
-
+    <webApplication location="system.war" contextRoot="/">
+        <!-- enable visibility to third party apis -->
+        <classloader apiTypeVisibility="+third-party"/>
+    </webApplication>
 </server>
