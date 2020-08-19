@@ -11,21 +11,21 @@
 :page-guide-category: microprofile
 :page-essential: false
 :page-releasedate: 2018-03-16
-:page-description: Explore how to enable and customize tracing of JAX-RS and non-JAX-RS methods by using MicroProfile OpenTracing.
+:page-description: Explore how to enable and customize tracing of JAX-RS and non-JAX-RS methods by using Zipkin and MicroProfile OpenTracing.
 :page-tags: ['MicroProfile', 'OpenTracing', 'microservices', '@Traced']
 :page-permalink: /guides/{projectid}
-:page-related-guides: ['cdi-intro']
+:page-related-guides: ['cdi-intro', 'microprofile-opentracing-jaeger']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
-:page-seo-title: Enabling distributed tracing in Java microservices using Eclipse MicroProfile OpenTracing
+:page-seo-title: Enabling distributed tracing in Java microservices using Eclipse MicroProfile OpenTracing and the Zipkin tracing system.
 :page-seo-description: A getting started tutorial and an example on how to enable distributed tracing in Java microservices to easily trace request flows that span multiple resources by using MicroProfile OpenTracing and Zipkin tracing system.
 :source-highlighter: prettify
 :guide-author: Open Liberty
-= Enabling distributed tracing in microservices
+= Enabling distributed tracing in microservices with Zipkin
 
 [.hidden]
 NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
 
-Explore how to enable and customize tracing of JAX-RS and non-JAX-RS methods by using MicroProfile OpenTracing.
+Explore how to enable and customize tracing of JAX-RS and non-JAX-RS methods by using MicroProfile OpenTracing and the Zipkin tracing system.
 
 
 :inv-url: http://localhost:9081/inventory/systems
