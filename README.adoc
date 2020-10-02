@@ -70,6 +70,14 @@ for Zipkin at the Zipkin https://zipkin.io/pages/quickstart.html[quickstart page
 to use Zipkin, but keep in mind that you might need more instructions that are not listed here if you choose
 to use another tracing system.
 
+If you are using Java 8 or above you can easily download and run Zipkin by using the command:
+
+[role='command']
+```
+curl -sSL https://zipkin.io/quickstart.sh | bash -s
+java -jar zipkin.jar
+```
+
 Before you proceed, make sure that your Zipkin server is up and running. By default, Zipkin can be found
 at the {zipkin-url}[{zipkin-url}^] URL.
 
