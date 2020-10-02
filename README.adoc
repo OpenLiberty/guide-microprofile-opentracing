@@ -187,12 +187,14 @@ mvn liberty:stop-server
 
 == Running the services
 
-You'll need to start the services to see basic traces appear in Zipkin. So, before you proceed, build
-and start the provided `system` and `inventory` services in the starting project. Navigate to the `start`
-directory and run the Maven `install` goal
+Navigate to the `start` directory to begin.
+
+You'll need to start the services to see basic traces appear in Zipkin. So,
+before you proceed, build and start the provided `system` and `inventory`
+services in the starting project by running the Maven `install` goal:
+
 [role='command']
 ```
-cd start
 mvn install
 ```
 
