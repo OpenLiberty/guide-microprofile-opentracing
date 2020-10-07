@@ -77,11 +77,12 @@ at the {zipkin-url}[{zipkin-url}^] URL.
 === Try what you'll build
 
 The `finish` directory in the root directory of this guide contains two services that are configured
-to use MicroProfile OpenTracing. Feel free to give them a try before you proceed.
+to use MicroProfile OpenTracing. Give them a try before you proceed.
 
 To try out the services, navigate to the `finish` directory and run the Maven `install` phase to build the services
 [role='command']
 ```
+cd finish
 mvn install
 ```
 
@@ -186,9 +187,12 @@ mvn liberty:stop-server
 
 == Running the services
 
-You'll need to start the services to see basic traces appear in Zipkin. So, before you proceed, build
-and start the provided `system` and `inventory` services in the starting project. Navigate to the `start`
-directory and run the Maven `install` goal
+Navigate to the `start` directory to begin.
+
+You'll need to start the services to see basic traces appear in Zipkin. So,
+before you proceed, build and start the provided `system` and `inventory`
+services in the starting project by running the Maven `install` goal:
+
 [role='command']
 ```
 mvn install
