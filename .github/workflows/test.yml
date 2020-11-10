@@ -29,7 +29,7 @@ jobs:
     - name: Post tests
       if: always()
       run: | 
-          logsPath=$(sudo find . -name "console.log" | sed "s/console.log//g");
+          logsPath=$(sudo find . -name "console.log" | grep inventory);
           sudo cat $logsPath | sudo grep Launching
           
     - name: Archive server logs if failed
