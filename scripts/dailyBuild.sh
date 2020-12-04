@@ -8,7 +8,7 @@ while getopts t:d:b:u: flag; do
     esac
 done
 
-sed -i "\#<assemblyArtifact>#,\#</assemblyArtifact>#c<install><runtimeUrl>https://public.dhe.ibm.com/ibmdl/export/pub/software/openliberty/runtime/nightly/"$DEVDATE"/"$DEVBUILD"</runtimeUrl></install>" pom.xml
+sed -i "\#<assemblyArtifact>#,\#</assemblyArtifact>#c<install><runtimeUrl>https://public.dhe.ibm.com/ibmdl/export/pub/software/openliberty/runtime/nightly/"$DATE"/"$BUILD"</runtimeUrl></install>" pom.xml
 cat pom.xml
 
 ../scripts/testApp.sh
