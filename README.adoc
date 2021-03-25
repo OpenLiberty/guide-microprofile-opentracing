@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2020 IBM Corporation and others.
+// Copyright (c) 2017, 2021 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -64,15 +64,36 @@ server, then any logging software would do the trick.
 [role='command']
 include::{common-includes}/gitclone.adoc[]
 
-
-For this guide, use Zipkin as your distributed tracing system. You can find the installation instructions
+// static guide instructions:
+ifndef::cloud-hosted[]
+For this guide, Zipkin is used as the distributed tracing system. You can find the installation instructions
 for Zipkin at the Zipkin https://zipkin.io/pages/quickstart.html[quickstart page^]. You are not required
 to use Zipkin, but keep in mind that you might need more instructions that are not listed here if you choose
 to use another tracing system.
 
 Before you proceed, make sure that your Zipkin server is up and running. By default, Zipkin can be found
 at the {zipkin-url}[{zipkin-url}^] URL.
+endif::[]
 
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+For this guide, use Zipkin as your distributed tracing system.
+
+Start Zipkin by running the following command:
+
+```
+docker run -d -p 9411:9411 openzipkin/zipkin
+```
+{: codeblock}
+
+Before you proceed, make sure that your Zipkin server is up and running by checking the Zipkin URL:
+
+```
+curl {zipkin-url}
+```
+{: codeblock}
+
+endif::[]
 
 === Try what you'll build
 
@@ -92,9 +113,27 @@ then, run the Maven `liberty:start-server` goal to start them in two Open Libert
 mvn liberty:start-server
 ```
 
+// static guide instructions:
+ifndef::cloud-hosted[]
 Make sure that your Zipkin server is running and point your browser to the {inv-url}/localhost[{inv-url}/localhost^] URL. 
-When you visit this endpoint, you make two GET HTTP requests, one to the `system` service and one to the `inventory`
-service. Both of these requests are configured to be traced, so a new trace will be recorded in Zipkin.
+When you visit this endpoint, you make two HTTP GET requests, one to the `system` service and one to the `inventory`
+service. 
+endif::[]
+
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+Make sure that your Zipkin server is running, and run the following `curl` command:
+
+```
+curl {inv-url}/localhost
+```
+{: codeblock}
+
+When you make this `curl` request, you make two HTTP GET requests, one to the `system` service and one to the `inventory`
+service. 
+endif::[]
+
+Both of these requests are configured to be traced, so a new trace will be recorded in Zipkin.
 Visit the {zipkin-url}[{zipkin-url}^] URL or another location where you configured Zipkin to run and sort the traces
 by newest first. Verify that this new trace contains three spans with the following names:
 
