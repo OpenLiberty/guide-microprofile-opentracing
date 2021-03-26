@@ -133,8 +133,8 @@ curl {inv-url}/localhost
 ```
 {: codeblock}
 
-When you make this `curl` request, you make two HTTP GET requests, one to the `system` service and one to the `inventory`
-service. 
+When you make this `curl` request, you make two HTTP GET requests, one to the `system` service and 
+one to the `inventory` service. 
 Both of these requests are configured to be traced, so a new trace will be recorded in Zipkin.
 Click the `Launch Application` button and enter `9411` as your port to view Zipkin.
 Run an empty query and sort the traces by latest start time first. 
@@ -150,8 +150,8 @@ You can inspect each span by clicking it to reveal more detailed information, su
 at which the request was received and the time at which a response was sent back.
 
 If you examine the other traces, you might notice a red trace entry, which happens when an error is
-caught by the span. In this case, since one of the tests accesses the `/inventory/systems/badhostname`
-endpoint, which is invalid, an error is thrown. This behavior is expected.
+caught by the span. In this case, one of the tests accesses the `/inventory/systems/badhostname`
+endpoint, which is invalid, so an error is thrown. This behavior is expected.
 
 When you are done checking out the services, stop both Open Liberty servers using the Maven
 `liberty:stop-server` goal:
@@ -218,9 +218,9 @@ To collect traces across your systems, you need to implement the OpenTracing `Tr
 interface. For this guide, you can access a bare-bones `Tracer` implementation for
 the Zipkin server in the form of a user feature for Open Liberty.
 
-This feature is already configured for you in your [hotspot file=1]`pom.xml` and [hotspot file=0]`server.xml` files. It will be
-downloaded and installed automatically into each service when you run a Maven build. You can find the [hotspot=zipkinUsr file=0]`opentracingZipkin` feature
-enabled in your [hotspot file=0]`server.xml` file.
+This feature is already configured for you in your [hotspot file=1]`pom.xml` and [hotspot file=0]`server.xml` files. 
+It will be downloaded and installed automatically into each service when you run a Maven build. 
+You can find the [hotspot=zipkinUsr file=0]`opentracingZipkin` feature enabled in your [hotspot file=0]`server.xml` file.
 
 The [hotspot=download file=1]`download-maven-plugin` Maven plug-in in your `pom.xml` is responsible for downloading and installing the feature.
 
@@ -264,7 +264,6 @@ server.xml
 ----
 include::finish/inventory/src/main/liberty/config/server.xml[]
 ----
-
 
 Make sure that your services are running. Then, simply point your browser to any of their endpoints and
 check your Zipkin server for traces.
@@ -374,8 +373,8 @@ Verify that this span has the following name:
 === Injecting a custom Tracer object
 
 The MicroProfile OpenTracing specification also makes the underlying OpenTracing `Tracer` instance
-available for use. You can access the configured `Tracer` by injecting it into a bean by using the [hotspot=customTracer file=0]`@Inject`
-annotation from the Contexts and Dependency Injections API.
+available for use. You can access the configured `Tracer` by injecting it into a bean by using the 
+[hotspot=customTracer file=0]`@Inject` annotation from the Contexts and Dependency Injections API.
 
 Inject the `Tracer` object into the `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file.
 Then, use it to define a new child scope in the [hotspot=addSpan file=0]`add()` call.
