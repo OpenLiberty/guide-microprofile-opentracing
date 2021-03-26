@@ -137,9 +137,9 @@ Both of these requests are configured to be traced, so a new trace will be recor
 Visit the {zipkin-url}[{zipkin-url}^] URL or another location where you configured Zipkin to run and sort the traces
 by newest first. Verify that this new trace contains three spans with the following names:
 
-- `get:io.openliberty.guides.inventory.inventoryresource.getpropertiesforhost`
-- `get:io.openliberty.guides.system.systemresource.getproperties`
-- `add() span`
+* `get:io.openliberty.guides.inventory.inventoryresource.getpropertiesforhost`
+* `get:io.openliberty.guides.system.systemresource.getproperties`
+* `add() span`
 
 // image::/guides/draft-guide-microprofile-opentracing/resources/disable-tracing.png[png][Disable tracing, width=100%]
 
@@ -245,8 +245,8 @@ mvn liberty:start-server
 
 When the servers start, you can find the `system` and `inventory` services at the following URLs:
 
-- {sys-url}[{sys-url}^]
-- {inv-url}[{inv-url}^]
+* {sys-url}[{sys-url}^]
+* {inv-url}[{inv-url}^]
 
 // =================================================================================================
 // Existing Tracer implementation
@@ -316,10 +316,10 @@ If you place the annotation on a method, then it overrides the class annotation 
 
 The [hotspot=Traced file=0]`@Traced` annotation can be configured with the following two parameters:
 
-- The `value=[true|false]` parameter indicates whether or not a particular class or method is
+* The `value=[true|false]` parameter indicates whether or not a particular class or method is
 traced. For example, while all JAX-RS methods are traced by default, you can disable their tracing by
 using the `@Traced(false)` annotation. This parameter is set to `true` by default.
-- The `operationName=<Span name>` parameter indicates the name of the span that is assigned to the
+* The `operationName=<Span name>` parameter indicates the name of the span that is assigned to the
 particular method that is traced. If you omit this parameter, the span will be named with the following
 form: `<package name>.<class name>.<method name>`. If you use this parameter at a class level, then
 all methods within that class will have the same span name unless they are explicitly overridden by
@@ -350,8 +350,8 @@ that is two spans long with one span for the [hotspot=listContents file=1]`listC
 class and another span for the [hotspot=list file=0]`list()` method in the [hotspot file=0]`InventoryManager` class. Verify that these spans
 have the following names:
 
-- `get:io.openliberty.guides.inventory.inventoryresource.listcontents`
-- `inventorymanager.list`
+* `get:io.openliberty.guides.inventory.inventoryresource.listcontents`
+* `inventorymanager.list`
 
 // image::/guides/draft-guide-microprofile-opentracing/resources/enable-tracing.png[png][Enable tracing, width=100%]
 
@@ -381,7 +381,7 @@ Point to the
 that is just one span long for the remaining [hotspot=list file=0]`list()` method in the `InventoryManager` class. Verify
 that this span has the following name:
 
-- `inventorymanager.list`
+* `inventorymanager.list`
 
 // image::/guides/draft-guide-microprofile-opentracing/resources/disable-tracing.png[png][Disable tracing, width=100%]
 
@@ -425,12 +425,12 @@ Verify that all of these spans have the following names:
 
 The `system` trace:
 
-- `get:io.openliberty.guides.system.systemresource.getproperties`
+* `get:io.openliberty.guides.system.systemresource.getproperties`
 
 The `inventory` trace:
 
-- `get:io.openliberty.guides.inventory.inventoryresource.getpropertiesforhost`
-- `add() span`
+* `get:io.openliberty.guides.inventory.inventoryresource.getpropertiesforhost`
+* `add() span`
 
 // image::/guides/draft-guide-microprofile-opentracing/resources/inject-tracer.png[png][Inject tracer, width=100%]
 
