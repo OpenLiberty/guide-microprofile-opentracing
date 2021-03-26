@@ -77,7 +77,7 @@ endif::[]
 
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
-For this guide, use Zipkin as your distributed tracing system.
+For this guide, Zipkin is used as the distributed tracing system.
 
 Start Zipkin by running the following command:
 
@@ -86,7 +86,8 @@ docker run -d -p 9411:9411 openzipkin/zipkin
 ```
 {: codeblock}
 
-Before you proceed, make sure that your Zipkin server is up and running by checking the Zipkin URL:
+Before you proceed, make sure that your Zipkin server is up and running by ensuring that the Zipkin URL
+does not return an error with the following `curl` command:
 
 ```
 curl {zipkin-url}
@@ -118,6 +119,9 @@ ifndef::cloud-hosted[]
 Make sure that your Zipkin server is running and point your browser to the {inv-url}/localhost[{inv-url}/localhost^] URL. 
 When you visit this endpoint, you make two HTTP GET requests, one to the `system` service and one to the `inventory`
 service. 
+Both of these requests are configured to be traced, so a new trace will be recorded in Zipkin.
+Visit the {zipkin-url}[{zipkin-url}^] URL or another location where you configured Zipkin to run. 
+Run an empty query and sort the traces by latest start time first. 
 endif::[]
 
 // cloud-hosted guide instructions:
@@ -131,11 +135,12 @@ curl {inv-url}/localhost
 
 When you make this `curl` request, you make two HTTP GET requests, one to the `system` service and one to the `inventory`
 service. 
+Both of these requests are configured to be traced, so a new trace will be recorded in Zipkin.
+Click the `Launch Application` button and enter `9411` as your port to view Zipkin.
+Run an empty query and sort the traces by latest start time first. 
 endif::[]
 
-Both of these requests are configured to be traced, so a new trace will be recorded in Zipkin.
-Visit the {zipkin-url}[{zipkin-url}^] URL or another location where you configured Zipkin to run and sort the traces
-by newest first. Verify that this new trace contains three spans with the following names:
+Verify that this new trace contains three spans with the following names:
 
 * `get:io.openliberty.guides.inventory.inventoryresource.getpropertiesforhost`
 * `get:io.openliberty.guides.system.systemresource.getproperties`
@@ -157,6 +162,7 @@ When you are done checking out the services, stop both Open Liberty servers usin
 ```
 mvn liberty:stop-server
 ```
+
 // =================================================================================================
 // Running the application with Docker
 // =================================================================================================
