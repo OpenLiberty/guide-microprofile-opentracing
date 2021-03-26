@@ -146,8 +146,6 @@ Verify that this new trace contains three spans with the following names:
 * `get:io.openliberty.guides.system.systemresource.getproperties`
 * `add() span`
 
-// image::/guides/draft-guide-microprofile-opentracing/resources/disable-tracing.png[png][Disable tracing, width=100%]
-
 You can inspect each span by clicking it to reveal more detailed information, such as the time
 at which the request was received and the time at which a response was sent back.
 
@@ -162,69 +160,6 @@ When you are done checking out the services, stop both Open Liberty servers usin
 ```
 mvn liberty:stop-server
 ```
-
-// =================================================================================================
-// Running the application with Docker
-// =================================================================================================
-
-// == Running the services
-//
-// Before you begin, you must build and run the `inventory` and `system` services. You must also start
-// your Zipkin server (or another tracing system of your choice). You have two options for doing this:
-//
-// - Running everything inside Docker containers
-// - Running the two services outside of Docker in two separate Open Liberty servers
-//
-//
-// === Running with Docker
-//
-// *THIS DOES NOT WORK AS OF MARCH 2, 2018 BECAUSE IT REQUIRES OL 18.0.0.1 WHICH IS NOT A PART OF ANY DOCKER IMAGE*
-//
-// If you are using Docker to run your Zipkin server and you would prefer running your services with Docker
-// as well, then follow these instructions:
-//
-// A `Dockerfile` and a `docker-compose.yaml` are provided under the `docker` directory in the root directory
-// of this guide. Navigate to this directory and build your services:
-//
-// ```
-// cd docker
-// mvn package
-// ```
-//
-// Stop your Zipkin container if you have previously started it, then run the following command:
-//
-// ```
-// docker-compose up -d
-// ```
-//
-// This command picks up the `Dockerfile` and the `docker-compose.yaml` and builds a Docker image containing
-// the Open Liberty runtime. Three containers are also built and started alongside the image: one for the
-// `system` service, one for the `inventory` service, and one for the Zipkin server.
-//
-// Once the containers are running, the `inventory` service can be reached at {inv-url-docker} and the Zipkin server at
-// {zipkin-url}. To retrieve the JVM system properties of the container running the `system` service, point
-// to {inv-url-docker}/sys (all containers are linked and therefore they can access each other by their container names).
-//
-// Feel free to read our https://openliberty.io/guides/docker.html[Docker guide^] to learn more about developing
-// applications with Open Liberty and Docker.
-//
-//
-// === Running the services outside of Docker
-//
-// Navigate to the `start` directory, then build the services and run them in Open Liberty:
-//
-// ```
-// cd start
-// mvn install liberty:start-server
-// ```
-//
-// You can find the `inventory` and `system` services at:
-//
-// - {inv-url}
-// - {sys-url}
-//
-// include::{common-includes}/mvncompile.adoc[]
-
 
 // =================================================================================================
 // Running the services
@@ -359,10 +294,6 @@ have the following names:
 * `get:io.openliberty.guides.inventory.inventoryresource.listcontents`
 * `inventorymanager.list`
 
-// image::/guides/draft-guide-microprofile-opentracing/resources/enable-tracing.png[png][Enable tracing, width=100%]
-
-
-
 [role="code_command hotspot file=1", subs="quotes"]
 ----
 #Update the `InventoryResource` class#
@@ -388,9 +319,6 @@ that is just one span long for the remaining [hotspot=list file=0]`list()` metho
 that this span has the following name:
 
 * `inventorymanager.list`
-
-// image::/guides/draft-guide-microprofile-opentracing/resources/disable-tracing.png[png][Disable tracing, width=100%]
-
 
 === Injecting a custom Tracer object
 
@@ -437,8 +365,6 @@ The `inventory` trace:
 
 * `get:io.openliberty.guides.inventory.inventoryresource.getpropertiesforhost`
 * `add() span`
-
-// image::/guides/draft-guide-microprofile-opentracing/resources/inject-tracer.png[png][Inject tracer, width=100%]
 
 This simple example shows what you can do with the injected `Tracer` object. More configuration
 options are available to you, including setting a timestamp for when a span was created and destroyed.
