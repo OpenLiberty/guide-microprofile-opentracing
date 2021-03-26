@@ -82,7 +82,7 @@ For this guide, Zipkin is used as the distributed tracing system.
 Start Zipkin by running the following command:
 
 ```
-docker run -d -p 9411:9411 openzipkin/zipkin
+docker run -d --name zipkin -p 9411:9411 openzipkin/zipkin
 ```
 {: codeblock}
 
@@ -474,6 +474,17 @@ When you are done checking out the services, stop the server by using the Maven
 ```
 mvn liberty:stop-server
 ```
+
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+Stop the Zipkin service by running the following command:
+
+```
+docker stop zipkin
+```
+{: codeblock}
+
+endif::[]
 
 // =================================================================================================
 // Great work! You're done!
