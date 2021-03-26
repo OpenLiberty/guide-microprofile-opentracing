@@ -184,10 +184,29 @@ then, run the `liberty:start-server` goal:
 mvn liberty:start-server
 ```
 
+// static guide instructions:
+ifndef::cloud-hosted[]
 When the servers start, you can find the `system` and `inventory` services at the following URLs:
 
 * {sys-url}[{sys-url}^]
 * {inv-url}[{inv-url}^]
+endif::[]
+
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+When the servers start, you can access the `system` and `inventory` services with the following
+`curl` commands:
+
+```
+curl {sys-url}
+```
+{: codeblock}
+
+```
+curl {inv-url}
+```
+{: codeblock}
+endif::[]
 
 // =================================================================================================
 // Existing Tracer implementation
@@ -234,7 +253,9 @@ tracing of particular methods. You can also inject a custom `Tracer` object to c
 
 === Enabling distributed tracing without code instrumentation
 
-Because tracing of all JAX-RS methods is enabled by default, you need only to enable [hotspot=mpOpenTracing file=0]`MicroProfile OpenTracing` feature and the [hotspot=zipkinUsr file=0]`Zipkin` user feature in the `server.xml` file to see some basic traces in Zipkin.
+Because tracing of all JAX-RS methods is enabled by default, you need only to enable 
+[hotspot=mpOpenTracing file=0]`MicroProfile OpenTracing` feature and the [hotspot=zipkinUsr file=0]`Zipkin` 
+user feature in the `server.xml` file to see some basic traces in Zipkin.
 
 Both of these features are already enabled in the `inventory` and `system` configuration files.
 
@@ -285,11 +306,26 @@ Next, run the following command from the `start` directory to recompile your ser
 ```
 mvn compile
 ```
-Point to the
-{inv-url}[{inv-url}^] URL, check your Zipkin server, and sort the traces by newest first. You see a new trace record
-that is two spans long with one span for the [hotspot=listContents file=1]`listContents()` JAX-RS method in the [hotspot file=1]`InventoryResource`
-class and another span for the [hotspot=list file=0]`list()` method in the [hotspot file=0]`InventoryManager` class. Verify that these spans
-have the following names:
+
+// static guide instructions:
+ifndef::cloud-hosted[]
+Visit the {inv-url}[{inv-url}^] URL, check your Zipkin server, and sort the traces by newest first. 
+endif::[]
+
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+Run the following `curl` command, check your Zipkin server, and sort the traces by newest first. 
+
+```
+curl {inv-url}
+```
+{: codeblock}
+endif::[]
+
+You see a new trace record that is two spans long with one span for the 
+[hotspot=listContents file=1]`listContents()` JAX-RS method in the [hotspot file=1]`InventoryResource`
+class and another span for the [hotspot=list file=0]`list()` method in the [hotspot file=0]`InventoryManager` class. 
+Verify that these spans have the following names:
 
 * `get:io.openliberty.guides.inventory.inventoryresource.listcontents`
 * `inventorymanager.list`
@@ -313,10 +349,25 @@ Again, run the `mvn compile` command from the `start` directory to recompile you
 ```
 mvn compile
 ```
-Point to the
-{inv-url}[{inv-url}^] URL, check your Zipkin server, and sort the traces by newest first. You see a new trace record
-that is just one span long for the remaining [hotspot=list file=0]`list()` method in the `InventoryManager` class. Verify
-that this span has the following name:
+
+// static guide instructions:
+ifndef::cloud-hosted[]
+Visit the {inv-url}[{inv-url}^] URL again, check your Zipkin server, and sort the traces by newest first. 
+endif::[]
+
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+Run the following `curl` command again, check your Zipkin server, and sort the traces by newest first. 
+
+```
+curl {inv-url}
+```
+{: codeblock}
+endif::[]
+
+You see a new trace record that is just one span long for the remaining [hotspot=list file=0]`list()` 
+method in the `InventoryManager` class. 
+Verify that this span has the following name:
 
 * `inventorymanager.list`
 
@@ -341,20 +392,37 @@ InventoryManager.java
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[]
 ----
 
-The [hotspot=Try file=0]`try` block that you see here is called a `try-with-resources` statement, meaning that the `childScope` object is closed at the end of the statement. It's good practice to define custom spans inside
-such statements. Otherwise, any exceptions that are thrown before the span is closed will leak the active span.
+The [hotspot=Try file=0]`try` block that you see here is called a `try-with-resources` statement, 
+meaning that the `childScope` object is closed at the end of the statement. 
+It's good practice to define custom spans inside such statements. 
+Otherwise, any exceptions that are thrown before the span is closed will leak the active span.
 
 Next, run the following command from the `start` directory to recompile your services. 
 [role="command"]
 ```
 mvn compile
 ```
-Point to the
-{inv-url}/localhost[{inv-url}/localhost^] URL, check your Zipkin server, and sort the traces by newest first. You see two new
-trace records, one for the `system` service and one for the `inventory` service. The `system` trace 
-contains one span for the [hotspot=Properties file=1]`getProperties()` method in the `SystemResource` class. The `inventory` 
-trace contains two spans. The first span is for the [hotspot=getPropertiesForHost file=2]`getPropertiesForHost()` method in the `InventoryResource` 
-class. The second span is the custom span that you created around the [hotspot=Add file=0]`add()` call. 
+
+// static guide instructions:
+ifndef::cloud-hosted[]
+Visit the {inv-url}/localhost[{inv-url}/localhost^] URL, check your Zipkin server, and sort the traces by newest first. 
+endif::[]
+
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+Run the following `curl` command, check your Zipkin server, and sort the traces by newest first. 
+
+```
+curl {inv-url}/localhost
+```
+{: codeblock}
+endif::[]
+
+You see two new trace records, one for the `system` service and one for the `inventory` service. The `system` trace 
+contains one span for the [hotspot=Properties file=1]`getProperties()` method in the `SystemResource` class. 
+The `inventory` trace contains two spans. 
+The first span is for the [hotspot=getPropertiesForHost file=2]`getPropertiesForHost()` method in the 
+`InventoryResource` class. The second span is the custom span that you created around the [hotspot=Add file=0]`add()` call. 
 Verify that all of these spans have the following names:
 
 The `system` trace:
