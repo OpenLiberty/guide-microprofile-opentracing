@@ -86,7 +86,7 @@ docker run -d --name zipkin -p 9411:9411 openzipkin/zipkin
 Before you proceed, make sure that your Zipkin server is up and running.
 Select **Launch Application** from the menu of the IDE, 
 type in **9411** to specify the port number for the Zipkin service, and click the **OK** button. 
-Zipkin can be found at the **`https://accountname-9411.theiadocker-4.proxy.cognitiveclass.ai`** URL, 
+Zipkin can also be found at the **`https://accountname-9411.theiadocker-4.proxy.cognitiveclass.ai`** URL, 
 where **accountname** is your account name.
 endif::[]
 
