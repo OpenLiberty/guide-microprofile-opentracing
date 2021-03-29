@@ -64,33 +64,30 @@ server, then any logging software would do the trick.
 [role='command']
 include::{common-includes}/gitclone.adoc[]
 
-// static guide instructions:
-ifndef::cloud-hosted[]
 For this guide, Zipkin is used as the distributed tracing system. You can find the installation instructions
 for Zipkin at the Zipkin https://zipkin.io/pages/quickstart.html[quickstart page^]. You are not required
 to use Zipkin, but keep in mind that you might need more instructions that are not listed here if you choose
 to use another tracing system.
 
+// static guide instructions:
+ifndef::cloud-hosted[]
 Before you proceed, make sure that your Zipkin server is up and running. By default, Zipkin can be found
 at the {zipkin-url}[{zipkin-url}^] URL.
 endif::[]
 
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
-For this guide, Zipkin is used as the distributed tracing system.
-
 Start Zipkin by running the following command:
 ```
 docker run -d --name zipkin -p 9411:9411 openzipkin/zipkin
 ```
 {: codeblock}
 
-Before you proceed, make sure that your Zipkin server is up and running by ensuring that the Zipkin URL
-does not return an error with the following curl command:
-```
-curl {zipkin-url}
-```
-{: codeblock}
+Before you proceed, make sure that your Zipkin server is up and running.
+Select **Launch Application** from the menu of the IDE, 
+type in **9411** to specify the port number for the Zipkin service, and click the **OK** button. 
+Zipkin can also be found at the **`https://accountname-9411.theiadocker-4.proxy.cognitiveclass.ai`** URL, 
+where **accountname** is your account name.
 endif::[]
 
 === Try what you'll build
@@ -131,11 +128,7 @@ curl http://localhost:9081/inventory/systems/localhost
 When you make this curl request, you make two HTTP GET requests, one to the **system** service and 
 one to the **inventory** service. 
 Both of these requests are configured to be traced, so a new trace will be recorded in Zipkin.
-Select **Launch Application** from the menu of the IDE, 
-type in **9411** to specify the port number for the Zipkin service, and click the **OK** button. 
-Zipkin can be found at the **`https://accountname-9411.theiadocker-4.proxy.cognitiveclass.ai`** URL, 
-where **accountname** is your account name.
-
+Visit the **`https://accountname-9411.theiadocker-4.proxy.cognitiveclass.ai`** URL.
 Run an empty query and sort the traces by latest start time first. 
 endif::[]
 
