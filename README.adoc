@@ -80,20 +80,17 @@ ifdef::cloud-hosted[]
 For this guide, Zipkin is used as the distributed tracing system.
 
 Start Zipkin by running the following command:
-
 ```
 docker run -d --name zipkin -p 9411:9411 openzipkin/zipkin
 ```
 {: codeblock}
 
 Before you proceed, make sure that your Zipkin server is up and running by ensuring that the Zipkin URL
-does not return an error with the following `curl` command:
-
+does not return an error with the following curl command:
 ```
 curl {zipkin-url}
 ```
 {: codeblock}
-
 endif::[]
 
 === Try what you'll build
@@ -118,25 +115,27 @@ mvn liberty:start-server
 ifndef::cloud-hosted[]
 Make sure that your Zipkin server is running and point your browser to the {inv-url}/localhost[{inv-url}/localhost^] URL. 
 When you visit this endpoint, you make two HTTP GET requests, one to the `system` service and one to the `inventory`
-service. 
-Both of these requests are configured to be traced, so a new trace will be recorded in Zipkin.
+service. Both of these requests are configured to be traced, so a new trace will be recorded in Zipkin.
 Visit the {zipkin-url}[{zipkin-url}^] URL or another location where you configured Zipkin to run. 
 Run an empty query and sort the traces by latest start time first. 
 endif::[]
 
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
-Make sure that your Zipkin server is running, and run the following `curl` command:
-
+Make sure that your Zipkin server is running, and run the following curl command:
 ```
-curl {inv-url}/localhost
+curl http://localhost:9081/inventory/systems/localhost
 ```
 {: codeblock}
 
-When you make this `curl` request, you make two HTTP GET requests, one to the `system` service and 
-one to the `inventory` service. 
+When you make this curl request, you make two HTTP GET requests, one to the **system** service and 
+one to the **inventory** service. 
 Both of these requests are configured to be traced, so a new trace will be recorded in Zipkin.
-Click the `Launch Application` button and enter `9411` as your port to view Zipkin.
+Select **Launch Application** from the menu of the IDE, 
+type in **9411** to specify the port number for the Zipkin service, and click the **OK** button. 
+Zipkin can be found at the **`https://accountname-9411.theiadocker-4.proxy.cognitiveclass.ai`** URL, 
+where **accountname** is your account name.
+
 Run an empty query and sort the traces by latest start time first. 
 endif::[]
 
@@ -194,16 +193,15 @@ endif::[]
 
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
-When the servers start, you can access the `system` and `inventory` services with the following
-`curl` commands:
-
+When the servers start, you can access the **system** service by running the following curl command:
 ```
-curl {sys-url}
+curl http://localhost:9080/system/properties
 ```
 {: codeblock}
 
+and run the following curl command to access the **inventory** service:
 ```
-curl {inv-url}
+curl http://localhost:9081/inventory/systems
 ```
 {: codeblock}
 endif::[]
@@ -313,10 +311,9 @@ endif::[]
 
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
-Run the following `curl` command, check your Zipkin server, and sort the traces by newest first. 
-
+Run the following curl command, check your Zipkin server, and sort the traces by newest first:
 ```
-curl {inv-url}
+curl http://localhost:9081/inventory/systems
 ```
 {: codeblock}
 endif::[]
@@ -356,10 +353,9 @@ endif::[]
 
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
-Run the following `curl` command again, check your Zipkin server, and sort the traces by newest first. 
-
+Run the following curl command again, check your Zipkin server, and sort the traces by newest first:
 ```
-curl {inv-url}
+curl http://localhost:9081/inventory/systems
 ```
 {: codeblock}
 endif::[]
@@ -409,10 +405,9 @@ endif::[]
 
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
-Run the following `curl` command, check your Zipkin server, and sort the traces by newest first. 
-
+Run the following curl command, check your Zipkin server, and sort the traces by newest first:
 ```
-curl {inv-url}/localhost
+curl http://localhost:9081/inventory/systems/localhost
 ```
 {: codeblock}
 endif::[]
@@ -478,7 +473,6 @@ mvn liberty:stop-server
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
 Stop the Zipkin service by running the following command:
-
 ```
 docker stop zipkin
 ```
