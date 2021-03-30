@@ -85,7 +85,7 @@ docker run -d --name zipkin -p 9411:9411 openzipkin/zipkin
 
 Before you proceed, make sure that your Zipkin server is up and running.
 Select **Launch Application** from the menu of the IDE and 
-type in **9411** to specify the port number for the Zipkin service. Click the **OK** button. 
+type **9411** to specify the port number for the Zipkin service. Click the **OK** button. 
 Zipkin can also be found at the **`https://accountname-9411.theiadocker-4.proxy.cognitiveclass.ai`** URL, 
 where **accountname** is your account name.
 endif::[]
@@ -193,7 +193,7 @@ curl http://localhost:9080/system/properties
 ```
 {: codeblock}
 
-and run the following curl command to access the **inventory** service:
+and access the **inventory** service by running the following curl command:
 ```
 curl http://localhost:9081/inventory/systems
 ```
