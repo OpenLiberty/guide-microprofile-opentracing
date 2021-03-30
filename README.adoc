@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2020 IBM Corporation and others.
+// Copyright (c) 2017, 2021 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -12,7 +12,7 @@
 :page-essential: false
 :page-releasedate: 2018-03-16
 :page-description: Explore how to enable and customize tracing of JAX-RS and non-JAX-RS methods by using Zipkin and MicroProfile OpenTracing.
-:page-tags: ['MicroProfile', 'OpenTracing', 'microservices', '@Traced']
+:page-tags: ['MicroProfile']
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['cdi-intro', 'microprofile-opentracing-jaeger']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
@@ -64,15 +64,31 @@ server, then any logging software would do the trick.
 [role='command']
 include::{common-includes}/gitclone.adoc[]
 
-
-For this guide, use Zipkin as your distributed tracing system. You can find the installation instructions
+For this guide, Zipkin is used as the distributed tracing system. You can find the installation instructions
 for Zipkin at the Zipkin https://zipkin.io/pages/quickstart.html[quickstart page^]. You are not required
 to use Zipkin, but keep in mind that you might need more instructions that are not listed here if you choose
 to use another tracing system.
 
+// static guide instructions:
+ifndef::cloud-hosted[]
 Before you proceed, make sure that your Zipkin server is up and running. By default, Zipkin can be found
 at the {zipkin-url}[{zipkin-url}^] URL.
+endif::[]
 
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+Start Zipkin by running the following command:
+```
+docker run -d --name zipkin -p 9411:9411 openzipkin/zipkin
+```
+{: codeblock}
+
+Before you proceed, make sure that your Zipkin server is up and running.
+Select **Launch Application** from the menu of the IDE and 
+type **9411** to specify the port number for the Zipkin service. Click the **OK** button. 
+Zipkin can also be found at the **`https://accountname-9411.theiadocker-4.proxy.cognitiveclass.ai`** URL, 
+where **accountname** is your account name.
+endif::[]
 
 === Try what you'll build
 
@@ -92,24 +108,43 @@ then, run the Maven `liberty:start-server` goal to start them in two Open Libert
 mvn liberty:start-server
 ```
 
+// static guide instructions:
+ifndef::cloud-hosted[]
 Make sure that your Zipkin server is running and point your browser to the {inv-url}/localhost[{inv-url}/localhost^] URL. 
-When you visit this endpoint, you make two GET HTTP requests, one to the `system` service and one to the `inventory`
+When you visit this URL, you make two HTTP GET requests, one to the `system` service and one to the `inventory`
 service. Both of these requests are configured to be traced, so a new trace will be recorded in Zipkin.
-Visit the {zipkin-url}[{zipkin-url}^] URL or another location where you configured Zipkin to run and sort the traces
-by newest first. Verify that this new trace contains three spans with the following names:
+Visit the {zipkin-url}[{zipkin-url}^] URL or another location where you configured Zipkin to run. 
+Run an empty query and sort the traces by latest start time first. 
+endif::[]
 
-- `get:io.openliberty.guides.inventory.inventoryresource.getpropertiesforhost`
-- `get:io.openliberty.guides.system.systemresource.getproperties`
-- `add() span`
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+Make sure that your Zipkin server is running and run the following curl command:
+```
+curl http://localhost:9081/inventory/systems/localhost
+```
+{: codeblock}
 
-// image::/guides/draft-guide-microprofile-opentracing/resources/disable-tracing.png[png][Disable tracing, width=100%]
+When you make this curl request, you make two HTTP GET requests, one to the **system** service and 
+one to the **inventory** service. 
+Because tracing is configured for both these requests, a new trace is recorded in Zipkin.
+Visit the **`https://accountname-9411.theiadocker-4.proxy.cognitiveclass.ai`** URL.
+Run an empty query and sort the traces by latest start time first. 
+endif::[]
+
+Verify that this new trace contains three spans with the following names:
+
+* `get:io.openliberty.guides.inventory.inventoryresource.getpropertiesforhost`
+* `get:io.openliberty.guides.system.systemresource.getproperties`
+* `add() span`
 
 You can inspect each span by clicking it to reveal more detailed information, such as the time
 at which the request was received and the time at which a response was sent back.
 
-If you examine the other traces, you might notice a red trace entry, which happens when an error is
-caught by the span. In this case, since one of the tests accesses the `/inventory/systems/badhostname`
-endpoint, which is invalid, an error is thrown. This behavior is expected.
+If you examine the other traces, you might notice a red trace entry, 
+which indicates that the span catches an error. 
+In this case, one of the tests accesses the `/inventory/systems/badhostname`
+endpoint, which is invalid, so an error is thrown. This behavior is expected.
 
 When you are done checking out the services, stop both Open Liberty servers using the Maven
 `liberty:stop-server` goal:
@@ -118,68 +153,6 @@ When you are done checking out the services, stop both Open Liberty servers usin
 ```
 mvn liberty:stop-server
 ```
-// =================================================================================================
-// Running the application with Docker
-// =================================================================================================
-
-// == Running the services
-//
-// Before you begin, you must build and run the `inventory` and `system` services. You must also start
-// your Zipkin server (or another tracing system of your choice). You have two options for doing this:
-//
-// - Running everything inside Docker containers
-// - Running the two services outside of Docker in two separate Open Liberty servers
-//
-//
-// === Running with Docker
-//
-// *THIS DOES NOT WORK AS OF MARCH 2, 2018 BECAUSE IT REQUIRES OL 18.0.0.1 WHICH IS NOT A PART OF ANY DOCKER IMAGE*
-//
-// If you are using Docker to run your Zipkin server and you would prefer running your services with Docker
-// as well, then follow these instructions:
-//
-// A `Dockerfile` and a `docker-compose.yaml` are provided under the `docker` directory in the root directory
-// of this guide. Navigate to this directory and build your services:
-//
-// ```
-// cd docker
-// mvn package
-// ```
-//
-// Stop your Zipkin container if you have previously started it, then run the following command:
-//
-// ```
-// docker-compose up -d
-// ```
-//
-// This command picks up the `Dockerfile` and the `docker-compose.yaml` and builds a Docker image containing
-// the Open Liberty runtime. Three containers are also built and started alongside the image: one for the
-// `system` service, one for the `inventory` service, and one for the Zipkin server.
-//
-// Once the containers are running, the `inventory` service can be reached at {inv-url-docker} and the Zipkin server at
-// {zipkin-url}. To retrieve the JVM system properties of the container running the `system` service, point
-// to {inv-url-docker}/sys (all containers are linked and therefore they can access each other by their container names).
-//
-// Feel free to read our https://openliberty.io/guides/docker.html[Docker guide^] to learn more about developing
-// applications with Open Liberty and Docker.
-//
-//
-// === Running the services outside of Docker
-//
-// Navigate to the `start` directory, then build the services and run them in Open Liberty:
-//
-// ```
-// cd start
-// mvn install liberty:start-server
-// ```
-//
-// You can find the `inventory` and `system` services at:
-//
-// - {inv-url}
-// - {sys-url}
-//
-// include::{common-includes}/mvncompile.adoc[]
-
 
 // =================================================================================================
 // Running the services
@@ -204,10 +177,28 @@ then, run the `liberty:start-server` goal:
 mvn liberty:start-server
 ```
 
+// static guide instructions:
+ifndef::cloud-hosted[]
 When the servers start, you can find the `system` and `inventory` services at the following URLs:
 
-- {sys-url}[{sys-url}^]
-- {inv-url}[{inv-url}^]
+* {sys-url}[{sys-url}^]
+* {inv-url}[{inv-url}^]
+endif::[]
+
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+When the servers start, you can access the **system** service by running the following curl command:
+```
+curl http://localhost:9080/system/properties
+```
+{: codeblock}
+
+and access the **inventory** service by running the following curl command:
+```
+curl http://localhost:9081/inventory/systems
+```
+{: codeblock}
+endif::[]
 
 // =================================================================================================
 // Existing Tracer implementation
@@ -219,9 +210,9 @@ To collect traces across your systems, you need to implement the OpenTracing `Tr
 interface. For this guide, you can access a bare-bones `Tracer` implementation for
 the Zipkin server in the form of a user feature for Open Liberty.
 
-This feature is already configured for you in your [hotspot file=1]`pom.xml` and [hotspot file=0]`server.xml` files. It will be
-downloaded and installed automatically into each service when you run a Maven build. You can find the [hotspot=zipkinUsr file=0]`opentracingZipkin` feature
-enabled in your [hotspot file=0]`server.xml` file.
+This feature is already configured for you in your [hotspot file=1]`pom.xml` and [hotspot file=0]`server.xml` files. 
+It is automatically downloaded and installed into each service when you run a Maven build. 
+You can find the [hotspot=zipkinUsr file=0]`opentracingZipkin` feature enabled in your [hotspot file=0]`server.xml` file.
 
 The [hotspot=download file=1]`download-maven-plugin` Maven plug-in in your `pom.xml` is responsible for downloading and installing the feature.
 
@@ -254,7 +245,9 @@ tracing of particular methods. You can also inject a custom `Tracer` object to c
 
 === Enabling distributed tracing without code instrumentation
 
-Because tracing of all JAX-RS methods is enabled by default, you need only to enable [hotspot=mpOpenTracing file=0]`MicroProfile OpenTracing` feature and the [hotspot=zipkinUsr file=0]`Zipkin` user feature in the `server.xml` file to see some basic traces in Zipkin.
+Because tracing is enabled by default for all JAX-RS methods, you need to enable only the
+[hotspot=mpOpenTracing file=0]`MicroProfile OpenTracing` feature and the [hotspot=zipkinUsr file=0]`Zipkin` 
+user feature in the `server.xml` file to see some basic traces in Zipkin.
 
 Both of these features are already enabled in the `inventory` and `system` configuration files.
 
@@ -263,7 +256,6 @@ server.xml
 ----
 include::finish/inventory/src/main/liberty/config/server.xml[]
 ----
-
 
 Make sure that your services are running. Then, simply point your browser to any of their endpoints and
 check your Zipkin server for traces.
@@ -277,10 +269,10 @@ If you place the annotation on a method, then it overrides the class annotation 
 
 The [hotspot=Traced file=0]`@Traced` annotation can be configured with the following two parameters:
 
-- The `value=[true|false]` parameter indicates whether or not a particular class or method is
+* The `value=[true|false]` parameter indicates whether or not a particular class or method is
 traced. For example, while all JAX-RS methods are traced by default, you can disable their tracing by
 using the `@Traced(false)` annotation. This parameter is set to `true` by default.
-- The `operationName=<Span name>` parameter indicates the name of the span that is assigned to the
+* The `operationName=<Span name>` parameter indicates the name of the span that is assigned to the
 particular method that is traced. If you omit this parameter, the span will be named with the following
 form: `<package name>.<class name>.<method name>`. If you use this parameter at a class level, then
 all methods within that class will have the same span name unless they are explicitly overridden by
@@ -305,18 +297,28 @@ Next, run the following command from the `start` directory to recompile your ser
 ```
 mvn compile
 ```
-Point to the
-{inv-url}[{inv-url}^] URL, check your Zipkin server, and sort the traces by newest first. You see a new trace record
-that is two spans long with one span for the [hotspot=listContents file=1]`listContents()` JAX-RS method in the [hotspot file=1]`InventoryResource`
-class and another span for the [hotspot=list file=0]`list()` method in the [hotspot file=0]`InventoryManager` class. Verify that these spans
-have the following names:
 
-- `get:io.openliberty.guides.inventory.inventoryresource.listcontents`
-- `inventorymanager.list`
+// static guide instructions:
+ifndef::cloud-hosted[]
+Visit the {inv-url}[{inv-url}^] URL, check your Zipkin server, and sort the traces by newest first. 
+endif::[]
 
-// image::/guides/draft-guide-microprofile-opentracing/resources/enable-tracing.png[png][Enable tracing, width=100%]
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+Run the following curl command, check your Zipkin server, and sort the traces by newest first:
+```
+curl http://localhost:9081/inventory/systems
+```
+{: codeblock}
+endif::[]
 
+Look for a new trace record that is two spans long with one span for the 
+[hotspot=listContents file=1]`listContents()` JAX-RS method in the [hotspot file=1]`InventoryResource`
+class and another span for the [hotspot=list file=0]`list()` method in the [hotspot file=0]`InventoryManager` class. 
+Verify that these spans have the following names:
 
+* `get:io.openliberty.guides.inventory.inventoryresource.listcontents`
+* `inventorymanager.list`
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
@@ -337,21 +339,32 @@ Again, run the `mvn compile` command from the `start` directory to recompile you
 ```
 mvn compile
 ```
-Point to the
-{inv-url}[{inv-url}^] URL, check your Zipkin server, and sort the traces by newest first. You see a new trace record
-that is just one span long for the remaining [hotspot=list file=0]`list()` method in the `InventoryManager` class. Verify
-that this span has the following name:
 
-- `inventorymanager.list`
+// static guide instructions:
+ifndef::cloud-hosted[]
+Visit the {inv-url}[{inv-url}^] URL again, check your Zipkin server, and sort the traces by newest first. 
+endif::[]
 
-// image::/guides/draft-guide-microprofile-opentracing/resources/disable-tracing.png[png][Disable tracing, width=100%]
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+Run the following curl command again, check your Zipkin server, and sort the traces by newest first:
+```
+curl http://localhost:9081/inventory/systems
+```
+{: codeblock}
+endif::[]
 
+Look for a new trace record that is just one span long for the remaining [hotspot=list file=0]`list()` 
+method in the `InventoryManager` class. 
+Verify that this span has the following name:
+
+* `inventorymanager.list`
 
 === Injecting a custom Tracer object
 
 The MicroProfile OpenTracing specification also makes the underlying OpenTracing `Tracer` instance
-available for use. You can access the configured `Tracer` by injecting it into a bean by using the [hotspot=customTracer file=0]`@Inject`
-annotation from the Contexts and Dependency Injections API.
+available. You can access the configured `Tracer` by injecting it into a bean by using the 
+[hotspot=customTracer file=0]`@Inject` annotation from the Contexts and Dependency Injections API.
 
 Inject the `Tracer` object into the `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file.
 Then, use it to define a new child scope in the [hotspot=addSpan file=0]`add()` call.
@@ -368,35 +381,49 @@ InventoryManager.java
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[]
 ----
 
-The [hotspot=Try file=0]`try` block that you see here is called a `try-with-resources` statement, meaning that the `childScope` object is closed at the end of the statement. It's good practice to define custom spans inside
-such statements. Otherwise, any exceptions that are thrown before the span is closed will leak the active span.
+The [hotspot=Try file=0]`try` block that you see here is called a `try-with-resources` statement, 
+meaning that the `childScope` object is closed at the end of the statement. 
+Defining custom spans inside such statements is a good practice.
+Otherwise, any exceptions that are thrown before the span is closed will leak the active span.
 
 Next, run the following command from the `start` directory to recompile your services. 
 [role="command"]
 ```
 mvn compile
 ```
-Point to the
-{inv-url}/localhost[{inv-url}/localhost^] URL, check your Zipkin server, and sort the traces by newest first. You see two new
-trace records, one for the `system` service and one for the `inventory` service. The `system` trace 
-contains one span for the [hotspot=Properties file=1]`getProperties()` method in the `SystemResource` class. The `inventory` 
-trace contains two spans. The first span is for the [hotspot=getPropertiesForHost file=2]`getPropertiesForHost()` method in the `InventoryResource` 
-class. The second span is the custom span that you created around the [hotspot=Add file=0]`add()` call. 
+
+// static guide instructions:
+ifndef::cloud-hosted[]
+Visit the {inv-url}/localhost[{inv-url}/localhost^] URL, check your Zipkin server, and sort the traces by newest first. 
+endif::[]
+
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+Run the following curl command, check your Zipkin server, and sort the traces by newest first:
+```
+curl http://localhost:9081/inventory/systems/localhost
+```
+{: codeblock}
+endif::[]
+
+Look for two new trace records, one for the `system` service and one for the `inventory` service. The `system` trace 
+contains one span for the [hotspot=Properties file=1]`getProperties()` method in the `SystemResource` class. 
+The `inventory` trace contains two spans. 
+The first span is for the [hotspot=getPropertiesForHost file=2]`getPropertiesForHost()` method in the 
+`InventoryResource` class. The second span is the custom span that you created around the [hotspot=Add file=0]`add()` call. 
 Verify that all of these spans have the following names:
 
 The `system` trace:
 
-- `get:io.openliberty.guides.system.systemresource.getproperties`
+* `get:io.openliberty.guides.system.systemresource.getproperties`
 
 The `inventory` trace:
 
-- `get:io.openliberty.guides.inventory.inventoryresource.getpropertiesforhost`
-- `add() span`
-
-// image::/guides/draft-guide-microprofile-opentracing/resources/inject-tracer.png[png][Inject tracer, width=100%]
+* `get:io.openliberty.guides.inventory.inventoryresource.getpropertiesforhost`
+* `add() span`
 
 This simple example shows what you can do with the injected `Tracer` object. More configuration
-options are available to you, including setting a timestamp for when a span was created and destroyed.
+options are available, including setting a timestamp for when a span was created and destroyed.
 However, these options require an implementation of their own, which does not come as a part of the Zipkin
 user feature that is provided. In a real-world scenario, implement all the OpenTracing interfaces that
 you deem necessary, which might include the `SpanBuilder` interface. You can use this interface for span
@@ -436,6 +463,16 @@ When you are done checking out the services, stop the server by using the Maven
 ```
 mvn liberty:stop-server
 ```
+
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+Stop the Zipkin service by running the following command:
+```
+docker stop zipkin
+```
+{: codeblock}
+
+endif::[]
 
 // =================================================================================================
 // Great work! You're done!
