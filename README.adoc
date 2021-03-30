@@ -84,8 +84,8 @@ docker run -d --name zipkin -p 9411:9411 openzipkin/zipkin
 {: codeblock}
 
 Before you proceed, make sure that your Zipkin server is up and running.
-Select **Launch Application** from the menu of the IDE, 
-type in **9411** to specify the port number for the Zipkin service, and click the **OK** button. 
+Select **Launch Application** from the menu of the IDE and 
+type in **9411** to specify the port number for the Zipkin service. Click the **OK** button. 
 Zipkin can also be found at the **`https://accountname-9411.theiadocker-4.proxy.cognitiveclass.ai`** URL, 
 where **accountname** is your account name.
 endif::[]
@@ -111,7 +111,7 @@ mvn liberty:start-server
 // static guide instructions:
 ifndef::cloud-hosted[]
 Make sure that your Zipkin server is running and point your browser to the {inv-url}/localhost[{inv-url}/localhost^] URL. 
-When you visit this endpoint, you make two HTTP GET requests, one to the `system` service and one to the `inventory`
+When you visit this URL, you make two HTTP GET requests, one to the `system` service and one to the `inventory`
 service. Both of these requests are configured to be traced, so a new trace will be recorded in Zipkin.
 Visit the {zipkin-url}[{zipkin-url}^] URL or another location where you configured Zipkin to run. 
 Run an empty query and sort the traces by latest start time first. 
@@ -119,7 +119,7 @@ endif::[]
 
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
-Make sure that your Zipkin server is running, and run the following curl command:
+Make sure that your Zipkin server is running and run the following curl command:
 ```
 curl http://localhost:9081/inventory/systems/localhost
 ```
@@ -127,7 +127,7 @@ curl http://localhost:9081/inventory/systems/localhost
 
 When you make this curl request, you make two HTTP GET requests, one to the **system** service and 
 one to the **inventory** service. 
-Both of these requests are configured to be traced, so a new trace will be recorded in Zipkin.
+Because tracing is configured for both these requests, a new trace is recorded in Zipkin.
 Visit the **`https://accountname-9411.theiadocker-4.proxy.cognitiveclass.ai`** URL.
 Run an empty query and sort the traces by latest start time first. 
 endif::[]
@@ -141,8 +141,9 @@ Verify that this new trace contains three spans with the following names:
 You can inspect each span by clicking it to reveal more detailed information, such as the time
 at which the request was received and the time at which a response was sent back.
 
-If you examine the other traces, you might notice a red trace entry, which happens when an error is
-caught by the span. In this case, one of the tests accesses the `/inventory/systems/badhostname`
+If you examine the other traces, you might notice a red trace entry, 
+which indicates that the span catches an error. 
+In this case, one of the tests accesses the `/inventory/systems/badhostname`
 endpoint, which is invalid, so an error is thrown. This behavior is expected.
 
 When you are done checking out the services, stop both Open Liberty servers using the Maven
@@ -210,7 +211,7 @@ interface. For this guide, you can access a bare-bones `Tracer` implementation f
 the Zipkin server in the form of a user feature for Open Liberty.
 
 This feature is already configured for you in your [hotspot file=1]`pom.xml` and [hotspot file=0]`server.xml` files. 
-It will be downloaded and installed automatically into each service when you run a Maven build. 
+It is automatically downloaded and installed into each service when you run a Maven build. 
 You can find the [hotspot=zipkinUsr file=0]`opentracingZipkin` feature enabled in your [hotspot file=0]`server.xml` file.
 
 The [hotspot=download file=1]`download-maven-plugin` Maven plug-in in your `pom.xml` is responsible for downloading and installing the feature.
@@ -244,7 +245,7 @@ tracing of particular methods. You can also inject a custom `Tracer` object to c
 
 === Enabling distributed tracing without code instrumentation
 
-Because tracing of all JAX-RS methods is enabled by default, you need only to enable 
+Because tracing is enabled by default for all JAX-RS methods, you need to enable only the
 [hotspot=mpOpenTracing file=0]`MicroProfile OpenTracing` feature and the [hotspot=zipkinUsr file=0]`Zipkin` 
 user feature in the `server.xml` file to see some basic traces in Zipkin.
 
@@ -311,7 +312,7 @@ curl http://localhost:9081/inventory/systems
 {: codeblock}
 endif::[]
 
-You see a new trace record that is two spans long with one span for the 
+Look for a new trace record that is two spans long with one span for the 
 [hotspot=listContents file=1]`listContents()` JAX-RS method in the [hotspot file=1]`InventoryResource`
 class and another span for the [hotspot=list file=0]`list()` method in the [hotspot file=0]`InventoryManager` class. 
 Verify that these spans have the following names:
@@ -353,7 +354,7 @@ curl http://localhost:9081/inventory/systems
 {: codeblock}
 endif::[]
 
-You see a new trace record that is just one span long for the remaining [hotspot=list file=0]`list()` 
+Look for a new trace record that is just one span long for the remaining [hotspot=list file=0]`list()` 
 method in the `InventoryManager` class. 
 Verify that this span has the following name:
 
@@ -362,7 +363,7 @@ Verify that this span has the following name:
 === Injecting a custom Tracer object
 
 The MicroProfile OpenTracing specification also makes the underlying OpenTracing `Tracer` instance
-available for use. You can access the configured `Tracer` by injecting it into a bean by using the 
+available. You can access the configured `Tracer` by injecting it into a bean by using the 
 [hotspot=customTracer file=0]`@Inject` annotation from the Contexts and Dependency Injections API.
 
 Inject the `Tracer` object into the `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file.
@@ -382,7 +383,7 @@ include::finish/inventory/src/main/java/io/openliberty/guides/inventory/Inventor
 
 The [hotspot=Try file=0]`try` block that you see here is called a `try-with-resources` statement, 
 meaning that the `childScope` object is closed at the end of the statement. 
-It's good practice to define custom spans inside such statements. 
+Defining custom spans inside such statements is a good practice.
 Otherwise, any exceptions that are thrown before the span is closed will leak the active span.
 
 Next, run the following command from the `start` directory to recompile your services. 
@@ -405,7 +406,7 @@ curl http://localhost:9081/inventory/systems/localhost
 {: codeblock}
 endif::[]
 
-You see two new trace records, one for the `system` service and one for the `inventory` service. The `system` trace 
+Look for two new trace records, one for the `system` service and one for the `inventory` service. The `system` trace 
 contains one span for the [hotspot=Properties file=1]`getProperties()` method in the `SystemResource` class. 
 The `inventory` trace contains two spans. 
 The first span is for the [hotspot=getPropertiesForHost file=2]`getPropertiesForHost()` method in the 
@@ -422,7 +423,7 @@ The `inventory` trace:
 * `add() span`
 
 This simple example shows what you can do with the injected `Tracer` object. More configuration
-options are available to you, including setting a timestamp for when a span was created and destroyed.
+options are available, including setting a timestamp for when a span was created and destroyed.
 However, these options require an implementation of their own, which does not come as a part of the Zipkin
 user feature that is provided. In a real-world scenario, implement all the OpenTracing interfaces that
 you deem necessary, which might include the `SpanBuilder` interface. You can use this interface for span
