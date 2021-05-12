@@ -1,6 +1,6 @@
 //tag::copyright[]
 /*******************************************************************************
-* Copyright (c) 2017, 2020 IBM Corporation and others.
+* Copyright (c) 2017, 2021 IBM Corporation and others.
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import io.openliberty.guides.inventory.client.SystemClient;
 import io.openliberty.guides.inventory.model.InventoryList;
+import io.openliberty.guides.inventory.model.SystemData;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.List;
@@ -24,8 +25,8 @@ import java.util.Collections;
 import org.eclipse.microprofile.opentracing.Traced;
 
 import io.opentracing.Scope;
+import io.opentracing.Span;
 import io.opentracing.Tracer;
-import io.openliberty.guides.inventory.model.*;
 
 @ApplicationScoped
 // tag::InventoryManager[]
@@ -52,11 +53,11 @@ public class InventoryManager {
         SystemData system = new SystemData(hostname, props);
         // tag::Add[]
         if (!systems.contains(system)) {
-            // tag::Try[]
             // tag::addSpan[]
-            try (Scope childScope = tracer.buildSpan("add() Span")
+            Span span = tracer.buildSpan("add() Span").start();
             // end::addSpan[]
-                                              .startActive(true)) {
+            // tag::Try[]
+            try (Scope childScope = tracer.activateSpan(span)) {
                 // tag::addToInvList[]
                 systems.add(system);
                 // end::addToInvList[]
