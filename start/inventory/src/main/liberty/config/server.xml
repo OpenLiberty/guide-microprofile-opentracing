@@ -5,7 +5,7 @@
     <feature>jsonp-1.1</feature>
     <feature>cdi-2.0</feature>
     <feature>mpOpenTracing-2.0</feature>
-    <feature>usr:opentracingZipkin-0.31</feature>
+    <feature>usr:opentracingZipkin-0.33</feature>
   </featureManager>
 
   <opentracingZipkin host="localhost"/>
