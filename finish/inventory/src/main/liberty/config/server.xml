@@ -8,7 +8,7 @@
     <feature>mpOpenTracing-2.0</feature>
     <!-- end::mpOpenTracing[] -->
     <!-- tag::zipkinUsr[] -->
-    <feature>usr:opentracingZipkin-0.31</feature>
+    <feature>usr:opentracingZipkin-0.33</feature>
     <!-- end::zipkinUsr[] -->
   </featureManager>
 
