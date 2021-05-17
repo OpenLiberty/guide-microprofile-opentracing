@@ -25,7 +25,6 @@ import java.util.Collections;
 import org.eclipse.microprofile.opentracing.Traced;
 
 import io.opentracing.Scope;
-import io.opentracing.Span;
 import io.opentracing.Tracer;
 
 @ApplicationScoped
