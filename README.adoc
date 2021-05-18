@@ -219,12 +219,14 @@ the Zipkin server in the form of a user feature for Open Liberty.
 
 This feature is already configured for you in your [hotspot file=1]`pom.xml` and [hotspot file=0]`server.xml` files. 
 It is automatically downloaded and installed into each service when you run a Maven build. 
-You can find the [hotspot=zipkinUsr file=0]`opentracingZipkin` feature enabled in your [hotspot file=0]`server.xml` file.
+You can find the [hotspot=zipkinUsr file=0]`opentracingZipkin` feature enabled
+in your [hotspot file=0]`server.xml` file.
 
-The [hotspot=download file=1]`download-maven-plugin` Maven plug-in in your `pom.xml` is responsible for downloading and installing the feature.
+The [hotspot=download file=1]`download-maven-plugin` Maven plug-in in your `pom.xml`
+is responsible for downloading and installing the feature.
 
 If you want to install this feature yourself, see
-https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/twlp_dist_tracing.html[Enabling distributed tracing^]
+https://www.ibm.com/docs/en/was-liberty/base?topic=environment-enabling-distributed-tracing[Enabling distributed tracing^]
 in the IBM Knowledge Centre.
 
 // file 0
@@ -355,11 +357,13 @@ curl http://localhost:9081/inventory/systems/localhost
 {: codeblock}
 endif::[]
 
-Look for two new trace records, one for the `system` service and one for the `inventory` service. The `system` trace 
-contains one span for the [hotspot=Properties file=1]`getProperties()` method in the `SystemResource` class. 
+Look for two new trace records, one for the `system` service and one for the `inventory` service. 
+The `system` trace contains one span for the [hotspot=Properties file=1]`getProperties()` 
+method in the [hotspot file=1]`SystemResource` class. 
 The `inventory` trace contains two spans. 
-The first span is for the [hotspot=getPropertiesForHost file=2]`getPropertiesForHost()` method in the 
-`InventoryResource` class. The second span is the custom span that you created around the [hotspot=Add file=0]`add()` call. 
+The first span is for the [hotspot=getPropertiesForHost file=2]`getPropertiesForHost()` method 
+in the [hotspot file=2]`InventoryResource` class. 
+The second span is the custom span that you created around the [hotspot=Add file=0]`add()` call. 
 Verify that all of these spans have the following names:
 
 The `system` trace:
@@ -371,18 +375,20 @@ The `inventory` trace:
 * `get:io.openliberty.guides.inventory.inventoryresource.getpropertiesforhost`
 * `add() span`
 
-This simple example shows what you can do with the injected `Tracer` object. More configuration
-options are available, including setting a timestamp for when a span was created and destroyed.
-However, these options require an implementation of their own, which does not come as a part of the Zipkin
-user feature that is provided. In a real-world scenario, implement all the OpenTracing interfaces that
-you deem necessary, which might include the `SpanBuilder` interface. You can use this interface for span
-creation and customization, including setting timestamps.
+This simple example shows what you can do with the injected `Tracer` object. 
+More configuration options are available, 
+including setting a timestamp for when a span was created and destroyed.
+However, these options require an implementation of their own, 
+which does not come as a part of the Zipkin user feature that is provided. 
+In a real-world scenario, implement all the OpenTracing interfaces that you deem necessary, 
+which might include the `SpanBuilder` interface. 
+You can use this interface for span creation and customization, including setting timestamps.
 
 // file 0
-InventoryResource.java
+InventoryManager.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
+include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[]
 ----
 
 // file 1
@@ -390,6 +396,12 @@ SystemResource.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/system/src/main/java/io/openliberty/guides/system/SystemResource.java[]
+----
+// file 2
+InventoryResource.java
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
 ----
 
 // =================================================================================================
