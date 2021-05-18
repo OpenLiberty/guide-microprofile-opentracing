@@ -27,12 +27,10 @@ NOTE: This repository contains the guide documentation source. To view the guide
 
 Explore how to enable and customize tracing of JAX-RS and non-JAX-RS methods by using MicroProfile OpenTracing and the Zipkin tracing system.
 
-
 :inv-url: http://localhost:9081/inventory/systems
 :inv-url-docker: http://localhost:9080/inventory/systems
 :sys-url: http://localhost:9080/system/properties
 :zipkin-url: http://localhost:9411
-
 
 == What you'll learn
 
@@ -47,14 +45,15 @@ particularly in regard to pinpointing when and by whom a request is received, as
 is sent back.
 
 MicroProfile OpenTracing enables distributed tracing in microservices without adding any explicit
-distributed tracing code to the application. Note that the MicroProfile OpenTracing specification does
-not address the problem of defining, implementing, or configuring the underlying distributed tracing
-system. Rather, the specification makes it easy to instrument services with distributed tracing given
+distributed tracing code to the application.
+Note that the MicroProfile OpenTracing specification does not address the problem of
+defining, implementing, or configuring the underlying distributed tracing system. 
+Rather, the specification makes it easier to instrument services with distributed tracing given
 an existing distributed tracing system.
 
 You will configure the provided `inventory` and `system` services to use distributed tracing with
-MicroProfile OpenTracing. You will run these services in two separate JVMs made of two server instances
-to demonstrate tracing in a distributed environment. If all the components were to run on a single
+MicroProfile OpenTracing. You'll run these services in two separate JVMs made of two server instances
+to demonstrate tracing in a distributed environment. If all the components were to run on a single  
 server, then any logging software would do the trick.
 
 
@@ -66,9 +65,10 @@ include::{common-includes}/gitclone.adoc[]
 
 For this guide, Zipkin is used as the distributed tracing system. 
 You can find the installation instructions for Zipkin at the Zipkin https://zipkin.io/pages/quickstart.html[quickstart page^]. 
-You are not required to use Zipkin, you may choose to use another tracing system.
+You're not required to use Zipkin.
+You may choose to use another tracing system.
 However, this guide is written using Zipkin through Docker.
-You will need to use different commands if you use a different tracing system.
+You'll need to use different commands if you use a different tracing system.
 
 // static guide instructions:
 ifndef::cloud-hosted[]
@@ -78,7 +78,7 @@ Start Zipkin by running the following command:
 docker run -d --name zipkin -p 9411:9411 openzipkin/zipkin
 ```
 
-Before you proceed, make sure that your Zipkin server is up and running. By default, Zipkin can be found
+Before you proceed, confirm that your Zipkin server is up and running. By default, Zipkin can be found
 at the {zipkin-url}[{zipkin-url}^] URL.
 endif::[]
 
@@ -109,7 +109,7 @@ cd finish
 mvn install
 ```
 
-then, run the Maven `liberty:start-server` goal to start them in two Open Liberty servers:
+Then, run the Maven `liberty:start-server` goal to start them in two Open Liberty servers:
 [role='command']
 ```
 mvn liberty:start-server
@@ -149,11 +149,11 @@ You can inspect each span by clicking it to reveal more detailed information, su
 at which the request was received and the time at which a response was sent back.
 
 If you examine the other traces, you might notice a red trace entry, 
-which indicates that the span catches an error. 
+which indicates that the span caught an error. 
 In this case, one of the tests accesses the `/inventory/systems/badhostname`
 endpoint, which is invalid, so an error is thrown. This behavior is expected.
 
-When you are done checking out the services, stop both Open Liberty servers using the Maven
+When you're done checking out the services, stop both Open Liberty servers using the Maven
 `liberty:stop-server` goal:
 
 [role='command']
@@ -261,8 +261,8 @@ user feature in the `server.xml` file to see some basic traces in Zipkin.
 
 Both of these features are already enabled in the `inventory` and `system` configuration files.
 
-Make sure that your services are running. Then, simply point your browser to any of their endpoints and
-check your Zipkin server for traces.
+Make sure that your services are running. 
+Then, point your browser to any of their endpoints and check your Zipkin server for traces.
 
 // file 0
 server.xml
@@ -287,9 +287,10 @@ If you place the annotation on a method, then it overrides the class annotation 
 
 The [hotspot=Traced file=0]`@Traced` annotation can be configured with the following two parameters:
 
-* The `value=[true|false]` parameter indicates whether or not a particular class or method is
-traced. For example, while all JAX-RS methods are traced by default, you can disable their tracing by
-using the `@Traced(false)` annotation. This parameter is set to `true` by default.
+* The `value=[true|false]` parameter indicates whether a particular class or method is traced. 
+For example, while all JAX-RS methods are traced by default,
+you can disable their tracing by using the `@Traced(false)` annotation. 
+This parameter is set to `true` by default.
 * The `operationName=<Span name>` parameter indicates the name of the span that is assigned to the
 particular method that is traced. If you omit this parameter, the span will be named with the following
 form: `<package name>.<class name>.<method name>`. If you use this parameter at a class level, then
@@ -302,7 +303,7 @@ The configured `Tracer` is accessed by injecting it into a bean by using the
 
 The injected [hotspot=customTracer file=0]`Tracer` is used to define a custom span with 
 the [hotspot=addSpan file=0]`add()` call. 
-Then a [hotspot=childScope file=0]`childScope` is created, activated, 
+Then, a [hotspot=childScope file=0]`childScope` is created, activated, 
 and used the [hotspot=Try file=0]`try` block.
 
 The [hotspot=Try file=0]`try` block that you see here is called a `try-with-resources` statement, 
