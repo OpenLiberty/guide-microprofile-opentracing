@@ -34,15 +34,14 @@ Explore how to enable and customize tracing of JAX-RS and non-JAX-RS methods by 
 
 == What you'll learn
 
-You will learn how to enable automatic tracing for JAX-RS methods as well as create custom tracers
+You'll learn how to enable automatic tracing for JAX-RS methods as well as create custom tracers
 for non-JAX-RS methods by using MicroProfile OpenTracing.
 
-OpenTracing is a standard API for instrumenting microservices for distributed tracing. Distributed
-tracing helps troubleshoot microservices by examining and logging requests as they propagate through a
-distributed system, allowing developers to tackle the otherwise difficult task of debugging these requests.
-Without a distributed tracing system in place, analyzing the workflows of operations becomes difficult,
-particularly in regard to pinpointing when and by whom a request is received, as well as when a response
-is sent back.
+OpenTracing is a standard API for instrumenting microservices for distributed tracing. 
+Distributed tracing helps troubleshoot microservices by examining and logging requests as they propagate through a distributed system. 
+This allows developers to tackle the otherwise difficult task of debugging these requests.
+Without a distributed tracing system in place, analyzing the workflows of operations becomes difficult.
+Pinpointed when and where a request is received, as well as when responses are sent back become difficult.
 
 MicroProfile OpenTracing enables distributed tracing in microservices without adding any explicit
 distributed tracing code to the application.
@@ -51,7 +50,7 @@ defining, implementing, or configuring the underlying distributed tracing system
 Rather, the specification makes it easier to instrument services with distributed tracing given
 an existing distributed tracing system.
 
-You will configure the provided `inventory` and `system` services to use distributed tracing with
+You'll configure the provided `inventory` and `system` services to use distributed tracing with
 MicroProfile OpenTracing. You'll run these services in two separate JVMs made of two server instances
 to demonstrate tracing in a distributed environment. If all the components were to run on a single  
 server, then any logging software would do the trick.
@@ -68,7 +67,7 @@ You can find the installation instructions for Zipkin at the Zipkin https://zipk
 You're not required to use Zipkin.
 You may choose to use another tracing system.
 However, this guide is written using Zipkin through Docker.
-You'll need to use different commands if you use a different tracing system.
+If you use a different tracing system, the required instructions may differ.
 
 // static guide instructions:
 ifndef::cloud-hosted[]
@@ -78,8 +77,8 @@ Start Zipkin by running the following command:
 docker run -d --name zipkin -p 9411:9411 openzipkin/zipkin
 ```
 
-Before you proceed, confirm that your Zipkin server is up and running. By default, Zipkin can be found
-at the {zipkin-url}[{zipkin-url}^] URL.
+Before you proceed, confirm your Zipkin server is up and running. 
+By default, Zipkin can be found at the {zipkin-url}[{zipkin-url}^] URL.
 endif::[]
 
 // cloud-hosted guide instructions:
@@ -90,7 +89,7 @@ docker run -d --name zipkin -p 9411:9411 openzipkin/zipkin
 ```
 {: codeblock}
 
-Before you proceed, make sure that your Zipkin server is up and running.
+Before you proceed, make sure your Zipkin server is up and running.
 Select **Launch Application** from the menu of the IDE and 
 type **9411** to specify the port number for the Zipkin service. Click the **OK** button. 
 Zipkin can also be found at the **`https://accountname-9411.theiadocker-4.proxy.cognitiveclass.ai`** URL, 
@@ -100,7 +99,7 @@ endif::[]
 === Try what you'll build
 
 The `finish` directory in the root directory of this guide contains two services that are configured
-to use MicroProfile OpenTracing. Give them a try before you proceed.
+to use MicroProfile OpenTracing. Give them a try before you continue.
 
 To try out the services, navigate to the `finish` directory and run the Maven `install` phase to build the services
 [role='command']
@@ -117,7 +116,7 @@ mvn liberty:start-server
 
 // static guide instructions:
 ifndef::cloud-hosted[]
-Make sure that your Zipkin server is running and point your browser to the {inv-url}/localhost[{inv-url}/localhost^] URL. 
+Make sure your Zipkin server is running and point your browser to the {inv-url}/localhost[{inv-url}/localhost^] URL. 
 When you visit this URL, you make two HTTP GET requests, one to the `system` service and one to the `inventory`
 service. Both of these requests are configured to be traced, so a new trace will be recorded in Zipkin.
 Visit the {zipkin-url}[{zipkin-url}^] URL or another location where you configured Zipkin to run. 
@@ -126,7 +125,7 @@ endif::[]
 
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
-Make sure that your Zipkin server is running and run the following curl command:
+Make sure your Zipkin server is running and run the following curl command:
 ```
 curl http://localhost:9081/inventory/systems/localhost
 ```
@@ -139,7 +138,7 @@ Visit the **`https://accountname-9411.theiadocker-4.proxy.cognitiveclass.ai`** U
 Run an empty query and sort the traces by latest start time first. 
 endif::[]
 
-Verify that this new trace contains three spans with the following names:
+Verify the new trace contains three spans with the following names:
 
 * `get:io.openliberty.guides.inventory.inventoryresource.getpropertiesforhost`
 * `get:io.openliberty.guides.system.systemresource.getproperties`
@@ -149,7 +148,7 @@ You can inspect each span by clicking it to reveal more detailed information, su
 at which the request was received and the time at which a response was sent back.
 
 If you examine the other traces, you might notice a red trace entry, 
-which indicates that the span caught an error. 
+which indicates the span caught an error. 
 In this case, one of the tests accesses the `/inventory/systems/badhostname`
 endpoint, which is invalid, so an error is thrown. This behavior is expected.
 
@@ -218,7 +217,7 @@ interface. For this guide, you can access a bare-bones `Tracer` implementation f
 the Zipkin server in the form of a user feature for Open Liberty.
 
 This feature is already configured for you in your [hotspot file=1]`pom.xml` and [hotspot file=0]`server.xml` files. 
-It is automatically downloaded and installed into each service when you run a Maven build. 
+It's automatically downloaded and installed into each service when you run a Maven build. 
 You can find the [hotspot=zipkinUsr file=0]`opentracingZipkin` feature enabled
 in your [hotspot file=0]`server.xml` file.
 
@@ -261,7 +260,7 @@ user feature in the `server.xml` file to see some basic traces in Zipkin.
 
 Both of these features are already enabled in the `inventory` and `system` configuration files.
 
-Make sure that your services are running. 
+Make sure your services are running. 
 Then, point your browser to any of their endpoints and check your Zipkin server for traces.
 
 // file 0
@@ -381,7 +380,7 @@ More configuration options are available,
 including setting a timestamp for when a span was created and destroyed.
 However, these options require an implementation of their own, 
 which does not come as a part of the Zipkin user feature that is provided. 
-In a real-world scenario, implement all the OpenTracing interfaces that you deem necessary, 
+In a real-world scenario, implement all the OpenTracing interfaces that you consider necessary, 
 which might include the `SpanBuilder` interface. 
 You can use this interface for span creation and customization, including setting timestamps.
 
@@ -411,17 +410,16 @@ include::finish/inventory/src/main/java/io/openliberty/guides/inventory/Inventor
 
 == Testing the services
 
-No automated tests are provided to verify the correctness of the traces. Manually verify these traces
-by viewing them on the Zipkin server.
+No automated tests are provided to verify the correctness of the traces.
+Manually verify these traces by viewing them on the Zipkin server.
 
-A few tests are included for you to test the basic functionality of the services. If a test failure
-occurs, then you might have introduced a bug into the code. These tests will run automatically as a
-part of the Maven build process when you run the `mvn install` command. You can also run these tests
-separately from the build by using the `mvn verify` command, but first make sure that the servers are
-stopped.
+A few tests are included for you to test the basic functionality of the services. 
+If a test failure occurs, then you might have introduced a bug into the code. 
+These tests will run automatically as a part of the Maven build process when you run the `mvn install` command. 
+You can also run these tests separately from the build by using the `mvn verify` command,
+but first make sure  the servers are stopped.
 
-When you are done checking out the services, stop the server by using the Maven
-`liberty:stop-server` goal:
+When you are done checking out the services, stop the server by using the Maven `liberty:stop-server` goal:
 
 [role='command']
 ```
