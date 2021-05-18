@@ -227,12 +227,14 @@ If you want to install this feature yourself, see
 https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/twlp_dist_tracing.html[Enabling distributed tracing^]
 in the IBM Knowledge Centre.
 
+// file 0
 server.xml
 [source, xml, linenums, role='code_column']
 ----
 include::finish/inventory/src/main/liberty/config/server.xml[]
 ----
 
+// file 1
 pom.xml
 [source, xml, linenums, role='code_column']
 ----
@@ -260,6 +262,7 @@ Both of these features are already enabled in the `inventory` and `system` confi
 Make sure that your services are running. Then, simply point your browser to any of their endpoints and
 check your Zipkin server for traces.
 
+// file 0
 server.xml
 [source, xml, linenums, role='code_column']
 ----
@@ -316,12 +319,14 @@ Finally, disable tracing on the `InventoryResource` class.
 Setting [hotspot=Traced-false file=1]`@Traced(false)` disables tracing of 
 the [hotspot=listContents file=1]`listContents()` JAX-RS method.
 
+// file 0
 InventoryManager.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[]
 ----
 
+// file 1
 InventoryResource.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
@@ -373,16 +378,18 @@ user feature that is provided. In a real-world scenario, implement all the OpenT
 you deem necessary, which might include the `SpanBuilder` interface. You can use this interface for span
 creation and customization, including setting timestamps.
 
-SystemResource.java
-[source, Java, linenums, role='code_column hide_tags=copyright']
-----
-include::finish/system/src/main/java/io/openliberty/guides/system/SystemResource.java[]
-----
-
+// file 0
 InventoryResource.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
+----
+
+// file 1
+SystemResource.java
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/system/src/main/java/io/openliberty/guides/system/SystemResource.java[]
 ----
 
 // =================================================================================================
