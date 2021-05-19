@@ -13,12 +13,14 @@
 package io.openliberty.guides.inventory;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
+import javax.enterprise.context.ApplicationScoped;
+
 import io.openliberty.guides.inventory.client.SystemClient;
 import io.openliberty.guides.inventory.model.InventoryList;
-import javax.enterprise.context.ApplicationScoped;
-import java.util.List;
-import java.util.Collections;
+import io.openliberty.guides.inventory.model.SystemData;
 
 @ApplicationScoped
 public class InventoryManager {
