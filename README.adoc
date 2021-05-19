@@ -52,9 +52,8 @@ an existing distributed tracing system.
 
 You'll configure the provided `inventory` and `system` services to use distributed tracing with
 MicroProfile OpenTracing. You'll run these services in two separate JVMs made of two server instances
-to demonstrate tracing in a distributed environment. If all the components were to run on a single  
-server, then any logging software would do the trick.
-
+to demonstrate tracing in a distributed environment. 
+If all the components were to run on a single server, then any logging software would do the trick.
 
 // =================================================================================================
 // Getting Started
@@ -66,17 +65,11 @@ For this guide, Zipkin is used as the distributed tracing system.
 You can find the installation instructions for Zipkin at the Zipkin https://zipkin.io/pages/quickstart.html[quickstart page^]. 
 You're not required to use Zipkin.
 You may choose to use another tracing system.
-However, this guide is written using Zipkin through Docker.
+However, this guide is written using Zipkin.
 If you use a different tracing system, the required instructions may differ.
 
 // static guide instructions:
 ifndef::cloud-hosted[]
-Start Zipkin by running the following command:
-[role='command']
-```
-docker run -d --name zipkin -p 9411:9411 openzipkin/zipkin
-```
-
 Before you continue, confirm your Zipkin server is up and running. 
 By default, Zipkin can be found at the {zipkin-url}[{zipkin-url}^] URL.
 endif::[]
