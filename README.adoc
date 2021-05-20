@@ -312,6 +312,7 @@ Finally, disable tracing on the `InventoryResource` class.
 `inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
 ----
 
+
 Setting [hotspot=Traced-false file=1]`@Traced(false)` disables tracing of 
 the [hotspot=listContents file=1]`listContents()` JAX-RS method.
 
