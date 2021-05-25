@@ -53,7 +53,9 @@ public class InventoryManager {
         if (!systems.contains(system)) {
             // tag::Try[]
             // tag::addSpan[]
+            // tag::childScope[]
             try (Scope childScope = tracer.activateSpan(
+            // end::childScope[]
                     tracer.buildSpan("add() Span").start())) {
             // end::addSpan[]
                 // tag::addToInvList[]
