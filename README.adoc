@@ -266,15 +266,16 @@ include::finish/inventory/src/main/liberty/config/server.xml[]
 
 === Enabling explicit distributed tracing
 
-To enable tracing, add the `@Traced` annotation to the `InventoryManager` class.
+The [hotspot=Traced file=0]`@Traced` annotation defines explicit span creation for specific classes and methods.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Update the `InventoryManager` class.#
 `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
 ----
+[role="edit_command_text"]
+Enable tracing of the [hotspot=list file=0]`list()` non-JAX-RS method by updating [hotspot=Traced file=0]`@Traced` as shown.
 
-The [hotspot=Traced file=0]`@Traced` annotation defines explicit span creation for specific classes and methods.
 If you place the annotation on a class, then it's automatically applied to all methods within that class.
 If you place the annotation on a method, then it overrides the class annotation if one exists.
 
@@ -311,10 +312,9 @@ Finally, disable tracing on the `InventoryResource` class.
 #Update the `InventoryResource` class#
 `inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
 ----
-
-
-Setting [hotspot=Traced-false file=1]`@Traced(false)` disables tracing of 
-the [hotspot=listContents file=1]`listContents()` JAX-RS method.
+[role="edit_command_text"]
+Disable tracing of the [hotspot=listContents file=1]`listContents()` JAX-RS method by
+setting [hotspot=Traced-false file=1]`@Traced(false)`.
 
 // file 0
 InventoryManager.java
