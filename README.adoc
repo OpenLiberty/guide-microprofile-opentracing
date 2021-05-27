@@ -368,15 +368,6 @@ Verify that this span has the following name:
 
 * `inventorymanager.list`
 
-[role="code_command hotspot file=1", subs="quotes"]
-----
-#Update the `InventoryResource` class#
-`inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
-----
-[role="edit_command_text"]
-Disable tracing of the [hotspot=listContents file=1]`listContents()` JAX-RS method by
-setting [hotspot=Traced-false file=1]`@Traced(false)`.
-
 // file 0
 InventoryManager.java
 [source, Java, linenums, role='code_column hide_tags=copyright,customTracer,Try']
