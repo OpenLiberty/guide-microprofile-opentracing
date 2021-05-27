@@ -268,15 +268,6 @@ include::finish/inventory/src/main/liberty/config/server.xml[]
 === Enabling explicit distributed tracing
 
 The [hotspot=Traced file=0]`@Traced` annotation defines explicit span creation for specific classes and methods.
-
-[role="code_command hotspot file=0", subs="quotes"]
-----
-#Update the `InventoryManager` class.#
-`inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
-----
-[role="edit_command_text"]
-Enable tracing of the [hotspot=list file=0]`list()` non-JAX-RS method by updating [hotspot=Traced file=0]`@Traced` as shown.
-
 If you place the annotation on a class, then it's automatically applied to all methods within that class.
 If you place the annotation on a method, then it overrides the class annotation if one exists.
 
@@ -292,21 +283,90 @@ form: `<package name>.<class name>.<method name>`. If you use this parameter at 
 all methods within that class will have the same span name unless they're explicitly overridden by
 another `@Traced` annotation.
 
-The MicroProfile OpenTracing specification also makes the underlying OpenTracing `Tracer` instance available.
-The configured `Tracer` is accessed by injecting it into a bean by using the 
-[hotspot=customTracer file=0]`@Inject` annotation from the Contexts and Dependency Injections API.
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Update the `InventoryManager` class.#
+`inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
+----
+[role="edit_command_text"]
+Enable tracing of the [hotspot=list file=0]`list()` non-JAX-RS method by updating [hotspot=Traced file=0]`@Traced` as shown.
 
-The injected [hotspot=customTracer file=0]`Tracer` is used to define a custom span with 
-the [hotspot=addSpan file=0]`add()` call.
-A [hotspot=childScope file=0]`childScope` is created with this span.
-The `childScope` is then activated, and used in a [hotspot=Try file=0]`try` block.
+The [hotspot=Traced file=0]`@Traced` annotation can be configured with the following two parameters:
 
-The [hotspot=Try file=0]`try` block that you see here is called a `try-with-resources` statement, 
-meaning that the [hotspot=childScope file=0]`childScope` object is closed at the end of the statement. 
-Defining custom spans inside such statements is a good practice.
-Otherwise, any exceptions that are thrown before the span is closed will leak the active span.
+* The `value=[true|false]` parameter indicates whether a particular class or method is traced. 
+For example, while all JAX-RS methods are traced by default,
+you can disable their tracing by using the `@Traced(false)` annotation. 
+This parameter is set to `true` by default.
+* The `operationName=<Span name>` parameter indicates the name of the span that is assigned to the
+particular method that is traced. If you omit this parameter, the span will be named with the following
+form: `<package name>.<class name>.<method name>`. If you use this parameter at a class level, then
+all methods within that class will have the same span name unless they're explicitly overridden by
+another `@Traced` annotation.
 
-Finally, disable tracing on the `InventoryResource` class.
+Next, run the following command from the `start` directory to recompile your services. 
+[role='command']
+```
+mvn compile
+```
+
+// static guide instructions:
+ifndef::cloud-hosted[]
+Visit the {inv-url}[{inv-url}^] URL, check your Zipkin server, and sort the traces by newest first. 
+endif::[]
+
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+Run the following curl command, check your Zipkin server, and sort the traces by newest first:
+```
+curl http://localhost:9081/inventory/systems
+```
+{: codeblock}
+endif::[]
+
+Look for a new trace record that is two spans long with one span for the 
+[hotspot=listContents file=1]`listContents()` JAX-RS method in the [hotspot file=1]`InventoryResource`
+class and another span for the [hotspot=list file=0]`list()` method in the [hotspot file=0]`InventoryManager` class. 
+Verify that these spans have the following names:
+
+* `get:io.openliberty.guides.inventory.inventoryresource.listcontents`
+* `inventorymanager.list`
+
+Now, disable tracing on the `InventoryResource` class.
+
+[role="code_command hotspot file=1", subs="quotes"]
+----
+#Update the `InventoryResource` class#
+`inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
+----
+[role="edit_command_text"]
+Disable tracing of the [hotspot=listContents file=1]`listContents()` JAX-RS method
+by setting [hotspot=Traced-false file=1]`@Traced(false)`.
+
+Again, run the `mvn compile` command from the `start` directory to recompile your services:
+[role="command"]
+```
+mvn compile
+```
+
+// static guide instructions:
+ifndef::cloud-hosted[]
+Visit the {inv-url}[{inv-url}^] URL again, check your Zipkin server, and sort the traces by newest first. 
+endif::[]
+
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+Run the following curl command again, check your Zipkin server, and sort the traces by newest first:
+```
+curl http://localhost:9081/inventory/systems
+```
+{: codeblock}
+endif::[]
+
+Look for a new trace record that is just one span long for the remaining [hotspot=list file=0]`list()` 
+method in the `InventoryManager` class. 
+Verify that this span has the following name:
+
+* `inventorymanager.list`
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
@@ -319,7 +379,7 @@ setting [hotspot=Traced-false file=1]`@Traced(false)`.
 
 // file 0
 InventoryManager.java
-[source, Java, linenums, role='code_column hide_tags=copyright']
+[source, Java, linenums, role='code_column hide_tags=copyright,customTracer,Try']
 ----
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[]
 ----
@@ -331,7 +391,26 @@ InventoryResource.java
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
 ----
 
-=== Recompiling the services
+=== Injecting a custom Tracer object
+
+The MicroProfile OpenTracing specification also makes the underlying OpenTracing `Tracer` instance available.
+The configured `Tracer` is accessed by injecting it into a bean by using the 
+[hotspot=customTracer file=0]`@Inject` annotation from the Contexts and Dependency Injections API.
+
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Update the `InventoryManager` class#
+`inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
+----
+[role="edit_command_text"]
+Inject the [hotspot=customTracer file=0]`Tracer`.
+Then, use it to build and activate a [hotspot=addSpan file=0]`childScope`. 
+
+The `childScope` is used in a [hotspot=Try file=0]`try` block.
+The [hotspot=Try file=0]`try` block that you see here is called a `try-with-resources` statement, 
+meaning that the [hotspot=childScope file=0]`childScope` object is closed at the end of the statement. 
+Defining custom spans inside such statements is a good practice.
+Otherwise, any exceptions that are thrown before the span is closed will leak the active span.
 
 Next, run the following command from the `start` directory to recompile your services. 
 [role="command"]
@@ -393,6 +472,7 @@ SystemResource.java
 ----
 include::finish/system/src/main/java/io/openliberty/guides/system/SystemResource.java[]
 ----
+
 // file 2
 InventoryResource.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
