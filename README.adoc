@@ -277,7 +277,7 @@ If you place the annotation on a method, then it overrides the class annotation 
 `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
 ----
 [role="edit_command_text"]
-Enable tracing of the [hotspot=list file=0]`list()` non-JAX-RS method by updating [hotspot=Traced file=0]`@Traced` as shown.
+Enable tracing of the [hotspot=list file=0]`list()` non-JAX-RS method by adding [hotspot=Traced file=0]`@Traced` as shown.
 
 The [hotspot=Traced file=0]`@Traced` annotation can be configured with the following two parameters:
 
