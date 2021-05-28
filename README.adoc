@@ -358,7 +358,7 @@ Verify that this span has the following name:
 
 // file 0
 InventoryManager.java
-[source, Java, linenums, role='code_column hide_tags=copyright,customTracer,Try']
+[source, Java, linenums, role='code_column hide_tags=copyright,customTracer,Add']
 ----
 include::finish/inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[]
 ----
