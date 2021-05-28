@@ -388,7 +388,7 @@ Then, activate and use the `Span` in a [hotspot=scope file=0]`Scope`.
 
 The [hotspot=scope file=0]`Scope` is used in a [hotspot=Try file=0]`try` block.
 The [hotspot=Try file=0]`try` block that you see here is called a `try-with-resources` statement, 
-meaning that the [hotspot=Scope file=0]`Scope` object is closed at the end of the statement.
+meaning that the [hotspot=scope file=0]`Scope` object is closed at the end of the statement.
 Defining custom spans inside such statements is a good practice.
 Otherwise, any exceptions that are thrown before the span is closed will leak the active span.
 The [hotspot=spanFinish file=0]`finish()` method sets the ending timestamp and records the span.
