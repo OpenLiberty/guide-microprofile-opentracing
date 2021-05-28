@@ -373,7 +373,7 @@ include::finish/inventory/src/main/java/io/openliberty/guides/inventory/Inventor
 === Injecting a custom Tracer object
 
 The MicroProfile OpenTracing specification also makes the underlying OpenTracing `Tracer` instance available.
-The configured `Tracer` is accessed by injecting it into a bean by using the 
+The configured `Tracer` is accessed by injecting it into a bean by using the
 [hotspot=customTracer file=0]`@Inject` annotation from the Contexts and Dependency Injections API.
 
 [role="code_command hotspot file=0", subs="quotes"]
@@ -383,13 +383,15 @@ The configured `Tracer` is accessed by injecting it into a bean by using the
 ----
 [role="edit_command_text"]
 Inject the [hotspot=customTracer file=0]`Tracer`.
-Then, use it to build and activate a [hotspot=addSpan file=0]`childScope`. 
+Use the `Tracer` to build a [hotspot=span file=0]`Span`.
+Then, activate and use the `Span` in a [hotspot=scope file=0]`Scope`. 
 
-The `childScope` is used in a [hotspot=Try file=0]`try` block.
+The [hotspot=scope file=0]`Scope` is used in a [hotspot=Try file=0]`try` block.
 The [hotspot=Try file=0]`try` block that you see here is called a `try-with-resources` statement, 
-meaning that the [hotspot=childScope file=0]`childScope` object is closed at the end of the statement. 
+meaning that the [hotspot=Scope file=0]`Scope` object is closed at the end of the statement.
 Defining custom spans inside such statements is a good practice.
 Otherwise, any exceptions that are thrown before the span is closed will leak the active span.
+The [hotspot=spanFinish file=0]`finish()` method sets the ending timestamp and records the span.
 
 Next, run the following command from the `start` directory to recompile your services. 
 [role="command"]

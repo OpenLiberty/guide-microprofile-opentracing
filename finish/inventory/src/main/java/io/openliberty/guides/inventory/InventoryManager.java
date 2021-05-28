@@ -23,6 +23,7 @@ import io.openliberty.guides.inventory.client.SystemClient;
 import io.openliberty.guides.inventory.model.InventoryList;
 import io.openliberty.guides.inventory.model.SystemData;
 import io.opentracing.Scope;
+import io.opentracing.Span;
 import io.opentracing.Tracer;
 
 import org.eclipse.microprofile.opentracing.Traced;
@@ -51,16 +52,22 @@ public class InventoryManager {
         SystemData system = new SystemData(hostname, props);
         // tag::Add[]
         if (!systems.contains(system)) {
+            // tag::span[]
+            Span span = tracer.buildSpan("add() Span").start();
+            // end::span[]
             // tag::Try[]
-            // tag::addSpan[]
-            // tag::childScope[]
-            try (Scope childScope = tracer.activateSpan(
-            // end::childScope[]
-                    tracer.buildSpan("add() Span").start())) {
-            // end::addSpan[]
+            // tag::scope[]
+            try (Scope childScope = tracer.scopeManager()
+                                          .activate(span)
+                ) {
+            // end::scope[]
                 // tag::addToInvList[]
                 systems.add(system);
                 // end::addToInvList[]
+            } finally {
+                // tag::spanFinish[]
+                span.finish();
+                // end::spanFinishp[]
             }
             // end::Try[]
         }
