@@ -273,7 +273,7 @@ If you place the annotation on a method, then it overrides the class annotation 
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
-#Update the `InventoryManager` class.#
+#Replace the `InventoryManager` class.#
 `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
 ----
 [role="edit_command_text"]
@@ -323,7 +323,7 @@ Now, disable tracing on the `InventoryResource` class.
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
-#Update the `InventoryResource` class#
+#Replace the `InventoryResource` class#
 `inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
 ----
 [role="edit_command_text"]
@@ -378,7 +378,7 @@ The configured `Tracer` is accessed by injecting it into a bean by using the
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
-#Update the `InventoryManager` class#
+#Replace the `InventoryManager` class#
 `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
 ----
 [role="edit_command_text"]
