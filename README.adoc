@@ -271,13 +271,14 @@ The [hotspot=Traced file=0]`@Traced` annotation defines explicit span creation f
 If you place the annotation on a class, then it's automatically applied to all methods within that class.
 If you place the annotation on a method, then it overrides the class annotation if one exists.
 
+Enable tracing of the [hotspot=list file=0]`list()` non-JAX-RS method by adding the
+[hotspot=Traced file=0]`@Traced` annotation to the method.
+
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Replace the `InventoryManager` class.#
 `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
 ----
-[role="edit_command_text"]
-Enable tracing of the [hotspot=list file=0]`list()` non-JAX-RS method by adding [hotspot=Traced file=0]`@Traced` as shown.
 
 The [hotspot=Traced file=0]`@Traced` annotation can be configured with the following two parameters:
 
@@ -319,16 +320,14 @@ Verify that these spans have the following names:
 * `get:io.openliberty.guides.inventory.inventoryresource.listcontents`
 * `inventorymanager.list`
 
-Now, disable tracing on the `InventoryResource` class.
+Now, disable tracing on the `InventoryResource` class by setting [hotspot=Traced-false file=1]`@Traced(false)`
+on the [hotspot=listContents file=1]`listContents()` JAX-RS method.
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
-#Replace the `InventoryResource` class#
+#Replace the `InventoryResource` class.#
 `inventory/src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
 ----
-[role="edit_command_text"]
-Disable tracing of the [hotspot=listContents file=1]`listContents()` JAX-RS method
-by setting [hotspot=Traced-false file=1]`@Traced(false)`.
 
 Again, run the `mvn compile` command from the `start` directory to recompile your services:
 [role="command"]
@@ -376,15 +375,14 @@ The MicroProfile OpenTracing specification also makes the underlying OpenTracing
 The configured `Tracer` is accessed by injecting it into a bean by using the
 [hotspot=customTracer file=0]`@Inject` annotation from the Contexts and Dependency Injections API.
 
+After injecting it, the [hotspot=customTracer file=0]`Tracer` will be used to build a [hotspot=span file=0]`Span`.
+The `Span` will be activated and used in a [hotspot=scope file=0]`Scope`.
+
 [role="code_command hotspot file=0", subs="quotes"]
 ----
-#Replace the `InventoryManager` class#
+#Replace the `InventoryManager` class.#
 `inventory/src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
 ----
-[role="edit_command_text"]
-Inject the [hotspot=customTracer file=0]`Tracer`.
-Use the `Tracer` to build a [hotspot=span file=0]`Span`.
-Then, activate and use the `Span` in a [hotspot=scope file=0]`Scope`. 
 
 The [hotspot=scope file=0]`Scope` is used in a [hotspot=Try file=0]`try` block.
 The [hotspot=Try file=0]`try` block that you see here is called a `try-with-resources` statement, 
