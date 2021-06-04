@@ -37,23 +37,12 @@ Explore how to enable and customize tracing of JAX-RS and non-JAX-RS methods by 
 You'll learn how to enable automatic tracing for JAX-RS methods as well as create custom tracers
 for non-JAX-RS methods by using MicroProfile OpenTracing.
 
-OpenTracing is a standard API for instrumenting microservices for distributed tracing. 
-Distributed tracing helps troubleshoot microservices by examining and logging requests as they propagate through a distributed system. 
-This allows developers to tackle the otherwise difficult task of debugging these requests.
-Without a distributed tracing system in place, analyzing the workflows of operations becomes difficult.
-Pinpointing when and where a request is received, as well as when responses are sent back becomes difficult.
+OpenTracing is a standard API for instrumenting microservices for distributed tracing. Distributed tracing helps troubleshoot microservices by examining and logging requests as they propagate through a distributed system. This allows developers to tackle the otherwise difficult task of debugging these requests. Without a distributed tracing system in place, analyzing the workflows of operations becomes difficult.Pinpointing when and where a request is received, as well as when responses are sent back becomes difficult.
 
-MicroProfile OpenTracing enables distributed tracing in microservices without adding any explicit
-distributed tracing code to the application.
-Note that the MicroProfile OpenTracing specification does not address the problem of
-defining, implementing, or configuring the underlying distributed tracing system. 
-Rather, the specification makes it easier to instrument services with distributed tracing given
+MicroProfile OpenTracing enables distributed tracing in microservices without adding any explicit distributed tracing code to the application. Note that the MicroProfile OpenTracing specification does not address the problem of defining, implementing, or configuring the underlying distributed tracing system. Rather, the specification makes it easier to instrument services with distributed tracing given
 an existing distributed tracing system.
 
-You'll configure the provided `inventory` and `system` services to use distributed tracing with
-MicroProfile OpenTracing. You'll run these services in two separate JVMs made of two server instances
-to demonstrate tracing in a distributed environment. 
-If all the components were to run on a single server, then any logging software would do the trick.
+You'll configure the provided `inventory` and `system` services to use distributed tracing with MicroProfile OpenTracing. You'll run these services in two separate JVMs made of two server instances to demonstrate tracing in a distributed environment. If all the components were to run on a single server, then any logging software would do the trick.
 
 // =================================================================================================
 // Getting Started
@@ -61,12 +50,7 @@ If all the components were to run on a single server, then any logging software 
 [role='command']
 include::{common-includes}/gitclone.adoc[]
 
-For this guide, Zipkin is used as the distributed tracing system. 
-You can find the installation instructions for Zipkin at the Zipkin https://zipkin.io/pages/quickstart.html[quickstart page^]. 
-You're not required to use Zipkin.
-You may choose to use another tracing system.
-However, this guide is written using Zipkin.
-If you use a different tracing system, the required instructions may differ.
+For this guide, Zipkin is used as the distributed tracing system. You can find the installation instructions for Zipkin at the Zipkin https://zipkin.io/pages/quickstart.html[quickstart page^]. You're not required to use Zipkin. You may choose to use another tracing system. However, this guide is written using Zipkin. If you use a different tracing system, the required instructions may differ.
 
 // static guide instructions:
 ifndef::cloud-hosted[]
