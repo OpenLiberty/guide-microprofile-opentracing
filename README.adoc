@@ -209,8 +209,7 @@ the Zipkin server in the form of a user feature for Open Liberty.
 
 This feature is already configured for you in your [hotspot file=1]`pom.xml` and [hotspot file=0]`server.xml` files. 
 It's automatically downloaded and installed into each service when you run a Maven build. 
-You can find the [hotspot=zipkinUsr file=0]`opentracingZipkin` feature enabled
-in your [hotspot file=0]`server.xml` file.
+You can find the [hotspot=zipkinUsr file=0]`opentracingZipkin` feature enabled in your [hotspot file=0]`server.xml` file.
 
 The [hotspot=download file=1]`download-maven-plugin` Maven plug-in in your `pom.xml`
 downloads and installs the [hotspot=zipkinUsr file=0]`opentracingZipkin` feature.s
