@@ -203,8 +203,8 @@ endif::[]
 
 == Existing Tracer implementation
 
-To collect traces across your systems, you need to implement the OpenTracing `Tracer` interface. 
-For this guide, you can access a bare-bones `Tracer` implementation for
+To collect traces across your systems, you need to implement the OpenTracing `Tracer`
+interface. For this guide, you can access a bare-bones `Tracer` implementation for
 the Zipkin server in the form of a user feature for Open Liberty.
 
 This feature is already configured for you in your [hotspot file=1]`pom.xml` and [hotspot file=0]`server.xml` files. 
