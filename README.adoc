@@ -60,7 +60,10 @@ server, then any logging software would do the trick.
 [role='command']
 include::{common-includes}/gitclone.adoc[]
 
-For this guide, Zipkin is used as the distributed tracing system. You can find the installation instructions for Zipkin at the Zipkin https://zipkin.io/pages/quickstart.html[quickstart page^]. You're not required to use Zipkin. You may choose to use another tracing system. However, this guide is written using Zipkin. If you use a different tracing system, the required instructions may differ.
+For this guide, Zipkin is used as the distributed tracing system. You can find the installation instructions
+for Zipkin at the Zipkin https://zipkin.io/pages/quickstart.html[quickstart page^]. You're not required
+to use Zipkin. You may choose to use another tracing system.
+However, this guide is written using Zipkin. If you use a different tracing system, the required instructions may differ.
 
 // static guide instructions:
 ifndef::cloud-hosted[]
