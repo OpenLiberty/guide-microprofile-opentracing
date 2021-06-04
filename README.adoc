@@ -245,9 +245,8 @@ tracing of particular methods. You can also inject a custom `Tracer` object to c
 === Enabling distributed tracing without code instrumentation
 
 Because tracing is enabled by default for all JAX-RS methods, you need to enable only the
-[hotspot=mpOpenTracing file=0]`mpOpenTracing` feature and the
-[hotspot=zipkinUsr file=0]`usr:opentracingZipkin` user feature in the `server.xml` file
-to see some basic traces in Zipkin.
+[hotspot=mpOpenTracing file=0]`mpOpenTracing` feature and the [hotspot=zipkinUsr file=0]`usr:opentracingZipkin`
+user feature in the `server.xml` file to see some basic traces in Zipkin.
 
 Both of these features are already enabled in the `inventory` and `system` configuration files.
 
