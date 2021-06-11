@@ -34,14 +34,15 @@ Explore how to enable and customize tracing of JAX-RS and non-JAX-RS methods by 
 
 == What you'll learn
 
-You'll learn how to enable automatic tracing for JAX-RS methods as well as create custom tracers
+You'll learn how to enable automatic tracing for JAX-RS methods and how to create custom tracers
 for non-JAX-RS methods by using MicroProfile OpenTracing.
 
-OpenTracing is a standard API for instrumenting microservices for distributed tracing. Distributed
-tracing helps troubleshoot microservices by examining and logging requests as they propagate through a
-distributed system. This allows developers to tackle the otherwise difficult task of debugging these requests.
+OpenTracing is a standard API for instrumenting microservices for distributed tracing.
+Distributed tracing helps troubleshoot microservices by examining and logging requests
+as they propagate through a distributed system.
+Distributed tracing allows developers to tackle the otherwise difficult task of debugging these requests.
 Without a distributed tracing system in place, analyzing the workflows of operations becomes difficult.
-Pinpointing when and where a request is received, as well as when responses are sent back becomes difficult.
+Pinpointing when and where a request is received and when responses are sent becomes difficult.
 
 MicroProfile OpenTracing enables distributed tracing in microservices without adding any explicit
 distributed tracing code to the application. Note that the MicroProfile OpenTracing specification does
@@ -128,7 +129,7 @@ Visit the **`https://accountname-9411.theiadocker-4.proxy.cognitiveclass.ai`** U
 Run an empty query and sort the traces by latest start time first. 
 endif::[]
 
-Verify the new trace contains three spans with the following names:
+Verify that the new trace contains three spans with the following names:
 
 * `get:io.openliberty.guides.inventory.inventoryresource.getpropertiesforhost`
 * `get:io.openliberty.guides.system.systemresource.getproperties`
@@ -216,7 +217,7 @@ downloads and installs the [hotspot=zipkinUsr file=0]`opentracingZipkin` feature
 
 If you want to install this feature yourself, see
 https://www.ibm.com/docs/en/was-liberty/base?topic=environment-enabling-distributed-tracing[Enabling distributed tracing^]
-in the IBM Knowledge Centre.
+in IBM Documentation.
 
 // file 0
 server.xml
