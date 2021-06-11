@@ -29,7 +29,7 @@
         <inv.service.http.port>9081</inv.service.http.port>
         <inv.service.https.port>9444</inv.service.https.port>
         <!-- Zipkin user feature download link -->
-        <zipkin.usr.feature>https://github.com/WASdev/sample.opentracing.zipkintracer/releases/download/1.3/liberty-opentracing-zipkintracer-1.3-sample.zip</zipkin.usr.feature>
+        <zipkin.usr.feature>https://github.com/WASdev/sample.opentracing.zipkintracer/releases/download/2.0.1/liberty-opentracing-zipkintracer-2.0.1-sample.zip</zipkin.usr.feature>
     </properties>
 
     <!-- Shared dependencies. -->
@@ -46,7 +46,7 @@
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>4.13.1</version>
+                <version>4.13.2</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -70,7 +70,7 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>3.10</version>
+                <version>3.12.0</version>
                 <scope>compile</scope>
             </dependency>
         </dependencies>
