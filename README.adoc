@@ -15,7 +15,7 @@
 :page-tags: ['MicroProfile']
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['cdi-intro', 'microprofile-opentracing-jaeger']
-:common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
+:common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
 :page-seo-title: Enabling distributed tracing in Java microservices using Eclipse MicroProfile OpenTracing and the Zipkin tracing system.
 :page-seo-description: A getting started tutorial and an example on how to enable distributed tracing in Java microservices to easily trace request flows that span multiple resources by using MicroProfile OpenTracing and Zipkin tracing system.
 :source-highlighter: prettify
