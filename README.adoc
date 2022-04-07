@@ -62,7 +62,8 @@ Start Zipkin by running the following command:
 docker run -d --name zipkin -p 9411:9411 openzipkin/zipkin
 ```
 
-Before you continue, make sure your Zipkin server is up and running. Select **Launch Application** from the menu of the IDE and type **9411** to specify the port number for the Zipkin service. Click the **OK** button. Zipkin can also be found at the **`https://accountname-9411.theiadocker-4.proxy.cognitiveclass.ai`** URL, where **accountname** is your account name.
+Before you continue, make sure your Zipkin server is up and running. Click the following button to visit Zipkin service at port ***9411**.
+::startApplication{port="9411" display="external" name="Visit Zipkin" route="/"}
 endif::[]
 
 === Try what you'll build
@@ -94,7 +95,8 @@ Make sure your Zipkin server is running and run the following curl command:
 curl -s http://localhost:9081/inventory/systems/localhost | jq
 ```
 
-When you make this curl request, you make two HTTP GET requests, one to the **system** service and one to the **inventory** service. Because tracing is configured for both these requests, a new trace is recorded in Zipkin. Visit the **`https://accountname-9411.theiadocker-4.proxy.cognitiveclass.ai`** URL. Run an empty query and sort the traces by latest start time first. 
+When you make this curl request, you make two HTTP GET requests, one to the ***system*** service and one to the ***inventory*** service. Because tracing is configured for both these requests, a new trace is recorded in Zipkin. Visit the Zipkin service. Run an empty query and sort the traces by latest start time first. 
+::startApplication{port="9411" display="external" name="Visit Zipkin" route="/"}
 endif::[]
 
 Verify that the new trace contains three spans with the following names:
