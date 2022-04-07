@@ -67,7 +67,7 @@ public class InventoryManager {
             } finally {
                 // tag::spanFinish[]
                 span.finish();
-                // end::spanFinishp[]
+                // end::spanFinish[]
             }
             // end::Try[]
         }
