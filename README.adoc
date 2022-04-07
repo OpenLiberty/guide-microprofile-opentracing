@@ -62,7 +62,7 @@ Start Zipkin by running the following command:
 docker run -d --name zipkin -p 9411:9411 openzipkin/zipkin
 ```
 
-Before you continue, make sure your Zipkin server is up and running. Click the following button to visit Zipkin service at port ***9411**.
+Before you continue, make sure your Zipkin server is up and running. Click the following button to visit Zipkin service at port ***9411***.
 ::startApplication{port="9411" display="external" name="Visit Zipkin" route="/"}
 endif::[]
 
