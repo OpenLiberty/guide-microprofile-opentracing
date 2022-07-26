@@ -41,7 +41,7 @@ microservice to the backend application of the guide.
 
 If you are contributing changes as part of your job, you may also wish to have your employer sign a [Corporate Contributor License Agreement](https://github.com/OpenLiberty/open-liberty/blob/release/cla/open-liberty-cla-corporate.pdf).
 
-Instructions for how to sign and submit these agreements are located at the top of each document. 
+Instructions for how to sign and submit these agreements are located at the top of each document.
 
 After we obtain the signed CLA, you are welcome to open a pull request against the `staging` branch, and the team will be notified for review. We ask you to follow these steps through the submission process:
 
