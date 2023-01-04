@@ -7,4 +7,4 @@ set -euxo pipefail
 ##
 ##############################################################################
 
-mvn -q clean install
+mvn -ntp -q clean install
