@@ -47,16 +47,16 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
             <artifactId>junit</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-rs-client</artifactId>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-client</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-rs-extension-providers</artifactId>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-json-binding-provider</artifactId>
         </dependency>
         <dependency>
             <groupId>org.glassfish</groupId>
-            <artifactId>javax.json</artifactId>
+            <artifactId>jakarta.json</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>

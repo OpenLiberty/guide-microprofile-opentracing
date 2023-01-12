@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2018, 2020 IBM Corporation and others.
+ * Copyright (c) 2018, 2023 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -15,11 +15,11 @@ package it.io.openliberty.guides.inventory;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import javax.json.JsonObject;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.json.JsonObject;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
 import org.junit.After;
@@ -74,7 +74,7 @@ public class InventoryEndpointTest {
 
         int expected = 0;
         int actual = obj.getInt("total");
-        assertEquals("The inventory should be empty on application start but it wasn't", 
+        assertEquals("The inventory should be empty on application start but it wasn't",
                      expected, actual);
 
         response.close();
@@ -90,13 +90,13 @@ public class InventoryEndpointTest {
 
         int expected = 1;
         int actual = obj.getInt("total");
-        assertEquals("The inventory should have one entry for localhost", 
+        assertEquals("The inventory should have one entry for localhost",
                      expected, actual);
 
         boolean localhostExists = obj.getJsonArray("systems").getJsonObject(0)
                                                              .get("hostname").toString()
                                                              .contains("localhost");
-        assertTrue("A host was registered, but it was not localhost", 
+        assertTrue("A host was registered, but it was not localhost",
                    localhostExists);
 
         response.close();
@@ -132,14 +132,14 @@ public class InventoryEndpointTest {
         Response response = this.getResponse(invUrl + INVENTORY_SYSTEMS);
         this.assertResponse(invUrl, response);
 
-        Response badResponse = client.target(invUrl + INVENTORY_SYSTEMS + "/" 
+        Response badResponse = client.target(invUrl + INVENTORY_SYSTEMS + "/"
                                + "badhostname").request(MediaType.APPLICATION_JSON).get();
 
-        assertEquals("BadResponse expected status: 404. Response code not as expected.", 
+        assertEquals("BadResponse expected status: 404. Response code not as expected.",
                                                             404, badResponse.getStatus());
 
         String stringObj = badResponse.readEntity(String.class);
-        assertTrue("badhostname is not a valid host but it didn't raise an error", 
+        assertTrue("badhostname is not a valid host but it didn't raise an error",
                                                             stringObj.contains("error"));
 
         response.close();
@@ -150,7 +150,7 @@ public class InventoryEndpointTest {
      * <p>
      * Returns response information from the specified URL.
      * </p>
-     * 
+     *
      * @param url
      *          - target URL.
      * @return Response object with the response from the specified URL.
@@ -163,7 +163,7 @@ public class InventoryEndpointTest {
      * <p>
      * Asserts that the given URL has the correct response code of 200.
      * </p>
-     * 
+     *
      * @param url
      *          - target URL.
      * @param response
@@ -176,7 +176,7 @@ public class InventoryEndpointTest {
     /**
      * Asserts that the specified JVM system property is equivalent in both the
      * system and inventory services.
-     * 
+     *
      * @param propertyName
      *          - name of the system property to check.
      * @param hostname

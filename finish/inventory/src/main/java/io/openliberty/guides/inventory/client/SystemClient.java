@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017, 2019 IBM Corporation and others.
+ * Copyright (c) 2017, 2023 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,49 +10,49 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-package io.openliberty.guides.inventory.client;	
+package io.openliberty.guides.inventory.client;
 
-import javax.ws.rs.client.Client;		
-import javax.ws.rs.client.ClientBuilder;		
-import javax.ws.rs.client.Invocation.Builder;		
-import javax.ws.rs.core.HttpHeaders;		
-import javax.ws.rs.core.MediaType;		
-import javax.ws.rs.core.Response;		
-import javax.ws.rs.core.Response.Status;		
-import java.util.Properties;		 
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Invocation.Builder;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
+import java.util.Properties;
 import java.net.URI;
 
 public class SystemClient {
-	
+
 	    // Constants for building URI to the system service.
 	    private final int DEFAULT_PORT = Integer.valueOf(System.getProperty("default.http.port"));
 	    private final String SYSTEM_PROPERTIES = "/system/properties";
 	    private final String PROTOCOL = "http";
-	
+
 	    private String url;
 	    private Builder clientBuilder;
-	
+
 	    // Used by the following guide(s): CDI, MP-METRICS, FAULT-TOLERANCE
 	    public void init(String hostname) {
 	        this.initHelper(hostname, DEFAULT_PORT);
 	    }
-	
+
 	    // Used by the following guide(s): MP-CONFIG, MP-HEALTH
 	    public void init(String hostname, int port) {
 	        this.initHelper(hostname, port);
 	    }
-	
+
 	    // Helper method to set the attributes.
 	    private void initHelper(String hostname, int port) {
 	        this.url = buildUrl(PROTOCOL, hostname, port, SYSTEM_PROPERTIES);
 	        this.clientBuilder = buildClientBuilder(this.url);
 	    }
-	
+
 	    // Wrapper function that gets properties
 	    public Properties getProperties() {
 	        return getPropertiesHelper(this.clientBuilder);
 	    }
-	
+
 	    // tag::doc[]
 	    /**
 	    * Builds the URI string to the system service for a particular host.
@@ -76,7 +76,7 @@ public class SystemClient {
 	            return null;
 	        }
 	    }
-	
+
 	    // Method that creates the client builder
 	    protected Builder buildClientBuilder(String urlString) {
 	        try {
@@ -88,7 +88,7 @@ public class SystemClient {
 	            return null;
 	        }
 	    }
-	
+
 	    // Helper method that processes the request
 	    protected Properties getPropertiesHelper(Builder builder) {
 	        try {
@@ -106,4 +106,3 @@ public class SystemClient {
 	        return null;
 	    }
 }
-	
