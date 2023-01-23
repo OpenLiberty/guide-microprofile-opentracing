@@ -34,7 +34,7 @@ Explore how to enable and customize tracing of JAX-RS and non-JAX-RS methods by 
 
 == Deprecated
 
-This guide was deprecated. You may visit the new https://openliberty.io/guides/microprofile-tele.html[Enabling distributed tracing in microservices with MicroProfile OpenTelemetry] to learn how to enable tracing by using MicroProfile OpenTelemetry.
+This guide was deprecated. You may visit the new https://openliberty.io/guides/microprofile-tele.html[Enabling distributed tracing in microservices with MicroProfile OpenTelemetry] guide to learn how to enable tracing by using MicroProfile OpenTelemetry.
 
 == What you'll learn
 
