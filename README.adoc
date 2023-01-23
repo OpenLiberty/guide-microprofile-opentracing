@@ -27,14 +27,12 @@ NOTE: This repository contains the guide documentation source. To view the guide
 
 Explore how to enable and customize tracing of JAX-RS and non-JAX-RS methods by using MicroProfile OpenTracing and the Zipkin tracing system.
 
+DEORECATED - This guide was deprecated. You may visit the new https://openliberty.io/guides/microprofile-tele.html[Enabling distributed tracing in microservices with MicroProfile OpenTelemetry] guide to learn how to enable tracing by using MicroProfile OpenTelemetry.
+
 :inv-url: http://localhost:9081/inventory/systems
 :inv-url-docker: http://localhost:9080/inventory/systems
 :sys-url: http://localhost:9080/system/properties
 :zipkin-url: http://localhost:9411
-
-== Deprecated
-
-This guide was deprecated. You may visit the new https://openliberty.io/guides/microprofile-tele.html[Enabling distributed tracing in microservices with MicroProfile OpenTelemetry] guide to learn how to enable tracing by using MicroProfile OpenTelemetry.
 
 == What you'll learn
 
