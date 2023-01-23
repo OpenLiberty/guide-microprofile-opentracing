@@ -32,6 +32,10 @@ Explore how to enable and customize tracing of JAX-RS and non-JAX-RS methods by 
 :sys-url: http://localhost:9080/system/properties
 :zipkin-url: http://localhost:9411
 
+== Deprecated
+
+This guide was deprecated. You may visit the new https://openliberty.io/guides/microprofile-tele.html[Enabling distributed tracing in microservices with MicroProfile OpenTelemetry] to learn how to enable tracing by using MicroProfile OpenTelemetry.
+
 == What you'll learn
 
 You'll learn how to enable automatic tracing for JAX-RS methods and how to create custom tracers for non-JAX-RS methods by using MicroProfile OpenTracing.
